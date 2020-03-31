@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:isk_aps_calc/contants.dart';
-import 'package:isk_aps_calc/new_simulation_page.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = "home-page";

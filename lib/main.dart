@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:isk_aps_calc/new_simulation_page.dart';
+import 'package:isk_aps_calc/contants.dart';
+import 'package:isk_aps_calc/ui/page/login_page.dart';
 
-import 'onboarding_page.dart';
-import 'package:isk_aps_calc/login/login_page.dart';
-import 'package:isk_aps_calc/bottom_main_tabs_page.dart';
-import 'package:isk_aps_calc/home/home_page.dart';
+import 'package:isk_aps_calc/ui/page/login_page.dart';
+import 'package:isk_aps_calc/ui/component/bottom_main_tabs_page.dart';
+import 'package:isk_aps_calc/ui/page/home_page.dart';
+import 'package:isk_aps_calc/ui/page/new_simulation_page.dart';
 
 void main() => runApp(new MyApp());
 
@@ -27,11 +28,11 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           color: Colors.white,
           iconTheme: IconThemeData(
-            color: Colors.black
+            color: Constants.ACCENT_COLOR
           ),
           textTheme: TextTheme(
             title: TextStyle(
-              color: Colors.black,
+              color: Constants.ACCENT_COLOR,
               fontWeight: FontWeight.w500,
               fontSize: 20
             )

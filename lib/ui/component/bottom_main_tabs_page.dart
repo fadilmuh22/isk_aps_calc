@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:isk_aps_calc/contants.dart';
-import 'package:isk_aps_calc/new_simulation_page.dart';
-import 'home/home_page.dart';
+import 'package:isk_aps_calc/ui/page/home_page.dart';
+import 'package:isk_aps_calc/ui/page/new_simulation_page.dart';
 
 class MainTabs extends StatefulWidget{
 

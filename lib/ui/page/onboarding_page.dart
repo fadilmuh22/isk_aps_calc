@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
-import 'login/login_page.dart';
+
+import 'package:isk_aps_calc/ui/page/login_page.dart';
+import 'package:isk_aps_calc/ui/page/login_page.dart';
 
 class OnBoarding extends StatefulWidget {
   static String tag = 'onboarding-page';
