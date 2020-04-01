@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:isk_aps_calc/contants.dart';
+import 'package:isk_aps_calc/constants.dart';
+import 'package:isk_aps_calc/ui/page/simulation/dosen_page.dart';
 
-class NewSimulation extends StatefulWidget {
-  static const String tag = "new-simulation-page";
+class NewSimulationPage extends StatefulWidget {
+  static const String tag = '/simulatsi/create';
+
   @override
-  _NewSimulationState createState() => _NewSimulationState();
+  _NewSimulationPageState createState() => _NewSimulationPageState();
 }
 
-class _NewSimulationState extends State<NewSimulation> {
+class _NewSimulationPageState extends State<NewSimulationPage> {
   @override
   Widget build(BuildContext context) {
 
@@ -16,7 +18,7 @@ class _NewSimulationState extends State<NewSimulation> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
-          "Nama Prodi:",
+          'Nama Prodi:',
         )
       ],
     );
@@ -34,7 +36,7 @@ class _NewSimulationState extends State<NewSimulation> {
         ),
       ),
       data: Theme.of(context).copyWith(
-        primaryColor: Constants.ACCENT_COLOR
+        primaryColor: Constants.accentColor
       )
     );
 
@@ -44,7 +46,7 @@ class _NewSimulationState extends State<NewSimulation> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Pilih Program Pendidikan:",
+            'Pilih Program Pendidikan:',
             style: TextStyle(
               fontSize: 24
             ),
@@ -86,7 +88,7 @@ class _NewSimulationState extends State<NewSimulation> {
               Expanded(
                 child:  _studyProgram(
                   abbreviation: Text(
-                    "D3",
+                    'D3',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -94,7 +96,7 @@ class _NewSimulationState extends State<NewSimulation> {
                     ),
                   ),
                   name: Text(
-                    "Sarjana/Sarjana Terapan",
+                    'Sarjana/Sarjana Terapan',
                     overflow: TextOverflow.ellipsis,
                   ),
                 )
@@ -102,7 +104,7 @@ class _NewSimulationState extends State<NewSimulation> {
               Expanded(
                 child: _studyProgram(
                   abbreviation: Text(
-                    "S1\nD4",
+                    'S1\nD4',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -110,7 +112,7 @@ class _NewSimulationState extends State<NewSimulation> {
                     ),
                   ),
                   name: Text(
-                    "Sarjana/Sarjana Terapan",
+                    'Sarjana/Sarjana Terapan',
                     overflow: TextOverflow.ellipsis,
                   )
                 ),
@@ -122,7 +124,7 @@ class _NewSimulationState extends State<NewSimulation> {
               Expanded(
                 child:  _studyProgram(
                   abbreviation: Text(
-                    "S2",
+                    'S2',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -130,7 +132,7 @@ class _NewSimulationState extends State<NewSimulation> {
                     ),
                   ),
                   name: Text(
-                    "Magister/Magister Terapan",
+                    'Magister/Magister Terapan',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -138,7 +140,7 @@ class _NewSimulationState extends State<NewSimulation> {
               Expanded(
                 child:  _studyProgram(
                   abbreviation: Text(
-                    "S3",
+                    'S3',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -146,7 +148,7 @@ class _NewSimulationState extends State<NewSimulation> {
                     ),
                   ),
                   name: Text(
-                    "Doktor/Doktor Terapan",
+                    'Doktor/Doktor Terapan',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -179,20 +181,19 @@ class _NewSimulationState extends State<NewSimulation> {
     );
 
     final btnNext = Container(
-      width: 55.0,
       margin: EdgeInsets.only(left: 85.0, right: 85.0), 
       child: RaisedButton(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16.0),
         ),
         onPressed: () {
-          // Navigator.of(context).pushReplacementNamed(HomePage.tag);
+          Navigator.of(context).pushNamed(DosenPage.tag);
         },
-        color: Constants.ACCENT_COLOR,
+        color: Constants.accentColor,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
-            "Selanjutnya",
+            'Selanjutnya',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 16

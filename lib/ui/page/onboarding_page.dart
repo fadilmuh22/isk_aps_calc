@@ -4,10 +4,9 @@ import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 
 import 'package:isk_aps_calc/ui/page/login_page.dart';
-import 'package:isk_aps_calc/ui/page/login_page.dart';
 
 class OnBoarding extends StatefulWidget {
-  static String tag = 'onboarding-page';
+  static String tag = '/onboarding';
 
   OnBoarding({Key key}) : super(key: key);
 
@@ -25,8 +24,8 @@ class OnBoardingState extends State<OnBoarding> {
 
     slides.add(
       new Slide(
-        title: "Ini Test",
-        description: "",
+        title: 'Ini Test',
+        description: '',
         styleTitle: TextStyle(
             color: Color.fromRGBO(0, 0, 0, 1.0),
             fontSize: 24,
@@ -36,14 +35,14 @@ class OnBoardingState extends State<OnBoarding> {
             color: Color.fromRGBO(0, 0, 0, 1.0),
             fontSize: 18,
         ),
-        pathImage: "",
+        pathImage: '',
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
       ),
     );
     slides.add(
       new Slide(
-        title: "Ini Juga Test",
-        description: "",
+        title: 'Ini Juga Test',
+        description: '',
         styleTitle: TextStyle(
             color: Color.fromRGBO(0, 0, 0, 1.0),
             fontSize: 24,
@@ -53,15 +52,15 @@ class OnBoardingState extends State<OnBoarding> {
             color: Color.fromRGBO(0, 0, 0, 1.0),
             fontSize: 18,
         ),
-        pathImage: "",
+        pathImage: '',
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
       ),
     );
     slides.add(
       new Slide(
-        title: "Ini Yang Terakhir",
+        title: 'Ini Yang Terakhir',
         description:
-        "",
+        '',
         styleTitle: TextStyle(
             color: Color.fromRGBO(0, 0, 0, 1.0),
             fontSize: 24,
@@ -71,7 +70,7 @@ class OnBoardingState extends State<OnBoarding> {
             color: Color.fromRGBO(0, 0, 0, 1.0),
             fontSize: 18,
         ),
-        pathImage: "",
+        pathImage: '',
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
       ),
     );

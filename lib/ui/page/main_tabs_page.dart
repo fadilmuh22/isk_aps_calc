@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:isk_aps_calc/contants.dart';
+import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/page/home_page.dart';
-import 'package:isk_aps_calc/ui/page/new_simulation_page.dart';
+import 'package:isk_aps_calc/ui/page/simulation/new_page.dart';
 
 class MainTabs extends StatefulWidget{
 
-  static String tag = 'main-tabs';
+  static String tag = '/main-tabs';
 
   @override
   _MainTabsState createState() => new _MainTabsState();
@@ -20,10 +20,10 @@ class _MainTabsState extends State<MainTabs>{
   Widget _getCurrentPage(){
     switch (_currentIndex){
       case 0 : return HomePage(goToPage: this.goToPage);
-      case 1 : return NewSimulation();
-      // case 2 : return HomePage();
+      case 1 : return NewSimulationPage();
+      case 2 : return HomePage();
     }
-    // return HomePage();
+    return HomePage();
   }
 
   void goToPage(int index) {
@@ -34,20 +34,6 @@ class _MainTabsState extends State<MainTabs>{
 
   @override
   Widget build(BuildContext context) {
-
-    final _appBar = AppBar(
-      leading: IconButton( 
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: Icon(
-          Icons.arrow_back,
-          color: Constants.ACCENT_COLOR,
-        ),
-      ),
-      backgroundColor: Colors.white,
-      centerTitle: true,
-    );
 
     final _bottomNavigationBar = BottomNavigationBar(
       type: BottomNavigationBarType.shifting,
@@ -65,7 +51,7 @@ class _MainTabsState extends State<MainTabs>{
             Icons.home,
           ),
           title: Text(
-            "Home",
+            'Home',
             style: TextStyle(
                 fontWeight: FontWeight.bold
             ),
@@ -76,7 +62,7 @@ class _MainTabsState extends State<MainTabs>{
             Icons.add,
           ),
           title: Text(
-            "New",
+            'New',
             style: TextStyle(
                 fontWeight: FontWeight.bold
             ),
@@ -87,7 +73,7 @@ class _MainTabsState extends State<MainTabs>{
             Icons.person,
           ),
           title: Text(
-            "Profile",
+            'Profile',
             style: TextStyle(
                 fontWeight: FontWeight.bold
             ),
@@ -97,7 +83,7 @@ class _MainTabsState extends State<MainTabs>{
     );
 
     final _scaffold = Scaffold(
-      appBar: _appBar,
+      appBar: CustomAppBar(), // todo: appBar(context: context)
       body: _getCurrentPage(),
       bottomNavigationBar: _bottomNavigationBar,
     );

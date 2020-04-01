@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:isk_aps_calc/contants.dart';
+import 'package:isk_aps_calc/constants.dart';
 
 class HomePage extends StatefulWidget {
-  static String tag = "home-page";
+  static String tag = '/home';
 
-  Function goToPage;
+  final Function goToPage;
 
-  HomePage({Function goToPage = null}) {
-    this.goToPage = goToPage;
-  }
-
+  HomePage({this.goToPage});
 
   @override
   _HomePageState createState() => new _HomePageState();
@@ -32,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    final cardNewSimulation = GestureDetector(
+    final cardNewSimulationPage = GestureDetector(
       onTap: () {
         widget.goToPage(1);
       },
@@ -49,19 +46,18 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(right: 16),
                 child: CircleAvatar(
                   maxRadius: 16.0,
-                  backgroundColor: Constants.PRIMARY_COLOR,
+                  backgroundColor: Constants.primaryColor,
                   child: Icon(
                     Icons.add_circle,
-                    color: Constants.ACCENT_COLOR
+                    color: Constants.accentColor
                   ),
                 ),
               ),
               Expanded(
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      Constants.NEW_SIMULATION,
+                      Constants.newSimulation,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -78,7 +74,7 @@ class _HomePageState extends State<HomePage> {
     );
     
     final _txtSimulationHistory = Text(
-      Constants.SIMULATION_HISTORY,
+      Constants.simulationHistory,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 16,
@@ -104,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(right: 16.0),
                       child: Icon(
                         Icons.assignment,
-                        color: Constants.ACCENT_COLOR,
+                        color: Constants.accentColor,
                         size: 36.0,
                       ),
                     ),
@@ -112,12 +108,12 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "Judul Simulasi",
+                          'Judul Simulasi',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Ringkasan Simulasi",
+                          'Ringkasan Simulasi',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 10, fontWeight: FontWeight.w300),
@@ -155,7 +151,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         child: ListView(
           padding: EdgeInsets.all(16),
-          children: <Widget>[cardNewSimulation, cardSimulationHistoryContainer],
+          children: <Widget>[cardNewSimulationPage, cardSimulationHistoryContainer],
         ),
       ),
     );
