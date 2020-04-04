@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:isk_aps_calc/constants.dart';
+import 'package:isk_aps_calc/data/dbhelper.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,6 +30,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(context) {
+
+    DbHelper().select().then((datas) {
+      datas.forEach((data) {
+        print(data.toString());
+      });
+    });
+
     Widget cardNewSimulationPage() => GestureDetector(
         onTap: () {
           widget.goToPage(1);

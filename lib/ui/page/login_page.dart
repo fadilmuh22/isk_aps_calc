@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(context) {
     final loginBloc = Provider.of<LoginBloc>(context);
 
-    loginSucceedDialog() => showDialog(
+    loginSucceedDialog(String title, String message) => showDialog(
           context: context,
           child: AlertDialog(
             title: Text('Login Succeed'),
@@ -100,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
         child: TextFormField(
           keyboardType: TextInputType.text,
           autofocus: false,
+          obscureText: _pwIsHidden,
           onSaved: (value) => password = value,
           validator: (value) {
             if (value.isEmpty) {
@@ -134,13 +135,16 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: RoundedButton(
                 align: MainAxisAlignment.center,
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
-                    loginBloc.localSignIn(
+                    await _formKey.currentState.save();
+                    bool status = await loginBloc.localSignIn(
                         LoginModel(email: email, password: password));
-                    if (loginBloc.loginSuccess) {
-                      loginSucceedDialog();
+                    if ( status ) {
+                      loginSucceedDialog(
+                        loginBloc.loginMessage['status'],
+                        loginBloc.loginMessage['message']
+                      );
                     }
                   }
                 },

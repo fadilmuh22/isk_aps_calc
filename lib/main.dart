@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/data/dbhelper.dart';
 
 import 'package:provider/provider.dart';
 
@@ -13,9 +14,9 @@ void main() => runApp(new MyApp());
 final routes = <String, WidgetBuilder>{
   // OnBoarding.tag: (context) => OnBoarding(),
   LoginPage.tag: (context) => ChangeNotifierProvider(
-    create: (_) => LoginBloc(),
-    child: LoginPage(),
-  ),
+        create: (_) => LoginBloc(),
+        child: LoginPage(),
+      ),
   MainTabs.tag: (context) => MainTabs(),
 };
 
@@ -23,22 +24,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(context) {
     return MaterialApp(
-        initialRoute: LoginPage.tag,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: "Quicksand",
-          appBarTheme: AppBarTheme(
-            color: Colors.white,
-            iconTheme: IconThemeData(color: Constants.accentColor),
-            textTheme: TextTheme(
-              title: TextStyle(
-                  color: Constants.accentColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20),
+      initialRoute: LoginPage.tag,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: "Quicksand",
+        appBarTheme: AppBarTheme(
+          color: Colors.white,
+          iconTheme: IconThemeData(color: Constants.accentColor),
+          textTheme: TextTheme(
+            title: TextStyle(
+              color: Constants.accentColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
             ),
           ),
         ),
-        routes: routes,
-      );
+      ),
+      routes: routes,
+    );
   }
 }
