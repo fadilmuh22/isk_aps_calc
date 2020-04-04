@@ -13,5 +13,6 @@ class Constants {
   static const String appName = 'KALKULATOR ISK APS';
   static const String newSimulation = 'Simulasi Baru';
   static const String simulationHistory = 'History Simulasi';
+  static const String oauthKey = '397061739942-1a3mcj0375bi8mv236ghi85depms10ob.apps.googleusercontent.com';
 
 }

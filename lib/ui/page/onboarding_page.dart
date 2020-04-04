@@ -77,7 +77,7 @@ class OnBoardingState extends State<OnBoarding> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return new IntroSlider(
       slides: this.slides,
       onDonePress: () {

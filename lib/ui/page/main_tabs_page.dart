@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/page/home_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/new_page.dart';
+import 'package:provider/provider.dart';
 
 class MainTabs extends StatefulWidget{
 
@@ -19,8 +21,14 @@ class _MainTabsState extends State<MainTabs>{
 
   Widget _getCurrentPage(){
     switch (_currentIndex){
-      case 0 : return HomePage(goToPage: this.goToPage);
-      case 1 : return NewSimulationPage();
+      case 0 : return ChangeNotifierProvider(
+        create: (_) => SimulationBloc(),
+        child: HomePage(goToPage: this.goToPage),
+      );
+      case 1 : return ChangeNotifierProvider(
+        create: (_) => SimulationBloc(),
+        child: NewSimulationPage(),
+      );
       case 2 : return HomePage();
     }
     return HomePage();
@@ -33,9 +41,9 @@ class _MainTabsState extends State<MainTabs>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
 
-    final _bottomNavigationBar = BottomNavigationBar(
+    _bottomNavigationBar() => BottomNavigationBar(
       type: BottomNavigationBarType.shifting,
       unselectedItemColor: Colors.grey,
       selectedItemColor: Colors.redAccent,
@@ -82,13 +90,12 @@ class _MainTabsState extends State<MainTabs>{
       ],
     );
 
-    final _scaffold = Scaffold(
-      appBar: CustomAppBar(), // todo: appBar(context: context)
+    _scaffold() => Scaffold(
       body: _getCurrentPage(),
-      bottomNavigationBar: _bottomNavigationBar,
+      bottomNavigationBar: _bottomNavigationBar(),
     );
 
-    return _scaffold;
+    return _scaffold();
 
   }
 

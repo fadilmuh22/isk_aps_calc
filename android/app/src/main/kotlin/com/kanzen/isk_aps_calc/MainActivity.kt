@@ -1,4 +1,4 @@
-package com.example.isk_aps_calc
+package com.kanzen.isk_aps_calc
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

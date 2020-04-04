@@ -14,9 +14,9 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     
-    final cardResult = GestureDetector(
+    cardResult() => GestureDetector(
       onTap: () {
       },
       child: Card(
@@ -55,7 +55,7 @@ class _ResultPageState extends State<ResultPage> {
         child: ListView(
           padding: EdgeInsets.all(16.0),
           children: <Widget>[
-            cardResult
+            cardResult()
           ],
         ),
       ),

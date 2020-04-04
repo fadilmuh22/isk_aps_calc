@@ -42,7 +42,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Column(
         children: mapRadioButtonValues(
           values: widget.values, 

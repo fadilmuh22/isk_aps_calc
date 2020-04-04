@@ -19,7 +19,7 @@ class CustomFormField extends StatefulWidget {
 
 class _CustomFormFieldState extends State<CustomFormField> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Theme(
       child: TextFormField(
         controller: widget.controller,
@@ -59,7 +59,7 @@ class CustomFormFieldText extends StatefulWidget {
 
 class _CustomFormFieldTextState extends State<CustomFormFieldText> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Container(
     padding: EdgeInsets.only(top: 16.0),
     child: Column(
