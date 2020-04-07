@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
+import 'package:isk_aps_calc/data/model/field_model.dart';
 import 'package:isk_aps_calc/data/model/simulation_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/page/simulation/dosen_page.dart';
@@ -20,27 +21,79 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
 
   String _prodiName = '', _tingkat = '';
 
-  Map<String, int> mapTingkat = {
-    'D3': 0,
-    'S1': 0,
-    'S2': 0,
-    'S3': 0,
-  };
+  final List<Map<String, String>> tingkats = [
+    {
+      'abbr': 'D3',
+      'name': 'Diploma 3',
+    },
+    {
+      'abbr': 'D4',
+      'name': 'Sarjana Terapan',
+    },
+    {
+      'abbr': 'S1',
+      'name': 'Sarjana',
+    },
+    {
+      'abbr': 'S2',
+      'name': 'Magister',
+    },
+    {
+      'abbr': 'S2',
+      'name': 'Magister Terapan',
+    },
+    {
+      'abbr': 'S3',
+      'name': 'Doktor',
+    },
+    {
+      'abbr': 'S3',
+      'name': 'Doktor Terapan',
+    },
+    {
+      'abbr': 'PT',
+      'name': 'Perguruan Tinggi',
+    },
+  ];
 
-  bool tingkatInvalid = false;
+  final List<Color> tingkatsColors = [
+    Color(0xff08CA1C),
+    Color(0xffED9818),
+    Color(0xff1D73C2),
+    Color(0xffDB1616),
+    Color(0xff971DC2),
+    Color(0xff90630C),
+    Color(0xffB99E67),
+    Color(0xffAD78F0),
+  ];
 
-  toggleTingkatActive(String key) {
+  int tingkatsActive;
+  bool tingkatsInvalid = false;
+
+  void toggleTingkatsActive(int index) {
     setState(() {
-      _tingkat = key;
-      mapTingkat.updateAll((k, v) {
-        if (mapTingkat[k] == 1) {
-          mapTingkat[k] = 0;
-          return;
-        }
-      });
-      mapTingkat[key] = 1;
+      _tingkat = tingkats[index]['abbr'];
+      tingkatsActive = index;
     });
   }
+
+  final jumlahLulusan = {
+    'normal': [
+      FieldModel(name: 'Jumlah Lulusan TS-4'),
+      FieldModel(name: 'Jumlah Lulusan TS-3'),
+      FieldModel(name: 'Jumlah Lulusan TS-2'),
+    ],
+    'terlacak': [
+      FieldModel(name: 'Jumlah Lulusan TS-4'),
+      FieldModel(name: 'Jumlah Lulusan TS-3'),
+      FieldModel(name: 'Jumlah Lulusan TS-2'),
+    ],
+    'tanggap': [
+      FieldModel(name: 'Jumlah Lulusan TS-4'),
+      FieldModel(name: 'Jumlah Lulusan TS-3'),
+      FieldModel(name: 'Jumlah Lulusan TS-2'),
+    ]
+  };
 
   @override
   Widget build(context) {
@@ -55,31 +108,27 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           ],
         );
 
-    Widget _studyProgramName() => Theme(
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          autofocus: false,
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please provide value';
-            }
-            return null;
-          },
-          onSaved: (text) => _prodiName = text,
-          decoration: InputDecoration(
-            suffixIcon: Icon(Icons.edit),
-            contentPadding: EdgeInsets.only(
-                left: 20.0, top: 10.0, right: 20.0, bottom: 10.0),
-            // border: OutlineInputBorder(
-            //   borderRadius: BorderRadius.circular(4)
-            // )
-            border: new UnderlineInputBorder(
-              borderSide:
-                  new BorderSide(color: Colors.white, style: BorderStyle.solid),
+    Widget _studyProgramNameField() => Theme(
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please provide value';
+              }
+              return null;
+            },
+            onSaved: (text) => _prodiName = text,
+            decoration: InputDecoration(
+              suffixIcon: Icon(Icons.edit),
+              border: new UnderlineInputBorder(
+                borderSide: new BorderSide(
+                    color: Colors.white, style: BorderStyle.solid),
+              ),
             ),
           ),
-        ),
-        data: Theme.of(context).copyWith(primaryColor: Constants.accentColor));
+          data: Theme.of(context).copyWith(primaryColor: Constants.accentColor),
+        );
 
     Widget _chooseStudyProgramLabel() => Padding(
         padding: EdgeInsets.only(left: 5),
@@ -94,113 +143,89 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         ));
 
     Widget _studyProgram({
-      String key,
-      String abbreviation,
-      Text name,
+      int key,
+      String abbr = 'fadil',
+      String name = 'fadil',
       Color color,
-    }) =>
-        Container(
-          key: ValueKey(key),
-          margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
-          child: SizedBox(
-            width: double.infinity,
-            height: 55,
-            child: RaisedButton(
-              color: mapTingkat[key] == 1 ? color : Colors.white,
-              onPressed: () => toggleTingkatActive(key),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5),
-                    child: Text(
-                      abbreviation,
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              this.mapTingkat[key] == 1 ? Colors.white : color),
+    }) {
+      print(key);
+      return Container(
+        key: ValueKey(key),
+        margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+        child: SizedBox(
+          width: double.infinity,
+          height: 55,
+          child: RaisedButton(
+            color: tingkatsActive == key ? color : Colors.white,
+            onPressed: () => toggleTingkatsActive(key),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Text(
+                    abbr,
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: tingkatsActive == key ? Colors.white : color),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    name,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color:
+                          tingkatsActive == key ? Colors.white : Colors.black,
                     ),
                   ),
-                  Expanded(child: name),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+        ),
+      );
+    }
+
+    // TODO: Refactor using loop, set data on sqlite
+    Widget _chooseStudyProgram() => GridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 2,
+          childAspectRatio: 16 / 7,
+          physics: NeverScrollableScrollPhysics(),
+          children: List.generate(tingkats.length, (index) {
+            return _studyProgram(
+              key: index,
+              color: tingkatsColors[index],
+              abbr: tingkats[index]['abbr'],
+              name: tingkats[index]['name'],
+            );
+          }),
         );
 
-    Widget _chooseStudyProgram() => Container(
-            child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                    child: _studyProgram(
-                  key: 'D3',
-                  color: Colors.greenAccent,
-                  abbreviation: 'D3',
-                  name: Text(
-                    'Sarjana/Sarjana Terapan',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )),
-                Expanded(
-                  child: _studyProgram(
-                      key: 'S1',
-                      color: Colors.orangeAccent,
-                      abbreviation: 'S1\nD4',
-                      name: Text(
-                        'Sarjana/Sarjana Terapan',
-                        overflow: TextOverflow.ellipsis,
-                      )),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: _studyProgram(
-                    key: 'S2',
-                    color: Colors.redAccent,
-                    abbreviation: 'S2',
-                    name: Text(
-                      'Magister/Magister Terapan',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: _studyProgram(
-                    key: 'S3',
-                    color: Colors.purpleAccent,
-                    abbreviation: 'S3',
-                    name: Text(
-                      'Doktor/Doktor Terapan',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ));
-
-    Widget profileName() => Container(
+    Widget prodiNameContainer() => Container(
           padding: EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[_studyProgramNameLabel(), _studyProgramName()],
+            children: <Widget>[
+              _studyProgramNameLabel(),
+              _studyProgramNameField(),
+            ],
           ),
         );
 
-    Widget studyProgram() => Container(
+    Widget studyProgramsContainer() => Container(
           padding: EdgeInsets.all(10),
           child: Column(
             children: <Widget>[
               _chooseStudyProgramLabel(),
+              SizedBox(
+                height: 16,
+              ),
               _chooseStudyProgram(),
-              if (tingkatInvalid)
+              if (tingkatsInvalid)
                 Text(
                   'Please select one',
                   style: TextStyle(
@@ -211,6 +236,116 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             ],
           ),
         );
+
+    Widget _jumlahLulusanItem(String fieldLabel, onSaved) => Container(
+          color: Colors.white,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        fieldLabel,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Theme(
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          autofocus: false,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please provide value';
+                            }
+                            return null;
+                          },
+                          onSaved: onSaved,
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.edit),
+                            border: new UnderlineInputBorder(
+                              borderSide: new BorderSide(
+                                  color: Colors.white,
+                                  style: BorderStyle.solid),
+                            ),
+                          ),
+                        ),
+                        data: Theme.of(context)
+                            .copyWith(primaryColor: Constants.accentColor),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+
+    Widget jumlahLulusanNormalContainer() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            Constants.lulusanNormal,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ...List.generate(jumlahLulusan['normal'].length, (index) {
+            return _jumlahLulusanItem(
+              jumlahLulusan['normal'][index].name,
+              (value) => jumlahLulusan['normal'][index].value = value,
+            );
+          }),
+        ],
+      );
+    }
+
+    Widget jumlahLulusanTerlacakContainer() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            Constants.lulusanTerlacak,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ...List.generate(jumlahLulusan['terlacak'].length, (index) {
+            return _jumlahLulusanItem(
+              jumlahLulusan['terlacak'][index].name,
+              (value) => jumlahLulusan['terlacak'][index].value = value,
+            );
+          }),
+        ],
+      );
+    }
+
+    Widget jumlahLulusanTanggapContainer() {
+      return Column(
+        children: <Widget>[
+          Text(
+            Constants.lulusanTanggap,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ...List.generate(jumlahLulusan['tanggap'].length, (index) {
+            return _jumlahLulusanItem(
+              jumlahLulusan['tanggap'][index].name,
+              (value) => jumlahLulusan['tanggap'][index].value = value,
+            );
+          }),
+        ],
+      );
+    }
 
     Widget btnNext() => Container(
           margin: EdgeInsets.only(left: 85.0, right: 85.0),
@@ -236,7 +371,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                 ));
               } else if (_tingkat.isEmpty) {
                 setState(() {
-                  tingkatInvalid = true;
+                  tingkatsInvalid = true;
                 });
               }
             },
@@ -257,16 +392,25 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           child: ListView(
             padding: EdgeInsets.all(5.0),
             children: <Widget>[
-              SizedBox(
-                height: 20,
-              ),
-              profileName(),
-              SizedBox(
-                height: 20,
-              ),
-              studyProgram(),
-              SizedBox(
-                height: 20,
+              SizedBox(height: 20),
+              prodiNameContainer(),
+              SizedBox(height: 20),
+              studyProgramsContainer(),
+              SizedBox(height: 20),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: <Widget>[
+                    jumlahLulusanNormalContainer(),
+                    SizedBox(height: 24),
+                    jumlahLulusanTerlacakContainer(),
+                    SizedBox(height: 24),
+                    if (tingkatsActive ==  )
+                      jumlahLulusanTanggapContainer(),
+                      SizedBox(height: 24),
+                    SizedBox(height: 24),
+                  ],
+                ),
               ),
               btnNext()
             ],

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:isk_aps_calc/data/model/user_model.dart';
+import 'package:password/password.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 //pubspec.yml
@@ -20,46 +21,9 @@ class DbHelper {
     return _dbHelper;
   }
 
-  Future<Database> initDb() async {
-    //untuk menentukan nama database dan lokasi yg dibuat
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + 'isk_aps.db';
 
-    //create, read databases
-    var todoDatabase = openDatabase(
-      path,
-      version: 1,
-      onCreate: _createTable,
-    );
-
-    //mengembalikan nilai user sebagai hasil dari fungsinya
-    return todoDatabase;
-  }
-
-  // void seedAdmin() async {
-  //   Database db = await this.database;
-  //   await db.execute('''
-  //     INSERT INTO user(
-  //       user_id, 
-  //       user_name, 
-  //       user_email, 
-  //       user_password,
-  //       institute, 
-  //       status
-  //     ) VALUES(
-  //       'admin',
-  //       'admin',
-  //       'admin',
-  //       'adminspmtelu',
-  //       'Admin SPM Telkom University',
-  //       1
-  //     )
-  //   ''');
-  // }
-
-  //buat tabel baru dengan nama contact
-  void _createTable(Database db, int version) async {
-    await db.execute('''
+  final initScript = [
+    '''
       CREATE TABLE user (
         user_id VARCHAR(255) PRIMARY KEY,
         user_name VARCHAR(255),
@@ -69,8 +33,51 @@ class DbHelper {
         status INTEGER,
         update_dtm DATETIME 
       );
-    ''');
+    ''',
+
+    '''
+      INSERT INTO user(
+        user_id, 
+        user_name, 
+        user_email, 
+        user_password,
+        institute, 
+        status
+      ) VALUES(
+        'admin',
+        'admin',
+        'admin',
+        ${Password.hash('adminspmtelu', new PBKDF2())},
+        'Admin SPM Telkom University',
+        1
+      )
+    ''',
+
+  ];
+
+  Future<Database> initDb() async {
+    //untuk menentukan nama database dan lokasi yg dibuat
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = directory.path + 'isk_aps.db';
+
+    //create, read databases
+    var todoDatabase = openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database db, int version) async {
+        initScript.forEach((script) async => await db.execute(script));  
+      },
+        // onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        //   for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
+        //     await db.execute(migrationScripts[i]);
+        //   }  
+        // }
+    );
+
+    //mengembalikan nilai user sebagai hasil dari fungsinya
+    return todoDatabase;
   }
+
 
   Future<Database> get database async {
     if (_database == null) {
@@ -90,12 +97,11 @@ class DbHelper {
 
   Future<Map<String, dynamic>> selectOne(String username) async {
     Database db = await this.database;
-    var mapList = await db.query(
-      'user',
-      where: 'user_email=? OR user_name=?',
-      whereArgs: [username, username],
-      limit: 1
-    );
+    var mapList = await db.query('user',
+        where: 'user_email=? OR user_name=?',
+        whereArgs: [username, username],
+        limit: 1);
+    print(mapList);
     return mapList[0];
   }
 

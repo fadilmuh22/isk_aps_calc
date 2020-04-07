@@ -46,11 +46,20 @@ class _CustomAppBarState extends State<CustomAppBar> {
             children: <Widget>[
               Text(
                 widget.tingkat,
-                style: TextStyle(fontSize: 12, color: Colors.white),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white,
+                ),
               ),
-              Text(
-                widget.prodiName,
-                style: TextStyle(fontSize: 10.0, color: Colors.white),
+              Flexible(
+                child: Text(
+                  widget.prodiName,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 10.0,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
@@ -90,10 +99,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
           if (widget.newSimulation) ...[
             Expanded(
-              flex: 2,
               child: Container(),
             ),
-            newSimulaionTitle(4),
+            newSimulaionTitle(3),
             Expanded(
               child: Container(),
             ),

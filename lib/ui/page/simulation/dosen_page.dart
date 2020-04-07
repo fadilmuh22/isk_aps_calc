@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
-import 'package:isk_aps_calc/ui/component/custom_form_field.dart';
-
 import 'package:isk_aps_calc/ui/component/rounded_button.dart';
+
 import 'package:isk_aps_calc/ui/page/simulation/kurikulum_page.dart';
-import 'package:provider/provider.dart';
 
 class DosenPage extends StatefulWidget {
   static const String tag = '/simulasi/create#dosen';
@@ -27,7 +27,36 @@ class _DosenPageState extends State<DosenPage> {
           style: Constants.titleStyle,
         );
 
-    Widget btnNext(BuildContext context) => RoundedButton(
+    Widget dtpsField() => Theme(
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            // onSaved: (value) => password = value,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'This must be filled';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: 'DTPS',
+              border: new UnderlineInputBorder(
+                borderSide: new BorderSide(
+                    color: Colors.white, style: BorderStyle.solid),
+              ),
+              contentPadding: EdgeInsets.only(
+                left: 20.0,
+                top: 10.0,
+                right: 20.0,
+                bottom: 10.0,
+              ),
+              suffixIcon: Icon(Icons.edit),
+            ),
+          ),
+          data: Theme.of(context).copyWith(primaryColor: Constants.accentColor),
+        );
+
+    Widget nextButton(BuildContext context) => RoundedButton(
           items: <Widget>[
             Text('Lanjutkan',
                 style: TextStyle(color: Colors.white, fontSize: 16)),
@@ -45,16 +74,6 @@ class _DosenPageState extends State<DosenPage> {
           },
         );
 
-    dtpsField() => CustomFormFieldText(
-      text: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Text('Jumlah DTPS'),
-        ],
-      ),
-      formField: CustomFormField(context: context),
-    );
-    
     return Scaffold(
       appBar: CustomAppBar(
         // newSimulation: true,
@@ -75,7 +94,7 @@ class _DosenPageState extends State<DosenPage> {
                   children: <Widget>[
                     SizedBox(
                       width: 200.0,
-                      child: btnNext(context),
+                      child: nextButton(context),
                     ),
                     SizedBox(
                       height: 20.0,

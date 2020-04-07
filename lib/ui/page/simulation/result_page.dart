@@ -23,6 +23,12 @@ class _ResultPageState extends State<ResultPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.5)),
         color: Color.fromRGBO(130, 130, 130, 0.8),
         child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/result_card_bg.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
           padding: EdgeInsets.all(16),
           height: 160,
           child: Row(

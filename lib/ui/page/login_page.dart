@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/login_bloc.dart';
 
-import 'package:isk_aps_calc/ui/component/custom_form_field.dart';
 import 'package:isk_aps_calc/ui/component/rounded_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,22 +42,51 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(context) {
     final loginBloc = Provider.of<LoginBloc>(context);
 
-    loginSucceedDialog(String title, String message) => showDialog(
+    loginSucceedDialog(bool succeed, String title, String message) =>
+        showDialog(
           context: context,
           child: AlertDialog(
-            title: Text('Login Succeed'),
-            content: Text('Your submission was a success'),
+            title: Text(title),
+            content: Text(message),
             actions: [
               FlatButton(
                 child: Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushReplacementNamed(MainTabs.tag);
+                  if (succeed)
+                    Navigator.of(context).pushReplacementNamed(MainTabs.tag);
                 },
               ),
             ],
           ),
         );
+
+    void handleLocalLogin() async {
+      // if (_formKey.currentState.validate()) {
+      //   await _formKey.currentState.save();
+      //   bool succeed = await loginBloc
+      //       .localLogin(LoginModel(email: email, password: password));
+      //   loginSucceedDialog(
+      //     succeed,
+      //     loginBloc.loginMessage['status'],
+      //     loginBloc.loginMessage['message'],
+      //   );
+      // }
+      loginSucceedDialog(
+        true,
+        'Success',
+        'Successs',
+      );
+    }
+
+    void handleGoogleLogin() async {
+      // bool succeed = await loginBloc.googleLogin();
+      // loginSucceedDialog(
+      //   succeed,
+      //   loginBloc.loginMessage['status'],
+      //   loginBloc.loginMessage['message'],
+      // );
+    }
 
     Widget appTitle() => Text(
           Constants.appName,
@@ -83,71 +111,64 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Username',
               prefixIcon: Icon(Icons.person),
               suffixIcon: Icon(Icons.mode_edit),
+              border: new UnderlineInputBorder(
+                borderSide: new BorderSide(
+                    color: Colors.white, style: BorderStyle.solid),
+              ),
               contentPadding: EdgeInsets.only(
                 left: 20.0,
                 top: 10.0,
                 right: 20.0,
                 bottom: 10.0,
               ),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
             ),
           ),
           data: Theme.of(context).copyWith(primaryColor: Constants.accentColor),
         );
 
     Widget passwordField() => Theme(
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          autofocus: false,
-          obscureText: _pwIsHidden,
-          onSaved: (value) => password = value,
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Password must be filled';
-            }
-            return null;
-          },
-          decoration: InputDecoration(
-            hintText: 'Password',
-            contentPadding: EdgeInsets.only(
-              left: 20.0,
-              top: 10.0,
-              right: 20.0,
-              bottom: 10.0,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            prefixIcon: Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(_pwIsHidden ? Icons.visibility_off : Icons.visibility),
-              onPressed: () {
-                _toggleVisible();
-              },
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            obscureText: _pwIsHidden,
+            onSaved: (value) => password = value,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Password must be filled';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: 'Password',
+              border: new UnderlineInputBorder(
+                borderSide: new BorderSide(
+                    color: Colors.white, style: BorderStyle.solid),
+              ),
+              contentPadding: EdgeInsets.only(
+                left: 20.0,
+                top: 10.0,
+                right: 20.0,
+                bottom: 10.0,
+              ),
+              prefixIcon: Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon:
+                    Icon(_pwIsHidden ? Icons.visibility_off : Icons.visibility),
+                onPressed: () {
+                  _toggleVisible();
+                },
+              ),
             ),
           ),
-        ),
-        data: Theme.of(context).copyWith(primaryColor: Constants.accentColor));
+          data: Theme.of(context).copyWith(primaryColor: Constants.accentColor),
+        );
 
     Widget loginButton() => Container(
           child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: RoundedButton(
                 align: MainAxisAlignment.center,
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    await _formKey.currentState.save();
-                    bool status = await loginBloc.localSignIn(
-                        LoginModel(email: email, password: password));
-                    if ( status ) {
-                      loginSucceedDialog(
-                        loginBloc.loginMessage['status'],
-                        loginBloc.loginMessage['message']
-                      );
-                    }
-                  }
-                },
+                onPressed: handleLocalLogin,
                 items: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 36.0),
@@ -167,9 +188,7 @@ class _LoginPageState extends State<LoginPage> {
     Widget oauthButton() => RoundedButton(
           color: Colors.blueAccent,
           padding: EdgeInsets.all(1.0),
-          onPressed: () {
-            loginBloc.googleSignIn();
-          },
+          onPressed: handleGoogleLogin,
           items: <Widget>[
             Container(
               margin: EdgeInsets.all(1.0),
@@ -181,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                     topLeft: const Radius.circular(16.0),
                     bottomLeft: const Radius.circular(16.0),
                   )),
-              child: Icon(Icons.ac_unit),
+              child: Image.asset('assets/images/google_logo.png'),
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
@@ -203,10 +222,16 @@ class _LoginPageState extends State<LoginPage> {
     //   )
     // }
 
-    Scaffold buildScaffold(context) => Scaffold(
-          backgroundColor: Colors.white,
-          body: Container(
-            child: ListView(
+    Widget buildScaffold(context) => Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/login_bg.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: ListView(
               children: [
                 Padding(
                   padding:

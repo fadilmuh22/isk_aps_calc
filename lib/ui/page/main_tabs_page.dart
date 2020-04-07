@@ -89,13 +89,11 @@ class _MainTabsState extends State<MainTabs>{
         ),
       ],
     );
-
-    _scaffold() => Scaffold(
+    
+    return Scaffold(
       body: _getCurrentPage(),
       bottomNavigationBar: _bottomNavigationBar(),
     );
-
-    return _scaffold();
 
   }
 
