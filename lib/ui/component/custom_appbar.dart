@@ -7,13 +7,13 @@ class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
   @override
   get preferredSize => Size.fromHeight(appBarHeight);
 
-  final String tingkat, prodiName;
+  final String educationStageName, studyProgramName;
   final bool newSimulation;
 
   CustomAppBar({
+    this.educationStageName = '',
+    this.studyProgramName = '',
     this.newSimulation = false,
-    this.tingkat = '',
-    this.prodiName = '',
   });
 
   @override
@@ -21,52 +21,8 @@ class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  Widget newSimulaionTitle(int flex) => Expanded(
-        flex: flex,
-        child: Text(
-          'Simulasi Baru',
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Constants.accentColor),
-        ),
-      );
-
-  Expanded newSimulationProdiAndTingkat() => Expanded(
-        flex: 1,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Constants.accentColor,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(5.0),
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                widget.tingkat,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.white,
-                ),
-              ),
-              Flexible(
-                child: Text(
-                  widget.prodiName,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 10.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-
-  isProdiAndNameEmpty() => (widget.prodiName.isEmpty && widget.tingkat.isEmpty);
+  isProdiAndNameEmpty() =>
+      (widget.educationStageName.isEmpty && widget.studyProgramName.isEmpty);
 
   @override
   Widget build(context) {
@@ -74,13 +30,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
       margin: EdgeInsets.only(top: 22.0),
       decoration: BoxDecoration(
         color: Constants.primaryColor,
-        // borderRadius: BorderRadius.only(
-        //   topRight: Radius.circular(10.0),
-        // ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Expanded(
             child: IconButton(
@@ -117,4 +69,50 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ),
     );
   }
+
+  Widget newSimulaionTitle(int flex) => Expanded(
+        flex: flex,
+        child: Text(
+          'Simulasi Baru',
+          style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Constants.accentColor),
+        ),
+      );
+
+  Expanded newSimulationProdiAndTingkat() => Expanded(
+        flex: 1,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Constants.accentColor,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(5.0),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                widget.educationStageName,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white,
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  widget.studyProgramName,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 10.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 }

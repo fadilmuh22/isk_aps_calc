@@ -1,37 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
-import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/page/home_page.dart';
-import 'package:isk_aps_calc/ui/page/simulation/new_page.dart';
-import 'package:provider/provider.dart';
+import 'package:isk_aps_calc/ui/page/simulation/new_simulation_page.dart';
 
-class MainTabs extends StatefulWidget{
-
+class MainTabs extends StatefulWidget {
   static String tag = '/main-tabs';
 
   @override
   _MainTabsState createState() => new _MainTabsState();
-
 }
 
-class _MainTabsState extends State<MainTabs>{
-
+class _MainTabsState extends State<MainTabs> {
   int _currentIndex = 0;
 
-  Widget _getCurrentPage(){
-    switch (_currentIndex){
-      case 0 : return ChangeNotifierProvider(
-        create: (_) => SimulationBloc(),
-        child: HomePage(goToPage: this.goToPage),
-      );
-      case 1 : return ChangeNotifierProvider(
-        create: (_) => SimulationBloc(),
-        child: NewSimulationPage(),
-      );
-      case 2 : return HomePage();
+  Widget getCurrentPage() {
+    switch (_currentIndex) {
+      case 0:
+        return HomePage(goToPage: this.goToPage);
+      case 1:
+        return NewSimulationPage();
+      case 2:
+        return HomePage();
     }
-    return HomePage();
+    return HomePage(goToPage: this.goToPage);
   }
 
   void goToPage(int index) {
@@ -42,13 +33,19 @@ class _MainTabsState extends State<MainTabs>{
 
   @override
   Widget build(context) {
+    return Scaffold(
+      body: getCurrentPage(),
+      bottomNavigationBar: bottomNavigationBar(),
+    );
+  }
 
-    _bottomNavigationBar() => BottomNavigationBar(
+  BottomNavigationBar bottomNavigationBar() {
+    return BottomNavigationBar(
       type: BottomNavigationBarType.shifting,
       unselectedItemColor: Colors.grey,
       selectedItemColor: Colors.redAccent,
       currentIndex: _currentIndex,
-      onTap:(index){
+      onTap: (index) {
         setState(() {
           _currentIndex = index;
         });
@@ -60,9 +57,7 @@ class _MainTabsState extends State<MainTabs>{
           ),
           title: Text(
             'Home',
-            style: TextStyle(
-                fontWeight: FontWeight.bold
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         BottomNavigationBarItem(
@@ -71,9 +66,7 @@ class _MainTabsState extends State<MainTabs>{
           ),
           title: Text(
             'New',
-            style: TextStyle(
-                fontWeight: FontWeight.bold
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         BottomNavigationBarItem(
@@ -82,19 +75,10 @@ class _MainTabsState extends State<MainTabs>{
           ),
           title: Text(
             'Profile',
-            style: TextStyle(
-                fontWeight: FontWeight.bold
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
       ],
     );
-    
-    return Scaffold(
-      body: _getCurrentPage(),
-      bottomNavigationBar: _bottomNavigationBar(),
-    );
-
   }
-
 }

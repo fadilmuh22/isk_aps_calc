@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:isk_aps_calc/constants.dart';
-import 'package:isk_aps_calc/data/dbhelper.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +29,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(context) {
-    Widget newSimulationCard() => GestureDetector(
+    return Scaffold(
+      appBar: CustomAppBar(),
+      backgroundColor: Colors.white,
+      body: Container(
+        child: ListView(
+          padding: EdgeInsets.all(16),
+          children: <Widget>[
+            newSimulationCard(),
+            cardSimulationHistoryContainer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget newSimulationCard() => GestureDetector(
         onTap: () {
           widget.goToPage(1);
         },
@@ -55,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                   child: Icon(Icons.add_circle, color: Constants.accentColor),
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: Row(
                   children: <Widget>[
                     Text(
@@ -71,143 +85,129 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-        ));
+        ),
+      );
 
-    Widget _simulationHistoryTitle() => Container(
-          color: Colors.white,
-          child: (Row(
+  Widget cardSimulationHistoryContainer() => Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        margin: EdgeInsets.only(
+          top: 32,
+        ),
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Expanded(
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        Constants.simulationHistory,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 2,
-                        color: Constants.accentColor,
-                      ),
-                    )
-                  ],
-                ),
-              )
+              _simulationHistoryTitle(),
+              SizedBox(height: 10.0),
+              for (var i = 0; i < 4; i++)
+                _simulationHistoryItem(
+                  id: '1',
+                  title: '1',
+                  description:
+                      'fadil aja asldjasldjasldjlasjdlasjldjaslo asdhjasldhaskhdkashdkashkdhsakhdkashdkashdkashdkashkdhask',
+                )
             ],
-          )),
-        );
+          ),
+        ),
+      );
 
-    Widget _simulationHistoryItem({
-      String title,
-      String description,
-      String id,
-    }) =>
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 10.0),
-          child: SizedBox(
-            width: double.infinity,
-            height: 85,
-            child: OutlineButton(
-              onPressed: () {},
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+  Widget _simulationHistoryTitle() => Container(
+        color: Colors.white,
+        child: Row(
+          children: <Widget>[
+            Flexible(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Icon(
-                              Icons.assignment,
-                              color: Constants.accentColor,
-                              size: 36.0,
-                            ),
-                          ),
-                          Flexible(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  title,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  description,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      Constants.simulationHistory,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                   ),
-                  Icon(Icons.keyboard_arrow_right)
+                  Flexible(
+                    child: Divider(
+                      thickness: 2,
+                      color: Constants.accentColor,
+                    ),
+                  )
                 ],
               ),
-            ),
-          ),
-        );
+            )
+          ],
+        ),
+      );
 
-    Widget cardSimulationHistoryContainer() => Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          margin: EdgeInsets.only(
-            top: 32,
-          ),
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _simulationHistoryItem({
+    String title,
+    String description,
+    String id,
+  }) =>
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 10.0),
+        child: SizedBox(
+          width: double.infinity,
+          height: 85,
+          child: OutlineButton(
+            onPressed: () {},
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                _simulationHistoryTitle(),
-                SizedBox(height: 10.0),
-                for (var i = 0; i < 4; i++)
-                  _simulationHistoryItem(
-                    id: '1',
-                    title: '1',
-                    description:
-                        'fadil aja asldjasldjasldjlasjdlasjldjaslo asdhjasldhaskhdkashdkashkdhsakhdkashdkashdkashdkashkdhask',
-                  )
+                Flexible(
+                  child: Container(
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: Icon(
+                            Icons.assignment,
+                            color: Constants.accentColor,
+                            size: 36.0,
+                          ),
+                        ),
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                title,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                description,
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Icon(Icons.keyboard_arrow_right)
               ],
             ),
           ),
-        );
-
-    return Scaffold(
-      appBar: CustomAppBar(),
-      backgroundColor: Colors.white,
-      body: Container(
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: <Widget>[
-            newSimulationCard(),
-            cardSimulationHistoryContainer(),
-          ],
         ),
-      ),
-    );
-  }
+      );
 }

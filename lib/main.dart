@@ -1,46 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:isk_aps_calc/data/dbhelper.dart';
+import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
+import 'package:isk_aps_calc/ui/page/auth_page.dart';
+import 'package:isk_aps_calc/ui/page/login_page.dart';
+import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
+import 'package:isk_aps_calc/ui/page/onboarding_page.dart';
+import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
 
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/login_bloc.dart';
 
-import 'package:isk_aps_calc/ui/page/login_page.dart';
-import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
-
 void main() => runApp(new MyApp());
 
-final routes = <String, WidgetBuilder>{
-  // OnBoarding.tag: (context) => OnBoarding(),
-  LoginPage.tag: (context) => ChangeNotifierProvider(
-        create: (_) => LoginBloc(),
-        child: LoginPage(),
-      ),
+final routes = {
+  AuhthenticationPage.tag: (context) => AuhthenticationPage(),
+  OnBoardingPage.tag: (context) => OnBoardingPage(),
+  LoginPage.tag: (context) => LoginPage(),
   MainTabs.tag: (context) => MainTabs(),
+  IndicatorPage.tag: (context) => IndicatorPage(),
 };
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(context) {
-    return MaterialApp(
-      initialRoute: LoginPage.tag,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: "Quicksand",
-        appBarTheme: AppBarTheme(
-          color: Colors.white,
-          iconTheme: IconThemeData(color: Constants.accentColor),
-          textTheme: TextTheme(
-            title: TextStyle(
-              color: Constants.accentColor,
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LoginBloc()),
+        ChangeNotifierProvider(create: (context) => SimulationBloc()),
+      ],
+      child: MaterialApp(
+        initialRoute: AuhthenticationPage.tag,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: "Quicksand",
+          appBarTheme: AppBarTheme(
+            color: Colors.white,
+            iconTheme: IconThemeData(color: Constants.accentColor),
+            textTheme: TextTheme(
+              title: TextStyle(
+                color: Constants.accentColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
             ),
           ),
         ),
+        routes: routes,
       ),
-      routes: routes,
     );
   }
 }

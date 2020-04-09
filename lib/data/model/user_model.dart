@@ -20,16 +20,12 @@ class UserModel {
     updateDateTime = map['update_dtm'];
   }
 
-  Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = Map<String, dynamic>();
-
-    map['user_id'] = id;
-    map['user_name'] = name;
-    map['user_email'] = email;
-    map['user_password'] = password;
-    map['institute'] = institute;
-    map['update_dtm'] = updateDateTime;
-
-    return map;
-  }
+  Map<String, dynamic> toMap() => {
+        'user_id': id,
+        'user_name': name,
+        'user_email': email,
+        'user_password': password,
+        'institute': institute,
+        'update_dtm': updateDateTime,
+      };
 }

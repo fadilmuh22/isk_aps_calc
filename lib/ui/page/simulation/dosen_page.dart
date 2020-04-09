@@ -6,7 +6,7 @@ import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
-import 'package:isk_aps_calc/ui/component/rounded_button.dart';
+import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
 
 import 'package:isk_aps_calc/ui/page/simulation/kurikulum_page.dart';
 
@@ -20,65 +20,14 @@ class DosenPage extends StatefulWidget {
 class _DosenPageState extends State<DosenPage> {
   @override
   Widget build(context) {
-    final simulationBloc = Provider.of<SimulationBloc>(context);
-
-    Widget dtpsLabel() => Text(
-          'Dosen Tetap (DTPS)',
-          style: Constants.titleStyle,
-        );
-
-    Widget dtpsField() => Theme(
-          child: TextFormField(
-            keyboardType: TextInputType.text,
-            autofocus: false,
-            // onSaved: (value) => password = value,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'This must be filled';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              hintText: 'DTPS',
-              border: new UnderlineInputBorder(
-                borderSide: new BorderSide(
-                    color: Colors.white, style: BorderStyle.solid),
-              ),
-              contentPadding: EdgeInsets.only(
-                left: 20.0,
-                top: 10.0,
-                right: 20.0,
-                bottom: 10.0,
-              ),
-              suffixIcon: Icon(Icons.edit),
-            ),
-          ),
-          data: Theme.of(context).copyWith(primaryColor: Constants.accentColor),
-        );
-
-    Widget nextButton(BuildContext context) => RoundedButton(
-          items: <Widget>[
-            Text('Lanjutkan',
-                style: TextStyle(color: Colors.white, fontSize: 16)),
-            Icon(Icons.keyboard_arrow_right)
-          ],
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ChangeNotifierProvider.value(
-                  value: simulationBloc,
-                  child: KuriKulumPage(),
-                ),
-              ),
-            );
-          },
-        );
-
     return Scaffold(
       appBar: CustomAppBar(
         // newSimulation: true,
-        tingkat: simulationBloc.simulation.tingkat,
-        prodiName: simulationBloc.simulation.prodiName,
+        educationStageName: Provider.of<SimulationBloc>(context)
+            .newSimulation
+            .educationStageName,
+        studyProgramName:
+            Provider.of<SimulationBloc>(context).newSimulation.studyProgramName,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 30.0),
@@ -92,12 +41,9 @@ class _DosenPageState extends State<DosenPage> {
               Center(
                 child: Column(
                   children: <Widget>[
+                    nextButton(),
                     SizedBox(
-                      width: 200.0,
-                      child: nextButton(context),
-                    ),
-                    SizedBox(
-                      height: 20.0,
+                      height: 24.0,
                     ),
                     Text('2 dari 8')
                   ],
@@ -108,7 +54,59 @@ class _DosenPageState extends State<DosenPage> {
         ),
       ),
     );
-
   }
 
+  Widget dtpsLabel() => Text(
+        'Dosen Tetap (DTPS)',
+        style: Constants.titleStyle,
+      );
+
+  Widget dtpsField() => Theme(
+        child: TextFormField(
+          keyboardType: TextInputType.text,
+          autofocus: false,
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'This must be filled';
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: 'DTPS',
+            border: new UnderlineInputBorder(
+              borderSide:
+                  new BorderSide(color: Colors.white, style: BorderStyle.solid),
+            ),
+            contentPadding: EdgeInsets.only(
+              left: 20.0,
+              top: 10.0,
+              right: 20.0,
+              bottom: 10.0,
+            ),
+            suffixIcon: Icon(Icons.edit),
+          ),
+        ),
+        data: Theme.of(context).copyWith(primaryColor: Constants.accentColor),
+      );
+
+  Widget nextButton() => SizedBox(
+        width: 200.0,
+        child: CustomRoundedButton(
+          items: <Widget>[
+            Text('Lanjutkan',
+                style: TextStyle(color: Colors.white, fontSize: 16)),
+            Icon(Icons.keyboard_arrow_right)
+          ],
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ChangeNotifierProvider.value(
+                  value: Provider.of<SimulationBloc>(context),
+                  child: KuriKulumPage(),
+                ),
+              ),
+            );
+          },
+        ),
+      );
 }

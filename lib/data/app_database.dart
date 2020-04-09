@@ -8,19 +8,18 @@ import 'package:path_provider/path_provider.dart';
 //pubspec.yml
 
 //kelass Dbhelper
-class DbHelper {
-  static DbHelper _dbHelper;
+class AppDatabase {
+  static AppDatabase _appDb;
   static Database _database;
 
-  DbHelper._createObject();
+  AppDatabase._createObject();
 
-  factory DbHelper() {
-    if (_dbHelper == null) {
-      _dbHelper = DbHelper._createObject();
+  factory AppDatabase() {
+    if (_appDb == null) {
+      _appDb = AppDatabase._createObject();
     }
-    return _dbHelper;
+    return _appDb;
   }
-
 
   final initScript = [
     '''
@@ -34,7 +33,6 @@ class DbHelper {
         update_dtm DATETIME 
       );
     ''',
-
     '''
       INSERT INTO user(
         user_id, 
@@ -52,7 +50,6 @@ class DbHelper {
         1
       )
     ''',
-
   ];
 
   Future<Database> initDb() async {
@@ -65,19 +62,18 @@ class DbHelper {
       path,
       version: 1,
       onCreate: (Database db, int version) async {
-        initScript.forEach((script) async => await db.execute(script));  
+        initScript.forEach((script) async => await db.execute(script));
       },
-        // onUpgrade: (Database db, int oldVersion, int newVersion) async {
-        //   for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
-        //     await db.execute(migrationScripts[i]);
-        //   }  
-        // }
+      // onUpgrade: (Database db, int oldVersion, int newVersion) async {
+      //   for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
+      //     await db.execute(migrationScripts[i]);
+      //   }
+      // }
     );
 
     //mengembalikan nilai user sebagai hasil dari fungsinya
     return todoDatabase;
   }
-
 
   Future<Database> get database async {
     if (_database == null) {
@@ -95,14 +91,15 @@ class DbHelper {
     return mapList;
   }
 
-  Future<Map<String, dynamic>> selectOne(String username) async {
+  Future<UserModel> selectOne(String username) async {
     Database db = await this.database;
-    var mapList = await db.query('user',
-        where: 'user_email=? OR user_name=?',
-        whereArgs: [username, username],
-        limit: 1);
-    print(mapList);
-    return mapList[0];
+    var mapList = await db.query(
+      'user',
+      where: 'user_email=? OR user_name=?',
+      whereArgs: [username, username],
+      limit: 1,
+    );
+    return UserModel.fromMap(mapList[0]);
   }
 
 //create databases
@@ -127,7 +124,7 @@ class DbHelper {
     return count;
   }
 
-//delete databases
+  //delete databases
   Future<int> delete(String id) async {
     Database db = await this.database;
     int count = await db.delete(

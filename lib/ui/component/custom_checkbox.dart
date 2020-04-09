@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomRadio extends StatefulWidget {
-  CustomRadio({
+class CustomCheckBox extends StatefulWidget {
+  CustomCheckBox({
     this.values,
     this.groupValue,
     this.onChanged,
@@ -12,11 +12,11 @@ class CustomRadio extends StatefulWidget {
   final groupValue;
 
   @override
-  _CustomRadioState createState() => _CustomRadioState();
+  _CustomCheckBoxState createState() => _CustomCheckBoxState();
 }
 
-class _CustomRadioState extends State<CustomRadio> {
-  List<Container> mapRadioValues({
+class _CustomCheckBoxState extends State<CustomCheckBox> {
+  List<Container> mapCheckBoxValues({
     List<String> values,
     groupValue,
     Function onChanged,
@@ -26,7 +26,6 @@ class _CustomRadioState extends State<CustomRadio> {
     values.forEach((value) => radios.add(
           Container(
             child: RadioListTile(
-              key: UniqueKey(),
               value: value,
               groupValue: groupValue,
               onChanged: onChanged,
@@ -40,7 +39,7 @@ class _CustomRadioState extends State<CustomRadio> {
   @override
   Widget build(context) {
     return Column(
-      children: mapRadioValues(
+      children: mapCheckBoxValues(
         values: widget.values,
         groupValue: widget.groupValue,
         onChanged: widget.onChanged,

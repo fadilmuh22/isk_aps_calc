@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:isk_aps_calc/constants.dart';
 
-class RoundedButton extends StatelessWidget {
-  
-  RoundedButton({
+class CustomRoundedButton extends StatelessWidget {
+  CustomRoundedButton({
     this.items,
     this.onPressed,
     this.align = MainAxisAlignment.spaceBetween,
-    this.padding = const EdgeInsets.fromLTRB(36.0, 16.0, 36.0, 16.0),
+    this.padding = const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
     this.color = Constants.accentColor,
   });
 
@@ -29,7 +28,7 @@ class RoundedButton extends StatelessWidget {
       color: color,
       child: Row(
         mainAxisAlignment: align,
-        children: items
+        children: items,
       ),
     );
   }
