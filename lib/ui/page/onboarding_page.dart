@@ -12,7 +12,6 @@ class OnBoardingPage extends StatefulWidget {
   OnBoardingPageState createState() => new OnBoardingPageState();
 }
 
-//------------------ Default config ------------------
 class OnBoardingPageState extends State<OnBoardingPage> {
   List<Slide> slides = new List();
 

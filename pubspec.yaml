@@ -20,10 +20,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # UtiL
+  # Util
   equatable: ^1.1.0
   path_provider: ^1.6.5
-  password: ^1.0.0
+  dbcrypt: ^1.0.0
 
   # BLOC
   provider: ^4.0.4
@@ -45,9 +45,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  moor_generator: ^2.4.0
-  build_runner: ^1.8.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

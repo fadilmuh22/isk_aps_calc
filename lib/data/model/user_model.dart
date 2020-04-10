@@ -11,7 +11,7 @@ class UserModel {
     this.updateDateTime,
   });
 
-  UserModel.fromMap(Map<String, dynamic> map) {
+  UserModel.fromMap(Map map) {
     id = map['user_id'];
     name = map['user_name'];
     email = map['user_email'];

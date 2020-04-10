@@ -3,6 +3,7 @@ import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 
 class SimulationBloc extends ChangeNotifier {
   NewSimulationModel _newSimulation;
+  var indicator;
 
   set newSimulation(NewSimulationModel newSimulation) {
     _newSimulation = newSimulation;
@@ -10,6 +11,11 @@ class SimulationBloc extends ChangeNotifier {
 
   NewSimulationModel get newSimulation {
     return _newSimulation;
+  }
+
+  accreditate(indicator) {
+    this.indicator = indicator;
+    return this.indicator;
   }
 
   clear() {

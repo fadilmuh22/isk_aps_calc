@@ -1,32 +1,28 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:dbcrypt/dbcrypt.dart';
 import 'package:isk_aps_calc/data/model/user_model.dart';
-import 'package:password/password.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 //pubspec.yml
 
 //kelass Dbhelper
 class AppDatabase {
-  static AppDatabase _appDb;
-  static Database _database;
+  static Database _db;
 
-  AppDatabase._createObject();
+  static final AppDatabase _instance = AppDatabase.internal();
 
-  factory AppDatabase() {
-    if (_appDb == null) {
-      _appDb = AppDatabase._createObject();
-    }
-    return _appDb;
-  }
+  factory AppDatabase() => _instance;
+
+  AppDatabase.internal();
 
   final initScript = [
     '''
       CREATE TABLE user (
         user_id VARCHAR(255) PRIMARY KEY,
         user_name VARCHAR(255),
-        user_email VARCHAR(255) UNIQUE,
+        user_email VARCHAR(255),
         user_password TEXT,
         institute VARCHAR(255),
         status INTEGER,
@@ -45,66 +41,63 @@ class AppDatabase {
         'admin',
         'admin',
         'admin',
-        ${Password.hash('adminspmtelu', new PBKDF2())},
+        '${DBCrypt().hashpw('adminspmtelu', new DBCrypt().gensalt())}',
         'Admin SPM Telkom University',
         1
-      )
+      );
     ''',
-  ];
+  ]; //'${Password.hash('adminspmtelu', new PBKDF2())}',
 
   Future<Database> initDb() async {
-    //untuk menentukan nama database dan lokasi yg dibuat
     Directory directory = await getApplicationDocumentsDirectory();
     String path = directory.path + 'isk_aps.db';
 
-    //create, read databases
-    var todoDatabase = openDatabase(
+    await deleteDatabase(path);
+
+    var todoDatabase = await openDatabase(
       path,
       version: 1,
       onCreate: (Database db, int version) async {
         initScript.forEach((script) async => await db.execute(script));
       },
-      // onUpgrade: (Database db, int oldVersion, int newVersion) async {
-      //   for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
-      //     await db.execute(migrationScripts[i]);
-      //   }
-      // }
     );
 
-    //mengembalikan nilai user sebagai hasil dari fungsinya
     return todoDatabase;
   }
 
-  Future<Database> get database async {
-    if (_database == null) {
-      _database = await initDb();
+  Future<Database> get db async {
+    if (_db == null) {
+      _db = await initDb();
     }
-    return _database;
+
+    return _db;
   }
 
-  Future<List<Map<String, dynamic>>> select() async {
-    Database db = await this.database;
+  Future<List<UserModel>> select() async {
+    Database db = await this.db;
     var mapList = await db.query(
       'user',
       orderBy: 'user_name',
     );
-    return mapList;
+    return mapList.map<UserModel>((user) => UserModel.fromMap(user)).toList();
   }
 
   Future<UserModel> selectOne(String username) async {
-    Database db = await this.database;
+    Database db = await this.db;
     var mapList = await db.query(
       'user',
       where: 'user_email=? OR user_name=?',
       whereArgs: [username, username],
       limit: 1,
     );
-    return UserModel.fromMap(mapList[0]);
+    if (mapList.isNotEmpty) {
+      return UserModel.fromMap(mapList[0]);
+    }
   }
 
-//create databases
+  //create databases
   Future<int> insert(UserModel user) async {
-    Database db = await this.database;
+    Database db = await this.db;
     int count = await db.insert(
       'user',
       user.toMap(),
@@ -114,7 +107,7 @@ class AppDatabase {
 
 //update databases
   Future<int> update(UserModel user) async {
-    Database db = await this.database;
+    Database db = await this.db;
     int count = await db.update(
       'user',
       user.toMap(),
@@ -126,7 +119,7 @@ class AppDatabase {
 
   //delete databases
   Future<int> delete(String id) async {
-    Database db = await this.database;
+    Database db = await this.db;
     int count = await db.delete(
       'user',
       where: 'id=?',

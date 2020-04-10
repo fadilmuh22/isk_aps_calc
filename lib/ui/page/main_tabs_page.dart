@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:isk_aps_calc/ui/page/home_page.dart';
+import 'package:isk_aps_calc/ui/page/profile_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/new_simulation_page.dart';
 
 class MainTabs extends StatefulWidget {
@@ -20,7 +21,7 @@ class _MainTabsState extends State<MainTabs> {
       case 1:
         return NewSimulationPage();
       case 2:
-        return HomePage();
+        return ProfilePage();
     }
     return HomePage(goToPage: this.goToPage);
   }

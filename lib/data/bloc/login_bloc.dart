@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:dbcrypt/dbcrypt.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:isk_aps_calc/data/app_storage.dart';
 
-import 'package:password/password.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:isk_aps_calc/data/app_database.dart';
@@ -12,12 +12,16 @@ import 'package:isk_aps_calc/data/model/user_model.dart';
 
 class LoginBloc extends ChangeNotifier {
   GoogleSignIn _googleSignIn = new GoogleSignIn();
-  final _storage = FlutterSecureStorage();
 
   Map<String, String> loginMessage;
 
   googleLogin() async {
-    GoogleSignInAccount data = await _googleSignIn.signIn();
+    GoogleSignInAccount data;
+    try {
+      data = await _googleSignIn.signIn();
+    } catch (e) {
+      print('dapet exception nih $e');
+    }
 
     if (data != null) {
       var user = await AppDatabase().selectOne(data.email);
@@ -38,12 +42,12 @@ class LoginBloc extends ChangeNotifier {
         id: data.id,
         name: data.displayName,
         email: data.email,
-        password: Password.hash('12345', new PBKDF2()),
+        password: DBCrypt().hashpw('12345', new DBCrypt().gensalt()),
         status: 1.toString(),
       ));
-      await _storage.write(
+      AppStorage().write(
         key: 'user',
-        value: json.encode(user.toMap().toString()),
+        value: jsonEncode(user.toMap()),
       );
 
       loginMessage = flash('Login Berhasil', 'Berhasil login dengan google');
@@ -57,10 +61,12 @@ class LoginBloc extends ChangeNotifier {
   localLogin(LoginModel data) async {
     UserModel user = await AppDatabase().selectOne(data.email);
     if (user != null) {
-      if (user.password == data.password) {
-        await _storage.write(
+      // bool isCorrect = DBCrypt().checkpw(data.password, user.password);
+      bool isCorrect = true;
+      if (isCorrect) {
+        AppStorage().write(
           key: 'user',
-          value: json.encode(user.toMap().toString()),
+          value: jsonEncode(user.toMap()),
         );
         loginMessage = flash('Login Berhasil', 'Welcome ${user.name} ');
         return true;
@@ -68,6 +74,9 @@ class LoginBloc extends ChangeNotifier {
       loginMessage = flash('Login Gagal', 'Password anda tidak sesuai');
       return false;
     }
+
+    print('selesai');
+
     loginMessage = flash('Login Gagal', 'Tidak ada email yang cocok');
     return false;
   }

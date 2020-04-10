@@ -79,16 +79,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
     Color(0xffAD78F0),
   ];
 
-  int educationStagesActive;
-  bool educationStagesInvalid = false;
-
-  void toggleEducationStagesActive(int index) {
-    setState(() {
-      _educationStageName = educationStages[index]['name'];
-      educationStagesActive = index;
-    });
-  }
-
   final jumlahLulusan = {
     'normal': [
       FieldModel(name: 'Jumlah Lulusan TS-4'),
@@ -106,6 +96,42 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
       FieldModel(name: 'Jumlah Lulusan TS-2'),
     ]
   };
+
+  int educationStagesActive;
+  bool educationStagesInvalid = false;
+
+  void toggleEducationStagesActive(int index) {
+    setState(() {
+      _educationStageName = educationStages[index]['name'];
+      print(_educationStageName);
+      educationStagesActive = index;
+    });
+  }
+
+  handleNextButton() {
+    if (_formKey.currentState.validate() && _educationStageName.isNotEmpty) {
+      _formKey.currentState.save();
+
+      var model = NewSimulationModel(
+        educationStageName: _educationStageName,
+        studyProgramName: _studyProgramName,
+      );
+
+      Provider.of<SimulationBloc>(context, listen: false).newSimulation = model;
+
+      Navigator.pushNamed(context, IndicatorPage.tag);
+    } else if (_educationStageName.isEmpty) {
+      setState(() {
+        educationStagesInvalid = true;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _formKey.currentState.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(context) {
@@ -256,24 +282,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             ),
             Icon(Icons.keyboard_arrow_right)
           ],
-          onPressed: () {
-            if (/**_formKey.currentState.validate() &&  _tingkat.isNotEmpty */ true) {
-              // _formKey.currentState.save();
-
-              var model = NewSimulationModel(
-                studyProgramName: _studyProgramName,
-                educationStageName: _educationStageName,
-              );
-              Provider.of<SimulationBloc>(context, listen: false)
-                  .newSimulation = model;
-
-              Navigator.of(context).pushNamed(IndicatorPage.tag);
-            } else if (_educationStageName.isEmpty) {
-              setState(() {
-                educationStagesInvalid = true;
-              });
-            }
-          },
+          onPressed: handleNextButton,
         ),
       );
 
@@ -296,7 +305,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             }
             return null;
           },
-          onSaved: (value) => _educationStageName = value,
+          onSaved: (value) => _studyProgramName = value,
           decoration: InputDecoration(
             suffixIcon: Icon(Icons.edit),
             border: new UnderlineInputBorder(
@@ -407,7 +416,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                   Flexible(
                     child: Theme(
                       child: TextFormField(
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                         autofocus: false,
                         validator: (value) {
                           if (value.isEmpty) {
@@ -420,7 +429,9 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                           suffixIcon: Icon(Icons.edit),
                           border: new UnderlineInputBorder(
                             borderSide: new BorderSide(
-                                color: Colors.white, style: BorderStyle.solid),
+                              color: Colors.white,
+                              style: BorderStyle.solid,
+                            ),
                           ),
                         ),
                       ),

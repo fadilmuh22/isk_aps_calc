@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:isk_aps_calc/ui/page/login_page.dart';
 import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
 import 'package:isk_aps_calc/ui/page/onboarding_page.dart';
@@ -33,7 +34,7 @@ class _AuhthenticationPageState extends State<AuhthenticationPage> {
         Navigator.of(context).pushReplacementNamed(LoginPage.tag);
       }
     } else {
-      // await _storage.write(key: 'not_user_first_time', value: 'true');
+      await _storage.write(key: 'not_user_first_time', value: 'true');
       Navigator.of(context).pushReplacementNamed(OnBoardingPage.tag);
     }
   }
