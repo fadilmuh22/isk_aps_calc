@@ -7,13 +7,16 @@ class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
   @override
   get preferredSize => Size.fromHeight(appBarHeight);
 
+  final bool canBack, newSimulation;
   final String educationStageName, studyProgramName;
-  final bool newSimulation;
+  final Function onBackButton;
 
   CustomAppBar({
+    this.canBack = true,
     this.educationStageName = '',
     this.studyProgramName = '',
     this.newSimulation = false,
+    this.onBackButton,
   });
 
   @override
@@ -23,6 +26,14 @@ class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   isProdiAndNameEmpty() =>
       (widget.educationStageName.isEmpty && widget.studyProgramName.isEmpty);
+
+  handleBackButton() {
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    } else {
+      Navigator.of(context).maybePop();
+    }
+  }
 
   @override
   Widget build(context) {
@@ -34,21 +45,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Constants.accentColor,
+          if (widget.canBack) ...[
+            Expanded(
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Constants.accentColor,
+                ),
+                onPressed: widget.onBackButton != null
+                    ? widget.onBackButton
+                    : handleBackButton,
               ),
-              onPressed: () {
-                if (Navigator.of(context).canPop()) {
-                  Navigator.of(context).pop();
-                } else {
-                  Navigator.of(context).maybePop();
-                }
-              },
             ),
-          ),
+          ] else
+            Expanded(
+              child: Container(),
+            ),
           if (widget.newSimulation) ...[
             Expanded(
               child: Container(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 import 'package:isk_aps_calc/data/model/indicator_model.dart';
+import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
@@ -38,10 +39,84 @@ class _IndicatorPageState extends State<IndicatorPage>
   void initState() {
     super.initState();
     indicator = [
-      {
-        'indicator_category_id': 'ic1',
-        'indicator_category_name': 'Dosen Tetap',
-        'indicator': [
+      MappingIndicatorModel(
+        educationStage: 1,
+        indicatorCategory: 'ic1',
+        indicatorSubcategory: 'is1',
+        indicatorCategoryName: 'Dosen Tetap',
+        indicator: [
+          IndicatorModel(
+            id: 1,
+            category: 'ic1',
+            subcategory: 'is1',
+            name:
+                'Jumlah dosen tetap yang ditugaskan sebagai pengampu mata kuliah dengan bidang keahlian yang sesuai dengan kompetensi inti program studi yang diakreditasi',
+            variable: 'NDTPS',
+            type: 4,
+            defaultValue: '',
+          ),
+          IndicatorModel(
+            id: 2,
+            category: 'ic1',
+            subcategory: 'is2',
+            name:
+                'Jumlah DTPS yang berpendidikan tertinggi Doktor/Doktor Terapan/Subspesialis',
+            variable: 'NDS3',
+            type: 1,
+            defaultValue: '',
+          ),
+          IndicatorModel(
+            id: 3,
+            category: 'ic1',
+            subcategory: 'is3',
+            name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
+            variable: 'NDGB',
+            type: 1,
+            defaultValue: '',
+          ),
+        ],
+      ),
+      MappingIndicatorModel(
+        educationStage: 2,
+        indicatorCategory: 'ic2',
+        indicatorSubcategory: 'is2',
+        indicatorCategoryName: 'Dosen Aja',
+        indicator: [
+          IndicatorModel(
+            id: 1,
+            category: 'ic1',
+            subcategory: 'is1',
+            name: 'Jumlah dosen tetap yang iakreditasi',
+            variable: 'NDTPS',
+            type: 3,
+            defaultValue: '',
+          ),
+          IndicatorModel(
+            id: 2,
+            category: 'ic1',
+            subcategory: 'is2',
+            name: 'Jumlah DTPS yang berpendidikan',
+            variable: 'NDS3',
+            type: 3,
+            defaultValue: '',
+          ),
+          IndicatorModel(
+            id: 3,
+            category: 'ic1',
+            subcategory: 'is3',
+            name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
+            variable: 'NDGB',
+            type: 3,
+            defaultValue: '',
+          ),
+        ],
+      ),
+      MappingIndicatorModel(
+        educationStage: 1,
+        indicatorCategory: 'ic1',
+        indicatorSubcategory: 'is1',
+        indicatorCategoryName: 'Dosen Tetap',
+        indicator: [
           IndicatorModel(
             id: 1,
             category: 'ic1',
@@ -72,95 +147,46 @@ class _IndicatorPageState extends State<IndicatorPage>
             defaultValue: '',
           ),
         ],
-      },
-      {
-        'indicator_category_id': 'ic2',
-        'indicator_category_name': 'Kurikulum',
-        'indicator': [
+      ),
+      MappingIndicatorModel(
+        educationStage: 1,
+        indicatorCategory: 'ic1',
+        indicatorSubcategory: 'is1',
+        indicatorCategoryName: 'Dosen Tetap',
+        indicator: [
           IndicatorModel(
-            id: 6,
-            category: 'ic2',
-            subcategory: 'is4',
+            id: 1,
+            category: 'ic1',
+            subcategory: 'is1',
             name:
-                'Evaluasi dan pemutakhiran kurikulum secara berkala tiap 4 s.d. 5 tahun yang melibatkan pemangku kepentingan internal dan eksternal, serta direview oleh pakar bidang ilmu program studi, industri, asosiasi, serta sesuai perkembangan ipteks dan kebutuhan pengguna',
-            variable: 'A',
-            type: 3,
-            defaultValue: 4,
+                'Jumlah dosen tetap yang ditugaskan sebagai pengampu mata kuliah dengan bidang keahlian yang sesuai dengan kompetensi inti program studi yang diakreditasi',
+            variable: 'NDTPS',
+            type: 4,
+            defaultValue: '',
           ),
           IndicatorModel(
-            id: 7,
-            category: 'ic2',
-            subcategory: 'is4',
+            id: 2,
+            category: 'ic1',
+            subcategory: 'is2',
             name:
-                'Evaluasi dan pemutakhiran kurikulum secara berkala tiap 4 s.d. 5 tahun yang melibatkan pemangku kepentingan internal dan eksternal',
-            variable: 'A',
-            type: 3,
-            defaultValue: 3,
+                'Jumlah DTPS yang berpendidikan tertinggi Doktor/Doktor Terapan/Subspesialis',
+            variable: 'NDS3',
+            type: 4,
+            defaultValue: '',
           ),
           IndicatorModel(
-            id: 8,
-            category: 'ic2',
-            subcategory: 'is4',
-            name:
-                'Evaluasi dan pemutakhiran kurikulum melibatkan pemangku kepentingan internal',
-            variable: 'A',
-            type: 3,
-            defaultValue: 2,
+            id: 3,
+            category: 'ic1',
+            subcategory: 'is3',
+            name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
+            variable: 'NDGB',
+            type: 4,
+            defaultValue: '',
           ),
         ],
-      },
-      {
-        'indicator_category_id': 'ic8',
-        'indicator_category_name': 'Kepuasan Pengguna',
-        'indicator': [
-          IndicatorModel(
-            id: 33,
-            category: 'ic8',
-            subcategory: 'is12',
-            name: 'Edsad',
-            variable: 'G',
-            type: 5,
-            defaultValue: 'Sangat Baik/Baik/Cukup/Kurang',
-          ),
-          IndicatorModel(
-            id: 34,
-            category: 'ic8',
-            subcategory: 'is12',
-            name: 'Keahlian pada bidsad',
-            variable: 'H',
-            type: 5,
-            defaultValue: 'Sangat Baik/Baik/Cukup/Kurang',
-          ),
-          IndicatorModel(
-            id: 35,
-            category: 'ic8',
-            subcategory: 'is12',
-            name: 'Etika',
-            variable: 'G',
-            type: 5,
-            defaultValue: 'Sangat Baik/Baik/Cukup/Kurang',
-          ),
-          IndicatorModel(
-            id: 36,
-            category: 'ic8',
-            subcategory: 'is12',
-            name: 'Keahlian pada bidang ilmu (kompetensi utama)',
-            variable: 'H',
-            type: 5,
-            defaultValue: 'Sangat Baik/Baik/Cukup/Kurang',
-          ),
-          IndicatorModel(
-            id: 39,
-            category: 'ic8',
-            subcategory: 'is12',
-            name: 'Keahlian pada bidang ilmu (kompetensi utama)',
-            variable: 'I',
-            type: 5,
-            defaultValue: 'Sangat Baik/Baik/Cukup/Kurang',
-          ),
-        ],
-      },
+      ),
     ];
+
     _tabController = TabController(vsync: this, length: indicator.length);
     _tabController.addListener((_setActiveTabIndex));
   }
@@ -215,16 +241,15 @@ class _IndicatorPageState extends State<IndicatorPage>
     );
   }
 
-  Widget indicatorContainer(Map<String, dynamic> indicator) {
+  Widget indicatorContainer(MappingIndicatorModel mappingIndicator) {
     return ListView(
       children: [
         Text(
-          indicator['indicator_category_name'],
+          mappingIndicator.indicatorCategoryName,
           style: Constants.titleStyle,
         ),
-        SizedBox(height: 24.0),
-        ...List.generate(indicator['indicator'].length, (index) {
-          return indicatorFieldContainer(indicator['indicator'][index]);
+        ...List.generate(mappingIndicator.indicator.length, (index) {
+          return _indicatorFieldContainer(mappingIndicator.indicator[index]);
         }),
         SizedBox(height: 36.0),
         Column(
@@ -240,14 +265,13 @@ class _IndicatorPageState extends State<IndicatorPage>
     );
   }
 
-  Widget indicatorFieldContainer(IndicatorModel indicator) {
+  Widget _indicatorFieldContainer(IndicatorModel indicator) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (IndicatorField.values[indicator.type - 1] !=
-              IndicatorField.radio) ...[
+          if (indicator.type != 3 && indicator.type != 4) ...[
             Text(
               indicator.name,
             ),
@@ -262,8 +286,12 @@ class _IndicatorPageState extends State<IndicatorPage>
         width: 200.0,
         child: CustomRoundedButton(
           items: <Widget>[
-            Text('Lanjutkan',
-                style: TextStyle(color: Colors.white, fontSize: 16)),
+            Text(
+              _activeTabIndex == (indicator.length - 1)
+                  ? 'Selesai'
+                  : 'Lanjutkan',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
             Icon(Icons.keyboard_arrow_right)
           ],
           onPressed: handleTabNext,
@@ -327,6 +355,10 @@ class _IndicatorPageState extends State<IndicatorPage>
           children: <Widget>[
             Flexible(
               child: RadioListTile(
+                title: Text(
+                  indicator.name,
+                  style: TextStyle(fontSize: 12.0),
+                ),
                 key: UniqueKey(),
                 groupValue: map[indicator.variable],
                 value: indicator.defaultValue,
@@ -337,32 +369,21 @@ class _IndicatorPageState extends State<IndicatorPage>
                 },
               ),
             ),
-            Flexible(
-              flex: 3,
-              child: Text(
-                indicator.name,
-                // overflow: TextOverflow.ellipsis,
-              ),
-            ),
           ],
         );
         break;
       case IndicatorField.checkbox:
-        List defaultValue = indicator.defaultValue;
-        return Column(
+        map[indicator.variable] = false;
+        return CheckboxListTile(
           key: UniqueKey(),
-          children: List.generate(defaultValue.length, (index) {
-            return Checkbox(
-                key: UniqueKey(),
-                value: map[indicator.variable],
-                onChanged: (value) {
-                  setState(() {
-                    map[indicator.variable] = value;
-                  });
-                });
-          }),
+          title: Text(indicator.name),
+          value: map[indicator.variable],
+          onChanged: (value) {
+            setState(() {
+              map[indicator.variable] = value;
+            });
+          },
         );
-        break;
       case IndicatorField.multiple_number:
         map[indicator.variable] = new List(4);
         List defaultValue = indicator.defaultValue.split('/');
@@ -371,7 +392,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           children: List.generate(defaultValue.length, (index) {
             return Flexible(
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                margin: EdgeInsets.only(left: 5.0, top: 8.0),
                 child: Theme(
                   child: TextFormField(
                     key: UniqueKey(),
@@ -387,7 +408,13 @@ class _IndicatorPageState extends State<IndicatorPage>
                       map[indicator.variable][index] = value;
                     },
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                       labelText: defaultValue[index],
+                      labelStyle: TextStyle(
+                        fontSize: 8.0,
+                      ),
                     ),
                   ),
                   data: Theme.of(context).copyWith(

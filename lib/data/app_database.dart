@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'dart:async';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 
-import 'package:dbcrypt/dbcrypt.dart';
-import 'package:isk_aps_calc/data/model/user_model.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-//pubspec.yml
+import 'package:sqflite/sqflite.dart';
+import 'package:dbcrypt/dbcrypt.dart';
 
-//kelass Dbhelper
+import 'package:isk_aps_calc/data/model/user_model.dart';
+
 class AppDatabase {
   static Database _db;
 
@@ -16,6 +18,10 @@ class AppDatabase {
   factory AppDatabase() => _instance;
 
   AppDatabase.internal();
+
+  get db {
+    return _db;
+  }
 
   final initScript = [
     '''
@@ -46,44 +52,78 @@ class AppDatabase {
         1
       );
     ''',
+    '''
+    create table indicator
+    (
+      indicator_id bigint auto_increment,
+      indicator_category varchar not null,
+      indicator_subcategory varchar not null,
+      indicator_name varchar null,
+      indicator_variable varchar(20) null,
+      indicator_type int default 1 not null,
+      default_value varchar null
+    );
+
+    create index indicator_indicator_category_index
+      on indicator (indicator_category);
+
+    create unique index indicator_indicator_id_uindex
+      on indicator (indicator_id);
+
+    create index indicator_indicator_subcategory_index
+      on indicator (indicator_subcategory);
+
+    alter table indicator
+      add constraint indicator_pk
+        primary key (indicator_id);
+    ''',
   ]; //'${Password.hash('adminspmtelu', new PBKDF2())}',
 
-  Future<Database> initDb() async {
+  Future initDb() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = directory.path + 'isk_aps.db';
 
-    await deleteDatabase(path);
+    var exists = await databaseExists(path);
 
-    var todoDatabase = await openDatabase(
+    if (!exists) {
+      // Should happen only the first time you launch your application
+      print("Creating new copy from asset");
+
+      // Make sure the parent directory exists
+      try {
+        await Directory(dirname(path)).create(recursive: true);
+      } catch (_) {}
+
+      // Copy from asset
+      ByteData data = await rootBundle.load(join("assets", "example.db"));
+      List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+      // Write and flush the bytes written
+      await File(path).writeAsBytes(bytes, flush: true);
+    } else {
+      // await deleteDatabase(path);
+      print("Opening existing database");
+    }
+
+    _db = await openDatabase(
       path,
       version: 1,
       onCreate: (Database db, int version) async {
         initScript.forEach((script) async => await db.execute(script));
       },
     );
-
-    return todoDatabase;
-  }
-
-  Future<Database> get db async {
-    if (_db == null) {
-      _db = await initDb();
-    }
-
-    return _db;
   }
 
   Future<List<UserModel>> select() async {
-    Database db = await this.db;
     var mapList = await db.query(
       'user',
       orderBy: 'user_name',
     );
-    return mapList.map<UserModel>((user) => UserModel.fromMap(user)).toList();
+    return mapList.map<UserModel>((user) => UserModel.fromJson(user)).toList();
   }
 
   Future<UserModel> selectOne(String username) async {
-    Database db = await this.db;
     var mapList = await db.query(
       'user',
       where: 'user_email=? OR user_name=?',
@@ -91,35 +131,29 @@ class AppDatabase {
       limit: 1,
     );
     if (mapList.isNotEmpty) {
-      return UserModel.fromMap(mapList[0]);
+      return UserModel.fromJson(mapList[0]);
     }
   }
 
-  //create databases
   Future<int> insert(UserModel user) async {
-    Database db = await this.db;
     int count = await db.insert(
       'user',
-      user.toMap(),
+      user.toJson(),
     );
     return count;
   }
 
-//update databases
   Future<int> update(UserModel user) async {
-    Database db = await this.db;
     int count = await db.update(
       'user',
-      user.toMap(),
+      user.toJson(),
       where: 'user_id=?',
       whereArgs: [user.id],
     );
     return count;
   }
 
-  //delete databases
   Future<int> delete(String id) async {
-    Database db = await this.db;
     int count = await db.delete(
       'user',
       where: 'id=?',

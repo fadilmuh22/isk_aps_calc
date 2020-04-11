@@ -7,23 +7,23 @@ class IndicatorModel {
     this.id,
     this.category,
     this.subcategory,
-    this.name = 'fadil',
+    this.name,
     this.variable,
     this.type,
     this.defaultValue,
   });
 
-  IndicatorModel.fromMap(Map<String, dynamic> map) {
-    id = map['indicator_id'];
-    category = map['indicator_category'];
-    subcategory = map['indicator_subcategory'];
-    name = map['indicator_name'];
-    variable = map['indicator_variable'];
-    type = map['indicator_type'];
-    defaultValue = map['default_value'];
+  IndicatorModel.fromJson(Map<String, dynamic> json) {
+    id = json['indicator_id'];
+    category = json['indicator_category'];
+    subcategory = json['indicator_subcategory'];
+    name = json['indicator_name'];
+    variable = json['indicator_variable'];
+    type = json['indicator_type'];
+    defaultValue = json['default_value'];
   }
 
-  Map<String, dynamic> toMap(IndicatorModel indicator) => {
+  Map<String, dynamic> toJson() => {
         'indicator_id': id,
         'indicator_category': category,
         'indicator_subcategory': subcategory,

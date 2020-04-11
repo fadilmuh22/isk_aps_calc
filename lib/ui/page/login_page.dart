@@ -68,7 +68,6 @@ class _LoginPageState extends State<LoginPage> {
       bool succeed = await Provider.of<LoginBloc>(context, listen: false)
           .localLogin(LoginModel(email: email, password: password));
 
-      print('ini kepanggil $succeed');
       setIsLoading(false);
 
       loginDialog(

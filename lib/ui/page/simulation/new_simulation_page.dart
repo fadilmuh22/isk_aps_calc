@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/data/model/jumlah_lulusan_model.dart';
 
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
@@ -10,7 +11,6 @@ import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
 
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
-import 'package:isk_aps_calc/data/model/field_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 
 class NewSimulationPage extends StatefulWidget {
@@ -23,7 +23,29 @@ class NewSimulationPage extends StatefulWidget {
 class _NewSimulationPageState extends State<NewSimulationPage> {
   final _formKey = GlobalKey<FormState>();
 
-  String _educationStageName = '', _studyProgramName = '';
+  NewSimulationModel newSimulation = NewSimulationModel();
+
+  int educationStagesActive;
+  bool educationStagesInvalid = false;
+
+  final currentAccreditations = ['A', 'B', 'C'];
+
+  final jumlahLulusan = [
+    JumlahLulusanModel(type: Constants.lulusanNormal),
+    JumlahLulusanModel(type: Constants.lulusanTerlacak),
+    JumlahLulusanModel(type: Constants.lulusanTanggap),
+  ];
+
+  final List<Color> educationStagesColors = [
+    Color(0xff08CA1C),
+    Color(0xffED9818),
+    Color(0xff1D73C2),
+    Color(0xffDB1616),
+    Color(0xff971DC2),
+    Color(0xff90630C),
+    Color(0xffB99E67),
+    Color(0xffAD78F0),
+  ];
 
   final List<Map<String, dynamic>> educationStages = [
     {
@@ -68,69 +90,36 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
     },
   ];
 
-  final List<Color> educationStagesColors = [
-    Color(0xff08CA1C),
-    Color(0xffED9818),
-    Color(0xff1D73C2),
-    Color(0xffDB1616),
-    Color(0xff971DC2),
-    Color(0xff90630C),
-    Color(0xffB99E67),
-    Color(0xffAD78F0),
-  ];
-
-  final jumlahLulusan = {
-    'normal': [
-      FieldModel(name: 'Jumlah Lulusan TS-4'),
-      FieldModel(name: 'Jumlah Lulusan TS-3'),
-      FieldModel(name: 'Jumlah Lulusan TS-2'),
-    ],
-    'terlacak': [
-      FieldModel(name: 'Jumlah Lulusan TS-4'),
-      FieldModel(name: 'Jumlah Lulusan TS-3'),
-      FieldModel(name: 'Jumlah Lulusan TS-2'),
-    ],
-    'tanggap': [
-      FieldModel(name: 'Jumlah Lulusan TS-4'),
-      FieldModel(name: 'Jumlah Lulusan TS-3'),
-      FieldModel(name: 'Jumlah Lulusan TS-2'),
-    ]
-  };
-
-  int educationStagesActive;
-  bool educationStagesInvalid = false;
+  @override
+  void dispose() {
+    _formKey.currentState.dispose();
+    super.dispose();
+  }
 
   void toggleEducationStagesActive(int index) {
     setState(() {
-      _educationStageName = educationStages[index]['name'];
-      print(_educationStageName);
+      newSimulation.educationStageName = educationStages[index]['name'];
+      print(newSimulation.educationStageName);
       educationStagesActive = index;
     });
   }
 
   handleNextButton() {
-    if (_formKey.currentState.validate() && _educationStageName.isNotEmpty) {
+    if (newSimulation.educationStageName != null &&
+        newSimulation.educationStageName.isNotEmpty) {
+      //_formKey.currentState.validate() &&
       _formKey.currentState.save();
 
-      var model = NewSimulationModel(
-        educationStageName: _educationStageName,
-        studyProgramName: _studyProgramName,
-      );
-
-      Provider.of<SimulationBloc>(context, listen: false).newSimulation = model;
+      Provider.of<SimulationBloc>(context, listen: false).newSimulation =
+          newSimulation;
 
       Navigator.pushNamed(context, IndicatorPage.tag);
-    } else if (_educationStageName.isEmpty) {
+    } else if (newSimulation.educationStageName == null ||
+        newSimulation.educationStageName.isEmpty) {
       setState(() {
         educationStagesInvalid = true;
       });
     }
-  }
-
-  @override
-  void dispose() {
-    _formKey.currentState.dispose();
-    super.dispose();
   }
 
   @override
@@ -143,29 +132,23 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                SizedBox(height: 20),
-                prodiNameContainer(),
-                SizedBox(height: 20),
-                studyProgramsContainer(),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    children: <Widget>[
-                      jumlahLulusanNormalContainer(),
-                      SizedBox(height: 24),
-                      jumlahLulusanTerlacakContainer(),
-                      SizedBox(height: 24),
-                      if (educationStagesActive != null &&
-                          educationStagesActive > 3)
-                        jumlahLulusanTanggapContainer(),
-                      SizedBox(height: 24),
-                      SizedBox(height: 24),
-                    ],
-                  ),
+                SizedBox(height: 20.0),
+                studyProgramNameContainer(),
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: currentAccreditation(),
                 ),
+                SizedBox(height: 20.0),
+                educationStagesContainer(),
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: jumlahLulusanContainer(),
+                ),
+                SizedBox(height: 36.0),
                 nextButton(),
-                SizedBox(height: 20),
+                SizedBox(height: 20.0),
               ],
             ),
           ),
@@ -174,7 +157,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
     );
   }
 
-  Widget prodiNameContainer() => Container(
+  Widget studyProgramNameContainer() => Container(
         padding: EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -185,7 +168,40 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         ),
       );
 
-  Widget studyProgramsContainer() => Container(
+  Widget currentAccreditation() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('Accreditasi Saat Ini:'),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: DropdownButton(
+                value: newSimulation.currentAccreditation,
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.transparent,
+                ),
+                onChanged: (newValue) {
+                  setState(() {
+                    newSimulation.currentAccreditation = newValue;
+                  });
+                },
+                items: currentAccreditations.map((value) {
+                  return DropdownMenuItem(
+                    child: new Text(value),
+                    value: value,
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget educationStagesContainer() => Container(
         padding: EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
@@ -206,63 +222,64 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         ),
       );
 
-  Widget jumlahLulusanNormalContainer() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          Constants.lulusanNormal,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        ...List.generate(jumlahLulusan['normal'].length, (index) {
-          return _jumlahLulusanItem(
-            jumlahLulusan['normal'][index].name,
-            (value) => jumlahLulusan['normal'][index].value = value,
-          );
-        }),
-      ],
-    );
-  }
-
-  Widget jumlahLulusanTerlacakContainer() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          Constants.lulusanTerlacak,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        ...List.generate(jumlahLulusan['terlacak'].length, (index) {
-          return _jumlahLulusanItem(
-            jumlahLulusan['terlacak'][index].name,
-            (value) => jumlahLulusan['terlacak'][index].value = value,
-          );
-        }),
-      ],
-    );
-  }
-
-  Widget jumlahLulusanTanggapContainer() {
+  Widget jumlahLulusanContainer() {
     return Column(
       children: <Widget>[
-        Text(
-          Constants.lulusanTanggap,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        ...List.generate(jumlahLulusan['tanggap'].length, (index) {
-          return _jumlahLulusanItem(
-            jumlahLulusan['tanggap'][index].name,
-            (value) => jumlahLulusan['tanggap'][index].value = value,
-          );
+        ...List.generate(jumlahLulusan.length, (index) {
+          if (jumlahLulusan[index].type == Constants.lulusanTanggap &&
+                  educationStagesActive != null &&
+                  educationStagesActive == 3 ||
+              educationStagesActive == 4) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    jumlahLulusan[index].type,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ...List.generate(jumlahLulusan[index].title.length, (index) {
+                    jumlahLulusan[index].value =
+                        new List(jumlahLulusan[index].title.length);
+                    return _jumlahLulusanItem(
+                      jumlahLulusan[index].title[index],
+                      (value) => jumlahLulusan[index].value[index] = value,
+                    );
+                  }),
+                ],
+              ),
+            );
+          } else if (jumlahLulusan[index].type != Constants.lulusanTanggap) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    jumlahLulusan[index].type,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ...List.generate(jumlahLulusan[index].title.length, (index) {
+                    jumlahLulusan[index].value =
+                        new List(jumlahLulusan[index].title.length);
+                    return _jumlahLulusanItem(
+                      jumlahLulusan[index].title[index],
+                      (value) => jumlahLulusan[index].value[index] = value,
+                    );
+                  }),
+                ],
+              ),
+            );
+          } else {
+            return Container();
+          }
         }),
       ],
     );
@@ -305,7 +322,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             }
             return null;
           },
-          onSaved: (value) => _studyProgramName = value,
+          onSaved: (value) => newSimulation.studyProgramName = value,
           decoration: InputDecoration(
             suffixIcon: Icon(Icons.edit),
             border: new UnderlineInputBorder(

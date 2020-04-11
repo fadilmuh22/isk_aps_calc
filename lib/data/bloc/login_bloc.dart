@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
 import 'package:dbcrypt/dbcrypt.dart';
-import 'package:flutter/foundation.dart';
-import 'package:isk_aps_calc/data/app_storage.dart';
-
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:isk_aps_calc/data/app_storage.dart';
 
 import 'package:isk_aps_calc/data/app_database.dart';
 import 'package:isk_aps_calc/data/model/login_model.dart';
@@ -47,7 +47,7 @@ class LoginBloc extends ChangeNotifier {
       ));
       AppStorage().write(
         key: 'user',
-        value: jsonEncode(user.toMap()),
+        value: jsonEncode(user.toJson()),
       );
 
       loginMessage = flash('Login Berhasil', 'Berhasil login dengan google');
@@ -64,9 +64,9 @@ class LoginBloc extends ChangeNotifier {
       // bool isCorrect = DBCrypt().checkpw(data.password, user.password);
       bool isCorrect = true;
       if (isCorrect) {
-        AppStorage().write(
+        await AppStorage().write(
           key: 'user',
-          value: jsonEncode(user.toMap()),
+          value: jsonEncode(user.toJson()),
         );
         loginMessage = flash('Login Berhasil', 'Welcome ${user.name} ');
         return true;
@@ -74,8 +74,6 @@ class LoginBloc extends ChangeNotifier {
       loginMessage = flash('Login Gagal', 'Password anda tidak sesuai');
       return false;
     }
-
-    print('selesai');
 
     loginMessage = flash('Login Gagal', 'Tidak ada email yang cocok');
     return false;
