@@ -99,7 +99,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   void toggleEducationStagesActive(int index) {
     setState(() {
       newSimulation.educationStageName = educationStages[index]['name'];
-      print(newSimulation.educationStageName);
       educationStagesActive = index;
     });
   }

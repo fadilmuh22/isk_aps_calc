@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
+
 import 'package:isk_aps_calc/data/model/indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
 import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
-import 'package:provider/provider.dart';
 
 enum IndicatorField {
   number,
@@ -52,7 +54,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             name:
                 'Jumlah dosen tetap yang ditugaskan sebagai pengampu mata kuliah dengan bidang keahlian yang sesuai dengan kompetensi inti program studi yang diakreditasi',
             variable: 'NDTPS',
-            type: 4,
+            type: 1,
             defaultValue: '',
           ),
           IndicatorModel(
@@ -87,27 +89,27 @@ class _IndicatorPageState extends State<IndicatorPage>
             category: 'ic1',
             subcategory: 'is1',
             name: 'Jumlah dosen tetap yang iakreditasi',
-            variable: 'NDTPS',
+            variable: 'NDTPS1',
             type: 3,
-            defaultValue: '',
+            defaultValue: '1',
           ),
           IndicatorModel(
             id: 2,
             category: 'ic1',
             subcategory: 'is2',
             name: 'Jumlah DTPS yang berpendidikan',
-            variable: 'NDS3',
+            variable: 'NDTPS1',
             type: 3,
-            defaultValue: '',
+            defaultValue: '2',
           ),
           IndicatorModel(
             id: 3,
             category: 'ic1',
             subcategory: 'is3',
             name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
-            variable: 'NDGB',
+            variable: 'NDTPS1',
             type: 3,
-            defaultValue: '',
+            defaultValue: '3',
           ),
         ],
       ),
@@ -115,7 +117,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         educationStage: 1,
         indicatorCategory: 'ic1',
         indicatorSubcategory: 'is1',
-        indicatorCategoryName: 'Dosen Tetap',
+        indicatorCategoryName: 'Dosen Tetap Aja',
         indicator: [
           IndicatorModel(
             id: 1,
@@ -123,8 +125,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             subcategory: 'is1',
             name:
                 'Jumlah dosen tetap yang ditugaskan sebagai pengampu mata kuliah dengan bidang keahlian yang sesuai dengan kompetensi inti program studi yang diakreditasi',
-            variable: 'NDTPS',
-            type: 1,
+            variable: 'NDTPS2',
+            type: 2,
             defaultValue: '',
           ),
           IndicatorModel(
@@ -133,8 +135,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             subcategory: 'is2',
             name:
                 'Jumlah DTPS yang berpendidikan tertinggi Doktor/Doktor Terapan/Subspesialis',
-            variable: 'NDS3',
-            type: 1,
+            variable: 'NDS32',
+            type: 2,
             defaultValue: '',
           ),
           IndicatorModel(
@@ -142,8 +144,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             category: 'ic1',
             subcategory: 'is3',
             name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
-            variable: 'NDGB',
-            type: 1,
+            variable: 'NDGB2',
+            type: 2,
             defaultValue: '',
           ),
         ],
@@ -152,7 +154,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         educationStage: 1,
         indicatorCategory: 'ic1',
         indicatorSubcategory: 'is1',
-        indicatorCategoryName: 'Dosen Tetap',
+        indicatorCategoryName: 'Dosen Bukan Ya',
         indicator: [
           IndicatorModel(
             id: 1,
@@ -160,9 +162,9 @@ class _IndicatorPageState extends State<IndicatorPage>
             subcategory: 'is1',
             name:
                 'Jumlah dosen tetap yang ditugaskan sebagai pengampu mata kuliah dengan bidang keahlian yang sesuai dengan kompetensi inti program studi yang diakreditasi',
-            variable: 'NDTPS',
+            variable: 'NDTPS3',
             type: 4,
-            defaultValue: '',
+            defaultValue: 'a',
           ),
           IndicatorModel(
             id: 2,
@@ -170,18 +172,18 @@ class _IndicatorPageState extends State<IndicatorPage>
             subcategory: 'is2',
             name:
                 'Jumlah DTPS yang berpendidikan tertinggi Doktor/Doktor Terapan/Subspesialis',
-            variable: 'NDS3',
+            variable: 'NDS33',
             type: 4,
-            defaultValue: '',
+            defaultValue: 'b',
           ),
           IndicatorModel(
             id: 3,
             category: 'ic1',
             subcategory: 'is3',
             name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
-            variable: 'NDGB',
+            variable: 'NDGB3',
             type: 4,
-            defaultValue: '',
+            defaultValue: 'c',
           ),
         ],
       ),
@@ -328,7 +330,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         return Theme(
           child: TextFormField(
             key: UniqueKey(),
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
             autofocus: false,
             validator: (value) {
               if (value.isEmpty) {
@@ -373,14 +375,16 @@ class _IndicatorPageState extends State<IndicatorPage>
         );
         break;
       case IndicatorField.checkbox:
-        map[indicator.variable] = false;
         return CheckboxListTile(
           key: UniqueKey(),
           title: Text(indicator.name),
-          value: map[indicator.variable],
+          value: map[indicator.variable] == indicator.defaultValue,
           onChanged: (value) {
             setState(() {
-              map[indicator.variable] = value;
+              map[indicator.variable] =
+                  map[indicator.variable] == indicator.defaultValue
+                      ? ''
+                      : indicator.defaultValue;
             });
           },
         );

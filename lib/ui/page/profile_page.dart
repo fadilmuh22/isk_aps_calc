@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -33,6 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
     loadImageFromPreferences();
     AppStorage().read(key: 'user').then((data) => setState(() {
           user = UserModel.fromJson(jsonDecode(data));
+          user.institute = 'Nama Institute Anda';
         }));
   }
 
@@ -46,6 +48,8 @@ class _ProfilePageState extends State<ProfilePage> {
         height: 150.0,
       );
     });
+    bool success = await ImageUploadUtil.saveImageToPreferences(
+        ImageUploadUtil.base64String(file.readAsBytesSync()));
   }
 
   loadImageFromPreferences() {
@@ -83,8 +87,8 @@ class _ProfilePageState extends State<ProfilePage> {
         showDialog(
           context: context,
           child: AlertDialog(
-            title: Text('Success'),
-            content: Text('Data Updated Successfuly'),
+            title: Text('Berhasil'),
+            content: Text('Data Berhasil Diupdate'),
             actions: [
               FlatButton(
                 child: Text('OK'),
@@ -100,8 +104,8 @@ class _ProfilePageState extends State<ProfilePage> {
         showDialog(
           context: context,
           child: AlertDialog(
-            title: Text('Failed'),
-            content: Text('Data Not Updated'),
+            title: Text('Gagal'),
+            content: Text('Data Gagal Diupdate'),
             actions: [
               FlatButton(
                 child: Text('OK'),
@@ -134,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       autofocus: false,
                       initialValue: user.name,
                       decoration: InputDecoration(
-                        labelText: 'Name',
+                        labelText: 'Nama',
                       ),
                       onSaved: (value) => name = value,
                     ),
@@ -146,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       autofocus: false,
                       initialValue: user.institute,
                       decoration: InputDecoration(
-                        labelText: 'institute',
+                        labelText: 'Institusi',
                       ),
                       onSaved: (value) => institute = value,
                     ),
@@ -154,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: RaisedButton(
-                      child: Text("Save"),
+                      child: Text("Simpan"),
                       onPressed: onSaveForm,
                     ),
                   )
@@ -167,6 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   logoutUser() async {
     await AppStorage().delete(key: 'user');
+    GoogleSignIn().signOut();
     Navigator.pushReplacementNamed(context, LoginPage.tag);
   }
 
@@ -191,67 +196,69 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Column userDetailProfile() {
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              user.name,
-              style: Constants.titleStyle,
-            ),
-            SizedBox(width: 16.0),
-            IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Constants.accentColor,
+  Widget userDetailProfile() {
+    return Center(
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                user.name,
+                style: Constants.titleStyle,
               ),
-              onPressed: showModalForm,
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 36.0,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(Icons.email),
-            SizedBox(width: 16.0),
-            Text(
-              user.email,
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 36.0,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(Icons.account_balance),
-            SizedBox(width: 16.0),
-            Text(
-              user.institute,
-            ),
-          ],
-        ),
-        SizedBox(height: 64.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomRoundedButton(
-              color: Constants.accentColor,
-              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-              items: <Widget>[
-                Text('Logout'),
-              ],
-              onPressed: logoutUser,
-            ),
-          ],
-        ),
-      ],
+              SizedBox(width: 16.0),
+              IconButton(
+                icon: Icon(
+                  Icons.edit,
+                  color: Constants.accentColor,
+                ),
+                onPressed: showModalForm,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 36.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.email),
+              SizedBox(width: 16.0),
+              Text(
+                user.email,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 36.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.account_balance),
+              SizedBox(width: 16.0),
+              Text(
+                user.institute,
+              ),
+            ],
+          ),
+          SizedBox(height: 64.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CustomRoundedButton(
+                color: Constants.accentColor,
+                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                items: <Widget>[
+                  Text('Logout'),
+                ],
+                onPressed: logoutUser,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

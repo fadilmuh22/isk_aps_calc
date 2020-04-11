@@ -77,7 +77,7 @@ class AppDatabase {
       add constraint indicator_pk
         primary key (indicator_id);
     ''',
-  ]; //'${Password.hash('adminspmtelu', new PBKDF2())}',
+  ];
 
   Future initDb() async {
     Directory directory = await getApplicationDocumentsDirectory();
@@ -95,7 +95,7 @@ class AppDatabase {
       } catch (_) {}
 
       // Copy from asset
-      ByteData data = await rootBundle.load(join("assets", "example.db"));
+      ByteData data = await rootBundle.load(join("assets", "isk_aps.db"));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
@@ -156,7 +156,7 @@ class AppDatabase {
   Future<int> delete(String id) async {
     int count = await db.delete(
       'user',
-      where: 'id=?',
+      where: 'user_id=?',
       whereArgs: [id],
     );
     return count;

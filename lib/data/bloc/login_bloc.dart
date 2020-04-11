@@ -19,38 +19,34 @@ class LoginBloc extends ChangeNotifier {
     GoogleSignInAccount data;
     try {
       data = await _googleSignIn.signIn();
+      print(data);
     } catch (e) {
-      print('dapet exception nih $e');
+      print('$e');
     }
 
     if (data != null) {
       var user = await AppDatabase().selectOne(data.email);
-
       if (user != null) {
         loginMessage = flash('Login Gagal', 'Email anda sudah terdaftar');
         return false;
       }
 
-      _googleSignIn.onCurrentUserChanged
-          .listen((GoogleSignInAccount account) async {
-        if (account != null) {
-        } else {}
-      });
-      _googleSignIn.signInSilently().whenComplete(() {});
-
-      AppDatabase().insert(UserModel(
+      await AppDatabase().insert(UserModel(
         id: data.id,
         name: data.displayName,
         email: data.email,
         password: DBCrypt().hashpw('12345', new DBCrypt().gensalt()),
         status: 1.toString(),
       ));
-      AppStorage().write(
+      await AppStorage().write(
         key: 'user',
         value: jsonEncode(user.toJson()),
       );
 
-      loginMessage = flash('Login Berhasil', 'Berhasil login dengan google');
+      loginMessage = flash(
+        'Login Berhasil',
+        'Berhasil login dengan google\nSilahkan Lanjutkan Login Dengan Email Google Yang Sudah Terdaftar',
+      );
       return true;
     }
 

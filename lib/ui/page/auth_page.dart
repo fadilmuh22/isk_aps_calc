@@ -9,10 +9,6 @@ import 'package:isk_aps_calc/ui/page/onboarding_page.dart';
 class AuhthenticationPage extends StatefulWidget {
   static String tag = '/auth';
 
-  final String authType;
-
-  AuhthenticationPage({this.authType});
-
   @override
   _AuhthenticationPageState createState() => _AuhthenticationPageState();
 }

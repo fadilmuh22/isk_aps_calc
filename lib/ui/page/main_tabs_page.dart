@@ -32,11 +32,35 @@ class _MainTabsState extends State<MainTabs> {
     });
   }
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Konfirmasi'),
+            content: new Text('Apakah Anda Yakin Ingin Keluar Dari Aplikasi?'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('Tidak'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Ya'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(context) {
-    return Scaffold(
-      body: getCurrentPage(),
-      bottomNavigationBar: bottomNavigationBar(),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: getCurrentPage(),
+        bottomNavigationBar: bottomNavigationBar(),
+      ),
     );
   }
 

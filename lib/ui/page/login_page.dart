@@ -51,7 +51,6 @@ class _LoginPageState extends State<LoginPage> {
             FlatButton(
               child: Text('OK'),
               onPressed: () {
-                print('ini berhasil $succeed');
                 Navigator.of(context).pop();
                 if (succeed)
                   Navigator.of(context).pushReplacementNamed(MainTabs.tag);
