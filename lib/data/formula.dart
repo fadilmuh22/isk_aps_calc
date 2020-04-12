@@ -535,4 +535,24 @@ class Formula {
 
     return newScores;
   }
+
+  static double f23() {
+    double newScores;
+
+    newScores = map['A'];
+    
+    return newScores;
+  }
+
+  static double f24() {
+    double newScores;
+
+    newScores = map['B'];
+    
+    return newScores;
+  }
+
+  static String getAccreditation() {
+   return 'TERAKREDITASI UNGGUL'; 
+  }
 }
