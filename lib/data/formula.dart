@@ -197,7 +197,7 @@ class Formula {
 
     if (map['PBS'] >= 60) {
       formula = 4;
-    } else if (map['PBS'] > 18) {
+    } else if (map['PBS'] < 60) {
       formula = (20 * map['PBS']) / 3;
     }
 
@@ -548,6 +548,86 @@ class Formula {
     double newScores;
 
     newScores = map['B'];
+    
+    return newScores;
+  }
+
+  static double f25() {
+    double newScores;
+
+    newScores = map['C'];
+    
+    return newScores;
+  }
+
+  static double f26() {
+    double newScores;
+
+    newScores = map['D'];
+    
+    return newScores;
+  }
+
+  static double f27() {
+    double newScores;
+
+    newScores = map['E'];
+    
+    return newScores;
+  }
+
+  static double f28() {
+    double newScores;
+
+    newScores = map['F'];
+    
+    return newScores;
+  }
+
+  static double f29() {
+    double newScores;
+    double newPJ;
+    double newPrmin;
+    double formula;
+
+    newPJ = ((map['NLtotal'] / map['NJtotal']) * 100);
+
+    if ((map['NLtotal'] >= 300)) {
+      newPrmin = 30;
+    } else if (map['NLtotal'] < 300) {
+      newPrmin = ((50 / 100) - ((map['NLtotal'] / 300) * (20 / 100))) * 100;
+    }
+
+    if (map['PBS'] >= 80) {
+      formula = 4;
+    } else if (map['PBS'] < 80) {
+      formula = (5 * map['PBS']);
+    }
+
+    if (newPJ >= newPrmin) {
+      newScores = formula;
+    } else {
+      newScores = ((newPJ / newPrmin) * formula);
+    }
+
+    map['PJ'] = newPJ;
+    map['Prmin'] = newPrmin;
+
+    return newScores;
+  }
+
+  static double f30() {
+    double newScores;
+
+    newScores = map['N'];
+    
+    return newScores;
+  }
+
+  static double f31() {
+    double newScores;
+
+    newScores = map['O'];
     
     return newScores;
   }
