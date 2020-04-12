@@ -312,5 +312,227 @@ class Formula {
     return newScores;
   }
 
-  static double f11() {}
+  static double f11() {
+    double newScores;
+    double newPGBLK;
+
+    newPGBLK = (((map['NDGB'] + map['NDLK']) / map['NDTPS']) * (100 / 100));
+    map['PGBLK'] = newPGBLK;
+
+    if (map['PGBLK'] >= (70 / 100)) {
+      newScores = 4;
+    } else if (map['PGBLK'] < (70 / 100)) {
+      newScores = ((2 + (20 * map['PGBLK'])) / 7);
+    }
+
+    return newScores;
+  }
+
+  static double f12() {
+    double newScores;
+    double newPGBLK;
+
+    newPGBLK = (((map['NDGB'] + map['NDLK']) / map['NDTPS']) * (100 / 100));
+    map['PGBLK'] = newPGBLK;
+    
+    if ((map['NDGB'] >= 2) && (map['PGBLK'] >= (70 / 100))) {
+      newScores = 4;
+    } else if ((map['NDGB'] >= 2) && (map['PGBLK'] < (70 / 100))) {
+      newScores = ((2 + (20 * map['PGBLK'])) / 7);
+    } else {
+      // NDGB < 2
+      newScores = 0;
+    }
+
+    return newScores;
+  }
+
+  static double f13() {
+    double newScores;
+    double newPGB;
+    
+    newPGB = ((map['NDGB'] / map['NDTPS']) * (100 / 100));
+    map['PGB'] = newPGB;
+    
+    if ((map['NDGB'] >= 2) && (map['PGB'] >= (70 / 100))) {
+      newScores = 4;
+    } else if ((map['NDGB'] >= 2) && (map['PGB'] < (70 / 100))) {
+      newScores = ((2 + (20 * map['PGB'])) / 7);
+    } else {
+      // NDGB < 2
+      newScores = 0;
+    }
+
+    return newScores;
+  }
+
+  static double f15() {
+    double newScores;
+    double newRDPS;
+    
+    newRDPS = (map['NDT'] / map['NPS']);
+    map['RDPS'] = newRDPS;
+    
+    if (map['RDPS'] >= 10) {
+      newScores = 4;
+    } else if ((map['RDPS'] >= 5) && (map['RDPS'] < 10)) {
+      newScores = ((2 * map['RDPS']) / 5);
+    } else {
+      // RDPS < 5
+      newScores = 0;
+    }
+
+    return newScores;
+  }
+
+  static double f16() {
+    double newScores;
+    double newPDTT;
+    
+    newPDTT = (((map['NDTT'] / map['NDT']) / map['NDTT']) * (100 / 100));
+    map['PDTT'] = newPDTT;
+    
+    if (map['PDTT'] >= (10 / 100)) {
+      newScores = 4;
+    } else if ((map['PDTT'] > (10 / 100)) && (map['PDTT']) <= (40 / 100)) {
+      newScores = ((14 - (20 * map['PDTT'])) / 3);
+    } else {
+      // PDTT > 40%
+      newScores = 0;
+    }
+
+    return newScores;
+  }
+
+  static double f17() {
+    double newScores;
+    
+    newScores = ((map['A'] + (2 * map['B'])) / 3);
+    map['N2'] = newScores;
+
+    return newScores;
+  }
+
+  static double f18() {
+    double newScores;
+    double newRL;
+    double newRN;
+    double newRI;
+    
+    newRL =
+        (((map['NA1'] + map['NB1'] + map['NC1']) / map['NM']) * (100 / 100));
+    newRN = (((map['NA2'] + map['NA3'] + map['NB2'] + map['NC2']) / map['NM']) *
+        (100 / 100));
+    newRI =
+        (((map['NA4'] + map['NB3'] + map['NC3']) / map['NM']) * (100 / 100));
+
+    map['RL'] = newRL;
+    map['RN'] = newRN;
+    map['RI'] = newRI;
+
+    if (map['RI'] >= (3 / 100)) {
+      newScores = 4;
+    } else if ((map['RI'] < (3 / 100)) && (map['RN'] >= (30 / 100))) {
+      newScores = (3 + (map['RI'] / (3 / 100)));
+    } else if (((map['RI'] < (3 / 100)) && (map['RI'] > 0)) &&
+        ((map['RN'] > 0) && (map['RN'] < (30 / 100)))) {
+      newScores = (2 +
+          (2 * (map['RI'] / (3 / 100))) +
+          (map['RN'] / (30 / 100)) -
+          ((map['RI'] * map['RN']) / ((3 / 100) * (30 / 100))));
+    } else if ((map['RI'] == 0) &&
+        (map['RN'] == 0) &&
+        (map['RL'] >= (90 / 100))) {
+      newScores = 2;
+    } else if ((map['RI'] == 0) &&
+        (map['RN'] == 0) &&
+        (map['RL'] < (90 / 100))) {
+      newScores = ((2 * map['RL']) / (90 / 100));
+    }
+
+    return newScores;
+  }
+
+  static double f19() {
+    double newScores;
+    
+    newScores = ((map['A'] + (2 * map['B'])) / 3);
+    map['N3'] = newScores;
+
+    return newScores;
+  }
+
+  static double f20() {
+    double newScores;
+    double newNSA;
+
+    newNSA = (((4 * map['NUnggul']) + (3.5 * map['NA']) + (3 * map['NBaik_Sekali']) + (2.5 * map['NB']) + (2 * map['NBaik']) + (1.5 * map['NC'])) / (map['NUnggul'] + map['NA'] + map['NBaik_Sekali'] + map['NB'] + map['NBaik'] + map['NC'] + map['NK']));
+    map['NSA'] = newNSA;
+
+    if (map['NSA'] >= 3.50) {
+      newScores = 4;
+    } else if (map['NSA'] < 3.50) {
+      newScores = (map['NSA'] + 0.5);
+    }
+
+    return newScores;
+  }
+
+  static double f21() {
+    double newScores;
+    double newRL;
+    double newRN;
+    double newRI;
+    
+    newRL = (map['NA1'] / map['NDT']);
+    newRN = ((map['NA2'] + map['NA3']) / map['NDT']);
+    newRI = (map['NA4'] / map['NDT']);
+
+    map['RL'] = newRL;
+    map['RN'] = newRN;
+    map['RI'] = newRI;
+
+    if (map['RI'] >= 0.1) {
+      newScores = 4;
+    } else if ((map['RI'] < 0.1) && (map['RN'] >= 1)) {
+      newScores = (3 + (map['RI'] + 0.1));
+    } else if ((map['RI'] > 0 && map['RI'] < 0.1) && (map['RN'] > 0 && map['RN'] < 1)) {
+      newScores = (2 + (2 * (map['RI'] / 0.1)) + (map['RN'] / 1) - ((map['RI'] * map['RN']) / (0.1 * 1)));
+    } else if ((map['RI'] == 0) && (map['RN'] == 0) && (map['RL'] >= 2)) {
+      newScores = 2;
+    } else if ((map['RI'] == 0) && (map['RN'] == 0) && (map['RL'] < 2)) {
+      newScores = ((2 * map['RL']) / 2);
+    }
+
+    return newScores;
+  }
+
+  static double f22() {
+    double newScores;
+    double newRL;
+    double newRN;
+    double newRI;
+    
+    newRL = (map['NA1'] / map['NDT']);
+    newRN = ((map['NA2'] + map['NA3']) / map['NDT']);
+    newRI = (map['NA4'] / map['NDT']);
+
+    map['RL'] = newRL;
+    map['RN'] = newRN;
+    map['RI'] = newRI;
+
+    if (map['RI'] >= 0.05) {
+      newScores = 4;
+    } else if ((map['RI'] < 0.05) && (map['RN'] >= 0.5)) {
+      newScores = (3 + (map['RI'] + 0.05));
+    } else if ((map['RI'] > 0 && map['RI'] < 0.05) && (map['RN'] > 0 && map['RN'] < 0.5)) {
+      newScores = (2 + (2 * (map['RI'] / 0.05)) + (map['RN'] / 0.5) - ((map['RI'] * map['RN']) / (0.05 * 0.5)));
+    } else if ((map['RI'] == 0) && (map['RN'] == 0) && (map['RL'] >= 2)) {
+      newScores = 2;
+    } else if ((map['RI'] == 0) && (map['RN'] == 0) && (map['RL'] < 2)) {
+      newScores = ((2 * map['RL']) / 2);
+    }
+
+    return newScores;
+  }
 }
