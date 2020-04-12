@@ -1,3 +1,5 @@
+import 'package:isk_aps_calc/data/model/jumlah_lulusan_model.dart';
+
 class NewSimulationModel {
   String studyProgramName, educationStageName, currentAccreditation;
   List<dynamic> jumlahLulusan;
@@ -21,4 +23,14 @@ class NewSimulationModel {
         'education_stage_name': educationStageName,
         'jumlah_lulusan': jumlahLulusan,
       };
+
+  Map<String, dynamic> getJumlahLulusan() {
+    Map<String, int> map;
+    jumlahLulusan.map((data) {
+      JumlahLulusanModel jumlahLulusan = data as JumlahLulusanModel;
+      int sum = jumlahLulusan.value.reduce((a, b) => a + b);
+      map[jumlahLulusan.variable] = sum / jumlahLulusan.value.length as int;
+    });
+    return map;
+  }
 }

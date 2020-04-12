@@ -23,18 +23,18 @@ class NewSimulationPage extends StatefulWidget {
 class _NewSimulationPageState extends State<NewSimulationPage> {
   final _formKey = GlobalKey<FormState>();
 
-  NewSimulationModel newSimulation = NewSimulationModel();
+  NewSimulationModel newSimulation = NewSimulationModel(
+    jumlahLulusan: [
+      JumlahLulusanModel(type: Constants.lulusanNormal, variable: 'NLtotal'),
+      JumlahLulusanModel(type: Constants.lulusanTerlacak, variable: 'NJtotal'),
+      JumlahLulusanModel(type: Constants.lulusanTanggap, variable: 'NJItotal'),
+    ],
+  );
 
   int educationStagesActive;
   bool educationStagesInvalid = false;
 
   final currentAccreditations = ['A', 'B', 'C'];
-
-  final jumlahLulusan = [
-    JumlahLulusanModel(type: Constants.lulusanNormal),
-    JumlahLulusanModel(type: Constants.lulusanTerlacak),
-    JumlahLulusanModel(type: Constants.lulusanTanggap),
-  ];
 
   final List<Color> educationStagesColors = [
     Color(0xff08CA1C),
@@ -224,8 +224,9 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   Widget jumlahLulusanContainer() {
     return Column(
       children: <Widget>[
-        ...List.generate(jumlahLulusan.length, (index) {
-          if (jumlahLulusan[index].type == Constants.lulusanTanggap &&
+        ...List.generate(newSimulation.jumlahLulusan.length, (index) {
+          if (newSimulation.jumlahLulusan[index].type ==
+                      Constants.lulusanTanggap &&
                   educationStagesActive != null &&
                   educationStagesActive == 3 ||
               educationStagesActive == 4) {
@@ -235,42 +236,49 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    jumlahLulusan[index].type,
+                    newSimulation.jumlahLulusan[index].type,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  ...List.generate(jumlahLulusan[index].title.length, (index) {
-                    jumlahLulusan[index].value =
-                        new List(jumlahLulusan[index].title.length);
+                  ...List.generate(
+                      newSimulation.jumlahLulusan[index].title.length, (index) {
+                    newSimulation.jumlahLulusan[index].value = new List(
+                        newSimulation.jumlahLulusan[index].title.length);
                     return _jumlahLulusanItem(
-                      jumlahLulusan[index].title[index],
-                      (value) => jumlahLulusan[index].value[index] = value,
+                      newSimulation.jumlahLulusan[index].title[index],
+                      (value) => newSimulation
+                          .jumlahLulusan[index].value[index] = value,
                     );
                   }),
                 ],
               ),
             );
-          } else if (jumlahLulusan[index].type != Constants.lulusanTanggap) {
+          } else if (newSimulation.jumlahLulusan[index].type !=
+              Constants.lulusanTanggap) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 36.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    jumlahLulusan[index].type,
+                    newSimulation.jumlahLulusan[index].type,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  ...List.generate(jumlahLulusan[index].title.length, (index) {
-                    jumlahLulusan[index].value =
-                        new List(jumlahLulusan[index].title.length);
+                  ...List.generate(
+                      newSimulation.jumlahLulusan[index].title.length, (index) {
+                    newSimulation.jumlahLulusan[index].value = new List(
+                      newSimulation.jumlahLulusan[index].title.length,
+                    );
+
                     return _jumlahLulusanItem(
-                      jumlahLulusan[index].title[index],
-                      (value) => jumlahLulusan[index].value[index] = value,
+                      newSimulation.jumlahLulusan[index].title[index],
+                      (value) => newSimulation
+                          .jumlahLulusan[index].value[index] = value,
                     );
                   }),
                 ],

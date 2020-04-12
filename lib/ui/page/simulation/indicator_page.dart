@@ -44,7 +44,6 @@ class _IndicatorPageState extends State<IndicatorPage>
       MappingIndicatorModel(
         educationStage: 1,
         indicatorCategory: 'ic1',
-        indicatorSubcategory: 'is1',
         indicatorCategoryName: 'Dosen Tetap',
         indicator: [
           IndicatorModel(
@@ -56,6 +55,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDTPS',
             type: 1,
             defaultValue: '',
+            formula: 'f1',
           ),
           IndicatorModel(
             id: 2,
@@ -66,6 +66,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDS3',
             type: 1,
             defaultValue: '',
+            formula: 'f1',
           ),
           IndicatorModel(
             id: 3,
@@ -75,13 +76,13 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDGB',
             type: 1,
             defaultValue: '',
+            formula: 'f1',
           ),
         ],
       ),
       MappingIndicatorModel(
         educationStage: 2,
         indicatorCategory: 'ic2',
-        indicatorSubcategory: 'is2',
         indicatorCategoryName: 'Dosen Aja',
         indicator: [
           IndicatorModel(
@@ -92,6 +93,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDTPS1',
             type: 3,
             defaultValue: '1',
+            formula: 'f1',
           ),
           IndicatorModel(
             id: 2,
@@ -101,6 +103,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDTPS1',
             type: 3,
             defaultValue: '2',
+            formula: 'f1',
           ),
           IndicatorModel(
             id: 3,
@@ -110,13 +113,13 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDTPS1',
             type: 3,
             defaultValue: '3',
+            formula: 'f1',
           ),
         ],
       ),
       MappingIndicatorModel(
         educationStage: 1,
         indicatorCategory: 'ic1',
-        indicatorSubcategory: 'is1',
         indicatorCategoryName: 'Dosen Tetap Aja',
         indicator: [
           IndicatorModel(
@@ -128,6 +131,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDTPS2',
             type: 2,
             defaultValue: '',
+            formula: 'f1',
           ),
           IndicatorModel(
             id: 2,
@@ -138,6 +142,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDS32',
             type: 2,
             defaultValue: '',
+            formula: 'f1',
           ),
           IndicatorModel(
             id: 3,
@@ -147,13 +152,13 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDGB2',
             type: 2,
             defaultValue: '',
+            formula: 'f1',
           ),
         ],
       ),
       MappingIndicatorModel(
         educationStage: 1,
         indicatorCategory: 'ic1',
-        indicatorSubcategory: 'is1',
         indicatorCategoryName: 'Dosen Bukan Ya',
         indicator: [
           IndicatorModel(
@@ -165,6 +170,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDTPS3',
             type: 4,
             defaultValue: 'a',
+            formula: 'f1',
           ),
           IndicatorModel(
             id: 2,
@@ -175,6 +181,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDS33',
             type: 4,
             defaultValue: 'b',
+            formula: 'f1',
           ),
           IndicatorModel(
             id: 3,
@@ -184,6 +191,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             variable: 'NDGB3',
             type: 4,
             defaultValue: 'c',
+            formula: 'f1',
           ),
         ],
       ),
@@ -210,6 +218,11 @@ class _IndicatorPageState extends State<IndicatorPage>
     _formKey.currentState.save();
     if (_tabController.index != null) {
       if (_activeTabIndex == (indicator.length - 1)) {
+        setState(() {
+          map.addAll(Provider.of<SimulationBloc>(context, listen: false)
+              .newSimulation
+              .getJumlahLulusan());
+        });
         Provider.of<SimulationBloc>(context, listen: false).accreditate(map);
         Navigator.of(context).pushNamed(ResultPage.tag);
       } else {
