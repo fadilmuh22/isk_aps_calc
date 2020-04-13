@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/util/validator.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
@@ -121,17 +122,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         educationStagesInvalid = true;
       });
     }
-  }
-
-  String numberValidator(String value) {
-    if (value == null) {
-      return null;
-    }
-    final n = num.tryParse(value);
-    if (n == null) {
-      return '"$value" is not a valid number';
-    }
-    return null;
   }
 
   @override
@@ -451,7 +441,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         autofocus: false,
-                        validator: numberValidator,
+                        validator: Validator.numberValidator,
                         onSaved: onSaved,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.edit),

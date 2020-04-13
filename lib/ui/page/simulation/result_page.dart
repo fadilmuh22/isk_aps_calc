@@ -59,7 +59,7 @@ class _ResultPageState extends State<ResultPage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18.5),
             image: DecorationImage(
-              image: AssetImage('assets/images/result_card_bg.png'),
+              image: AssetImage('assets/images/result_card_bg_1.png'),
               fit: BoxFit.cover,
             ),
           ),

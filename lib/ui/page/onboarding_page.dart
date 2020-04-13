@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
+import 'package:isk_aps_calc/constants.dart';
 
 import 'package:isk_aps_calc/ui/page/login_page.dart';
 
@@ -20,47 +21,26 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     super.initState();
     slides.add(
       new Slide(
-        title: 'Ini Test',
-        description: '',
-        styleTitle: TextStyle(
-            color: Color.fromRGBO(0, 0, 0, 1.0),
-            fontSize: 24,
-            fontWeight: FontWeight.w500),
-        styleDescription: TextStyle(
-          color: Color.fromRGBO(0, 0, 0, 1.0),
-          fontSize: 18,
-        ),
+        pathImage: 'assets/images/onboarding_1.png',
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
+        widthImage: 320.0,
+        heightImage: 352.0,
       ),
     );
     slides.add(
       new Slide(
-        title: 'Ini Juga Test',
-        description: '',
-        styleTitle: TextStyle(
-            color: Color.fromRGBO(0, 0, 0, 1.0),
-            fontSize: 24,
-            fontWeight: FontWeight.w500),
-        styleDescription: TextStyle(
-          color: Color.fromRGBO(0, 0, 0, 1.0),
-          fontSize: 18,
-        ),
+        pathImage: 'assets/images/onboarding_2.png',
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
+        widthImage: 320.0,
+        heightImage: 352.0,
       ),
     );
     slides.add(
       new Slide(
-        title: 'Ini Yang Terakhir',
-        description: '',
-        styleTitle: TextStyle(
-            color: Color.fromRGBO(0, 0, 0, 1.0),
-            fontSize: 24,
-            fontWeight: FontWeight.w500),
-        styleDescription: TextStyle(
-          color: Color.fromRGBO(0, 0, 0, 1.0),
-          fontSize: 18,
-        ),
+        pathImage: 'assets/images/onboarding_2.png',
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
+        widthImage: 320.0,
+        heightImage: 352.0,
       ),
     );
   }

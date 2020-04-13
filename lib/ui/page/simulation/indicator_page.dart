@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/util/validator.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
@@ -167,12 +168,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             key: UniqueKey(),
             keyboardType: TextInputType.number,
             autofocus: false,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please provide value';
-              }
-              return null;
-            },
+            validator: Validator.numberValidator,
             onSaved: (value) => map[indicator.variable] = value,
             decoration: InputDecoration(
               suffixIcon: Icon(Icons.edit),
@@ -261,12 +257,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                     key: UniqueKey(),
                     keyboardType: TextInputType.number,
                     autofocus: false,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please provide value';
-                      }
-                      return null;
-                    },
+                    validator: Validator.numberValidator,
                     onSaved: (value) {
                       map[indicator.variable][index] = value;
                     },
