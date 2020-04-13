@@ -3,10 +3,10 @@ import 'package:flutter/foundation.dart';
 
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:isk_aps_calc/data/dao/user_dao.dart';
 
-import 'package:isk_aps_calc/data/app_storage.dart';
+import 'package:isk_aps_calc/data/repository/app_storage.dart';
 
-import 'package:isk_aps_calc/data/app_database.dart';
 import 'package:isk_aps_calc/data/model/login_model.dart';
 import 'package:isk_aps_calc/data/model/user_model.dart';
 
@@ -19,19 +19,18 @@ class LoginBloc extends ChangeNotifier {
     GoogleSignInAccount data;
     try {
       data = await _googleSignIn.signIn();
-      print(data);
     } catch (e) {
       print('$e');
     }
 
     if (data != null) {
-      var user = await AppDatabase().selectOne(data.email);
+      var user = await UserDao().selectOne(data.email);
       if (user != null) {
         loginMessage = flash('Login Gagal', 'Email anda sudah terdaftar');
         return false;
       }
 
-      await AppDatabase().insert(UserModel(
+      await UserDao().insert(UserModel(
         id: data.id,
         name: data.displayName,
         email: data.email,
@@ -55,7 +54,7 @@ class LoginBloc extends ChangeNotifier {
   }
 
   localLogin(LoginModel data) async {
-    UserModel user = await AppDatabase().selectOne(data.email);
+    UserModel user = await UserDao().selectOne(data.email);
     if (user != null) {
       // bool isCorrect = DBCrypt().checkpw(data.password, user.password);
       bool isCorrect = true;

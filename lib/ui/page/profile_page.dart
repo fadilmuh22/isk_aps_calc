@@ -6,8 +6,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:isk_aps_calc/constants.dart';
-import 'package:isk_aps_calc/data/app_database.dart';
-import 'package:isk_aps_calc/data/app_storage.dart';
+import 'package:isk_aps_calc/data/dao/user_dao.dart';
+import 'package:isk_aps_calc/data/repository/app_storage.dart';
 
 import 'package:isk_aps_calc/data/model/user_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
@@ -71,8 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
         user.institute = institute;
       });
 
-      int count = await AppDatabase().update(user);
-      UserModel userUpdated = await AppDatabase().selectOne(user.email);
+      int count = await UserDao().update(user);
+      UserModel userUpdated = await UserDao().selectOne(user.email);
       setState(() {
         user = userUpdated;
       });

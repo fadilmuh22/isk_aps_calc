@@ -28,8 +28,6 @@ class IndicatorPage extends StatefulWidget {
 
 class _IndicatorPageState extends State<IndicatorPage>
     with SingleTickerProviderStateMixin {
-  var indicator;
-
   Map<String, dynamic> map = Map<String, dynamic>();
   final _formKey = GlobalKey<FormState>();
 
@@ -37,165 +35,17 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   TabController _tabController;
 
+  var indicator;
+
   @override
   void initState() {
     super.initState();
-    indicator = [
-      MappingIndicatorModel(
-        educationStage: 1,
-        indicatorCategory: 'ic1',
-        indicatorCategoryName: 'Dosen Tetap',
-        indicator: [
-          IndicatorModel(
-            id: 1,
-            category: 'ic1',
-            subcategory: 'is1',
-            name:
-                'Jumlah dosen tetap yang ditugaskan sebagai pengampu mata kuliah dengan bidang keahlian yang sesuai dengan kompetensi inti program studi yang diakreditasi',
-            variable: 'NDTPS',
-            type: 1,
-            defaultValue: '',
-            formula: 'f1',
-          ),
-          IndicatorModel(
-            id: 2,
-            category: 'ic1',
-            subcategory: 'is2',
-            name:
-                'Jumlah DTPS yang berpendidikan tertinggi Doktor/Doktor Terapan/Subspesialis',
-            variable: 'NDS3',
-            type: 1,
-            defaultValue: '',
-            formula: 'f1',
-          ),
-          IndicatorModel(
-            id: 3,
-            category: 'ic1',
-            subcategory: 'is3',
-            name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
-            variable: 'NDGB',
-            type: 1,
-            defaultValue: '',
-            formula: 'f1',
-          ),
-        ],
-      ),
-      MappingIndicatorModel(
-        educationStage: 2,
-        indicatorCategory: 'ic2',
-        indicatorCategoryName: 'Dosen Aja',
-        indicator: [
-          IndicatorModel(
-            id: 1,
-            category: 'ic1',
-            subcategory: 'is1',
-            name: 'Jumlah dosen tetap yang iakreditasi',
-            variable: 'NDTPS1',
-            type: 3,
-            defaultValue: '1',
-            formula: 'f1',
-          ),
-          IndicatorModel(
-            id: 2,
-            category: 'ic1',
-            subcategory: 'is2',
-            name: 'Jumlah DTPS yang berpendidikan',
-            variable: 'NDTPS1',
-            type: 3,
-            defaultValue: '2',
-            formula: 'f1',
-          ),
-          IndicatorModel(
-            id: 3,
-            category: 'ic1',
-            subcategory: 'is3',
-            name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
-            variable: 'NDTPS1',
-            type: 3,
-            defaultValue: '3',
-            formula: 'f1',
-          ),
-        ],
-      ),
-      MappingIndicatorModel(
-        educationStage: 1,
-        indicatorCategory: 'ic1',
-        indicatorCategoryName: 'Dosen Tetap Aja',
-        indicator: [
-          IndicatorModel(
-            id: 1,
-            category: 'ic1',
-            subcategory: 'is1',
-            name:
-                'Jumlah dosen tetap yang ditugaskan sebagai pengampu mata kuliah dengan bidang keahlian yang sesuai dengan kompetensi inti program studi yang diakreditasi',
-            variable: 'NDTPS2',
-            type: 2,
-            defaultValue: '',
-            formula: 'f1',
-          ),
-          IndicatorModel(
-            id: 2,
-            category: 'ic1',
-            subcategory: 'is2',
-            name:
-                'Jumlah DTPS yang berpendidikan tertinggi Doktor/Doktor Terapan/Subspesialis',
-            variable: 'NDS32',
-            type: 2,
-            defaultValue: '',
-            formula: 'f1',
-          ),
-          IndicatorModel(
-            id: 3,
-            category: 'ic1',
-            subcategory: 'is3',
-            name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
-            variable: 'NDGB2',
-            type: 2,
-            defaultValue: '',
-            formula: 'f1',
-          ),
-        ],
-      ),
-      MappingIndicatorModel(
-        educationStage: 1,
-        indicatorCategory: 'ic1',
-        indicatorCategoryName: 'Dosen Bukan Ya',
-        indicator: [
-          IndicatorModel(
-            id: 1,
-            category: 'ic1',
-            subcategory: 'is1',
-            name:
-                'Jumlah dosen tetap yang ditugaskan sebagai pengampu mata kuliah dengan bidang keahlian yang sesuai dengan kompetensi inti program studi yang diakreditasi',
-            variable: 'NDTPS3',
-            type: 4,
-            defaultValue: 'a',
-            formula: 'f1',
-          ),
-          IndicatorModel(
-            id: 2,
-            category: 'ic1',
-            subcategory: 'is2',
-            name:
-                'Jumlah DTPS yang berpendidikan tertinggi Doktor/Doktor Terapan/Subspesialis',
-            variable: 'NDS33',
-            type: 4,
-            defaultValue: 'b',
-            formula: 'f1',
-          ),
-          IndicatorModel(
-            id: 3,
-            category: 'ic1',
-            subcategory: 'is3',
-            name: 'Jumlah DTPS yang memiliki jabatan akademik Guru Besar',
-            variable: 'NDGB3',
-            type: 4,
-            defaultValue: 'c',
-            formula: 'f1',
-          ),
-        ],
-      ),
-    ];
+
+    indicator =
+        Provider.of<SimulationBloc>(context, listen: false).mapIndicator;
+    map.addAll(Provider.of<SimulationBloc>(context, listen: false)
+        .newSimulation
+        .getJumlahLulusan());
 
     _tabController = TabController(vsync: this, length: indicator.length);
     _tabController.addListener((_setActiveTabIndex));
@@ -203,7 +53,6 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   @override
   void dispose() {
-    _formKey.currentState.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -218,12 +67,9 @@ class _IndicatorPageState extends State<IndicatorPage>
     _formKey.currentState.save();
     if (_tabController.index != null) {
       if (_activeTabIndex == (indicator.length - 1)) {
-        setState(() {
-          map.addAll(Provider.of<SimulationBloc>(context, listen: false)
-              .newSimulation
-              .getJumlahLulusan());
-        });
-        Provider.of<SimulationBloc>(context, listen: false).accreditate(map);
+        Provider.of<SimulationBloc>(context, listen: false)
+            .accreditate(map, indicator);
+
         Navigator.of(context).pushNamed(ResultPage.tag);
       } else {
         _tabController.animateTo((_tabController.index + 1));

@@ -1,24 +1,29 @@
 import 'package:flutter/foundation.dart';
+import 'package:isk_aps_calc/data/dao/indicator_dao.dart';
+
+import 'package:isk_aps_calc/data/formula.dart';
+import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 
 class SimulationBloc extends ChangeNotifier {
-  NewSimulationModel _newSimulation;
-  var indicator;
+  NewSimulationModel newSimulation;
+  List<MappingIndicatorModel> mapIndicator;
 
-  set newSimulation(NewSimulationModel newSimulation) {
-    _newSimulation = newSimulation;
+  Future mappingIndicator() async {
+    mapIndicator =
+        await IndicatorDao().mappingIndicator(newSimulation.educationStage);
+    notifyListeners();
   }
 
-  NewSimulationModel get newSimulation {
-    return _newSimulation;
-  }
-
-  accreditate(indicator) {
-    this.indicator = indicator;
-    return this.indicator;
+  void accreditate(
+    Map<String, dynamic> map,
+    List<MappingIndicatorModel> lmap,
+  ) {
+    mapIndicator = Formula().accreditate(map, lmap);
+    notifyListeners();
   }
 
   clear() {
-    _newSimulation = null;
+    newSimulation = null;
   }
 }

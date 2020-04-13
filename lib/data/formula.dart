@@ -1,53 +1,47 @@
-import 'dart:isolate';
+import 'package:serializable/serializable.dart';
 
-import 'package:isk_aps_calc/data/model/indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 
-class Formula {
-  static Map<String, dynamic> map;
+part 'formula.g.dart';
 
-  static checkDataLooping(
-      Map<String, dynamic> map, List<MappingIndicatorModel> lmap) {
-    Formula.map = map;
+@serializable
+class Formula extends _$FormulaSerializable {
+  // ? Create A Singleton
+  static final Formula _formula = Formula._internal();
+
+  factory Formula() {
+    return _formula;
+  }
+
+  Formula._internal();
+
+  Map<String, dynamic> mapVariable = {};
+
+  List<MappingIndicatorModel> accreditate(
+    Map<String, dynamic> map,
+    List<MappingIndicatorModel> lmap,
+  ) {
+    this.mapVariable = map;
     lmap.map((mappingIndicator) {
-      mappingIndicator.indicator.map((indicator) => mappingFormula(indicator));
+      mappingIndicator.indicator.map((indicator) {
+        indicator.value = mappingFormula(indicator.formula);
+      });
     });
+    mapVariable = {};
+    return lmap;
   }
 
-  static stringToFunction(String function) async {
-    final uri = Uri.dataFromString(
-      '''
-      import 'dart:isolate';
-      import 'package:isk_aps_calc/data/formula.dart';
-
-      void main(_, SendPort port) {
-        port.send(Formula.$function());
-      }
-      ''',
-      mimeType: 'application/dart',
-    );
-
-    final port = ReceivePort();
-    final isolate = await Isolate.spawnUri(uri, [], port.sendPort);
-    final String response = await port.first;
-
-    port.close();
-    isolate.kill();
-
-    print(response);
+  mappingFormula(String formula) {
+    return Formula()[formula];
   }
 
-  static mappingFormula(IndicatorModel indicatorModel) {
-    return stringToFunction(indicatorModel.formula);
-  }
-
-  static double f1() {
+  double f1() {
     double newScores;
 
-    if (map['NDTPS'] >= 12) {
+    if (mapVariable['NDTPS'] >= 12) {
       newScores = 4;
-    } else if (map['NDTPS'] < 12 && map['NDTPS'] >= 3) {
-      newScores = (2 * map['NDTPS']) / 9;
+    } else if (mapVariable['NDTPS'] < 12 && mapVariable['NDTPS'] >= 3) {
+      newScores = (2 * mapVariable['NDTPS']) / 9;
     } else {
       // NDTPS < 3
       newScores = 0;
@@ -56,13 +50,13 @@ class Formula {
     return newScores;
   }
 
-  static double f2() {
+  double f2() {
     double newScores;
 
-    if (map['NDTPS'] >= 6) {
+    if (mapVariable['NDTPS'] >= 6) {
       newScores = 4;
-    } else if (map['NDTPS'] < 6 && map['NDTPS'] >= 3) {
-      newScores = (2 * map['NDTPS']) / 3;
+    } else if (mapVariable['NDTPS'] < 6 && mapVariable['NDTPS'] >= 3) {
+      newScores = (2 * mapVariable['NDTPS']) / 3;
     } else {
       // NDTPS < 3
       newScores = 0;
@@ -71,67 +65,73 @@ class Formula {
     return newScores;
   }
 
-  static double f3() {
+  double f3() {
     double newScores;
     double newPDS3;
 
-    newPDS3 = ((map['NDS3'] / map['NDTPS']) * 100 / 100);
-    map['PDS3'] = newPDS3;
+    newPDS3 = ((mapVariable['NDS3'] / mapVariable['NDTPS']) * 100 / 100);
+    mapVariable['PDS3'] = newPDS3;
 
-    if (map['PDS3'] >= 50) {
+    if (mapVariable['PDS3'] >= 50) {
       newScores = 4;
-    } else if (map['PDS3'] < 50) {
-      newScores = (2 + (4 * map['PDS3']));
+    } else if (mapVariable['PDS3'] < 50) {
+      newScores = (2 + (4 * mapVariable['PDS3']));
     }
 
     return newScores;
   }
 
-  static double f4() {
+  double f4() {
     double newScores;
     double newPGBLKL;
 
     newPGBLKL =
-        (((map['NDGB'] + map['NDLK'] + map['NDL']) / map['NDTPS']) * 100 / 100);
-    map['PGBLKL'] = newPGBLKL;
+        (((mapVariable['NDGB'] + mapVariable['NDLK'] + mapVariable['NDL']) /
+                mapVariable['NDTPS']) *
+            100 /
+            100);
+    mapVariable['PGBLKL'] = newPGBLKL;
 
-    if (map['PGBLKL'] >= 70) {
+    if (mapVariable['PGBLKL'] >= 70) {
       newScores = 4;
-    } else if (map['PGBLKL'] < 70) {
-      newScores = (2 + (20 * map['PGBLKL']));
+    } else if (mapVariable['PGBLKL'] < 70) {
+      newScores = (2 + (20 * mapVariable['PGBLKL']));
     }
 
     return newScores;
   }
 
-  static double f5() {
+  double f5() {
     double newScores;
 
-    newScores = ((map['A'] + (2 * map['B']) + (2 * map['C'])) / 5);
-    map['N1'] = newScores;
+    newScores =
+        ((mapVariable['A'] + (2 * mapVariable['B']) + (2 * mapVariable['C'])) /
+            5);
+    mapVariable['N1'] = newScores;
 
     return newScores;
   }
 
-  static double f6() {
+  double f6() {
     double newScores;
     double newPJ;
     double newPrmin;
     double formula;
 
-    newPJ = ((map['NLtotal'] / map['NJtotal']) * 100);
+    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
 
-    if ((map['NLtotal'] >= 300)) {
+    if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
-    } else if (map['NLtotal'] < 300) {
-      newPrmin = ((50 / 100) - ((map['NLtotal'] / 300) * (20 / 100))) * 100;
+    } else if (mapVariable['NLtotal'] < 300) {
+      newPrmin =
+          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    if (map['WT'] < 3) {
+    if (mapVariable['WT'] < 3) {
       formula = 4;
-    } else if (map['WT'] >= 3 && map['WT'] <= 6) {
-      formula = ((24 - (4 * map['WT'])) / 3);
-    } else if (map['WT'] > 6) {
+    } else if (mapVariable['WT'] >= 3 && mapVariable['WT'] <= 6) {
+      formula = ((24 - (4 * mapVariable['WT'])) / 3);
+    } else if (mapVariable['WT'] > 6) {
       formula = 0;
     }
 
@@ -141,31 +141,32 @@ class Formula {
       newScores = ((newPJ / newPrmin) * formula);
     }
 
-    map['PJ'] = newPJ;
-    map['Prmin'] = newPrmin;
+    mapVariable['PJ'] = newPJ;
+    mapVariable['Prmin'] = newPrmin;
 
     return newScores;
   }
 
-  static double f7() {
+  double f7() {
     double newScores;
     double newPJ;
     double newPrmin;
     double formula;
 
-    newPJ = ((map['NLtotal'] / map['NJtotal']) * 100);
+    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
 
-    if ((map['NLtotal'] >= 300)) {
+    if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
-    } else if (map['NLtotal'] < 300) {
-      newPrmin = ((50 / 100) - ((map['NLtotal'] / 300) * (20 / 100))) * 100;
+    } else if (mapVariable['NLtotal'] < 300) {
+      newPrmin =
+          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    if (map['WT'] < 6) {
+    if (mapVariable['WT'] < 6) {
       formula = 4;
-    } else if (map['WT'] >= 6 && map['WT'] <= 18) {
-      formula = ((18 - map['WT']) / 3);
-    } else if (map['WT'] > 18) {
+    } else if (mapVariable['WT'] >= 6 && mapVariable['WT'] <= 18) {
+      formula = ((18 - mapVariable['WT']) / 3);
+    } else if (mapVariable['WT'] > 18) {
       formula = 0;
     }
 
@@ -175,30 +176,31 @@ class Formula {
       newScores = ((newPJ / newPrmin) * formula);
     }
 
-    map['PJ'] = newPJ;
-    map['Prmin'] = newPrmin;
+    mapVariable['PJ'] = newPJ;
+    mapVariable['Prmin'] = newPrmin;
 
     return newScores;
   }
 
-  static double f8() {
+  double f8() {
     double newScores;
     double newPJ;
     double newPrmin;
     double formula;
 
-    newPJ = ((map['NLtotal'] / map['NJtotal']) * 100);
+    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
 
-    if ((map['NLtotal'] >= 300)) {
+    if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
-    } else if (map['NLtotal'] < 300) {
-      newPrmin = ((50 / 100) - ((map['NLtotal'] / 300) * (20 / 100))) * 100;
+    } else if (mapVariable['NLtotal'] < 300) {
+      newPrmin =
+          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    if (map['PBS'] >= 60) {
+    if (mapVariable['PBS'] >= 60) {
       formula = 4;
-    } else if (map['PBS'] < 60) {
-      formula = (20 * map['PBS']) / 3;
+    } else if (mapVariable['PBS'] < 60) {
+      formula = (20 * mapVariable['PBS']) / 3;
     }
 
     if (newPJ >= newPrmin) {
@@ -207,13 +209,13 @@ class Formula {
       newScores = ((newPJ / newPrmin) * formula);
     }
 
-    map['PJ'] = newPJ;
-    map['Prmin'] = newPrmin;
+    mapVariable['PJ'] = newPJ;
+    mapVariable['Prmin'] = newPrmin;
 
     return newScores;
   }
 
-  static double f9() {
+  double f9() {
     double newScores;
     double newPJ;
     double newPrmin;
@@ -226,28 +228,43 @@ class Formula {
     double newTKL;
     double newTKM;
 
-    newPJ = ((map['NLtotal'] / map['NJItotal']) * 100);
+    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJItotal']) * 100);
 
-    if ((map['NLtotal'] >= 300)) {
+    if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
-    } else if (map['NLtotal'] < 300) {
-      newPrmin = ((50 / 100) - ((map['NLtotal'] / 300) * (20 / 100))) * 100;
+    } else if (mapVariable['NLtotal'] < 300) {
+      newPrmin =
+          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    newTKG =
-        (((4 * map['G1']) + (3 * map['G2']) + (2 * map['G3']) + map['G4']));
-    newTKH =
-        (((4 * map['H1']) + (3 * map['H2']) + (2 * map['H3']) + map['H4']));
-    newTKI =
-        (((4 * map['I1']) + (3 * map['I2']) + (2 * map['I3']) + map['I4']));
-    newTKJ =
-        (((4 * map['J1']) + (3 * map['J2']) + (2 * map['J3']) + map['J4']));
-    newTKK =
-        (((4 * map['K1']) + (3 * map['K2']) + (2 * map['K3']) + map['K4']));
-    newTKL =
-        (((4 * map['L1']) + (3 * map['L2']) + (2 * map['L3']) + map['L4']));
-    newTKM =
-        (((4 * map['M1']) + (3 * map['M2']) + (2 * map['M3']) + map['M4']));
+    newTKG = (((4 * mapVariable['G1']) +
+        (3 * mapVariable['G2']) +
+        (2 * mapVariable['G3']) +
+        mapVariable['G4']));
+    newTKH = (((4 * mapVariable['H1']) +
+        (3 * mapVariable['H2']) +
+        (2 * mapVariable['H3']) +
+        mapVariable['H4']));
+    newTKI = (((4 * mapVariable['I1']) +
+        (3 * mapVariable['I2']) +
+        (2 * mapVariable['I3']) +
+        mapVariable['I4']));
+    newTKJ = (((4 * mapVariable['J1']) +
+        (3 * mapVariable['J2']) +
+        (2 * mapVariable['J3']) +
+        mapVariable['J4']));
+    newTKK = (((4 * mapVariable['K1']) +
+        (3 * mapVariable['K2']) +
+        (2 * mapVariable['K3']) +
+        mapVariable['K4']));
+    newTKL = (((4 * mapVariable['L1']) +
+        (3 * mapVariable['L2']) +
+        (2 * mapVariable['L3']) +
+        mapVariable['L4']));
+    newTKM = (((4 * mapVariable['M1']) +
+        (3 * mapVariable['M2']) +
+        (2 * mapVariable['M3']) +
+        mapVariable['M4']));
 
     formula =
         (newTKG + newTKH + newTKI + newTKJ + newTKK + newTKL + newTKM) / 7;
@@ -258,87 +275,99 @@ class Formula {
       newScores = ((newPJ / newPrmin) * formula);
     }
 
-    map['PJ'] = newPJ;
-    map['Prmin'] = newPrmin;
-    map['TKG'] = newTKG;
-    map['TKH'] = newTKH;
-    map['TKI'] = newTKI;
-    map['TKJ'] = newTKJ;
-    map['TKK'] = newTKK;
-    map['TKL'] = newTKL;
-    map['TKM'] = newTKM;
-    map['TKtotal'] = formula;
+    mapVariable['PJ'] = newPJ;
+    mapVariable['Prmin'] = newPrmin;
+    mapVariable['TKG'] = newTKG;
+    mapVariable['TKH'] = newTKH;
+    mapVariable['TKI'] = newTKI;
+    mapVariable['TKJ'] = newTKJ;
+    mapVariable['TKK'] = newTKK;
+    mapVariable['TKL'] = newTKL;
+    mapVariable['TKM'] = newTKM;
+    mapVariable['TKtotal'] = formula;
 
     return newScores;
   }
 
-  static double f10() {
+  double f10() {
     double newScores;
     double newRL;
     double newRN;
     double newRI;
 
-    newRL =
-        (((map['NA1'] + map['NB1'] + map['NC1']) / map['NM']) * (100 / 100));
-    newRN = (((map['NA2'] + map['NA3'] + map['NB2'] + map['NC2']) / map['NM']) *
+    newRL = (((mapVariable['NA1'] + mapVariable['NB1'] + mapVariable['NC1']) /
+            mapVariable['NM']) *
         (100 / 100));
-    newRI =
-        (((map['NA4'] + map['NB3'] + map['NC3']) / map['NM']) * (100 / 100));
+    newRN = (((mapVariable['NA2'] +
+                mapVariable['NA3'] +
+                mapVariable['NB2'] +
+                mapVariable['NC2']) /
+            mapVariable['NM']) *
+        (100 / 100));
+    newRI = (((mapVariable['NA4'] + mapVariable['NB3'] + mapVariable['NC3']) /
+            mapVariable['NM']) *
+        (100 / 100));
 
-    map['RL'] = newRL;
-    map['RN'] = newRN;
-    map['RI'] = newRI;
+    mapVariable['RL'] = newRL;
+    mapVariable['RN'] = newRN;
+    mapVariable['RI'] = newRI;
 
-    if (map['RI'] >= (2 / 100)) {
+    if (mapVariable['RI'] >= (2 / 100)) {
       newScores = 4;
-    } else if ((map['RI'] < (2 / 100)) && (map['RN'] >= (20 / 100))) {
-      newScores = (3 + (map['RI'] / (2 / 100)));
-    } else if ((map['RI'] < 2 / 100 && map['RI'] > 0) &&
-        ((map['RN'] > 0) && (map['RN'] < (20 / 100)))) {
+    } else if ((mapVariable['RI'] < (2 / 100)) &&
+        (mapVariable['RN'] >= (20 / 100))) {
+      newScores = (3 + (mapVariable['RI'] / (2 / 100)));
+    } else if ((mapVariable['RI'] < 2 / 100 && mapVariable['RI'] > 0) &&
+        ((mapVariable['RN'] > 0) && (mapVariable['RN'] < (20 / 100)))) {
       newScores = (2 +
-          (2 * (map['RI'] / (2 / 100))) +
-          (map['RN'] / (20 / 100)) -
-          ((map['RI'] * map['RN']) / ((2 / 100) * (20 / 100))));
-    } else if ((map['RI'] == 0) &&
-        (map['RN'] == 0) &&
-        (map['RL'] >= (70 / 100))) {
+          (2 * (mapVariable['RI'] / (2 / 100))) +
+          (mapVariable['RN'] / (20 / 100)) -
+          ((mapVariable['RI'] * mapVariable['RN']) / ((2 / 100) * (20 / 100))));
+    } else if ((mapVariable['RI'] == 0) &&
+        (mapVariable['RN'] == 0) &&
+        (mapVariable['RL'] >= (70 / 100))) {
       newScores = 2;
-    } else if ((map['RI'] == 0) &&
-        (map['RN'] == 0) &&
-        (map['RL'] < (70 / 100))) {
-      newScores = ((2 * map['RL']) / (70 / 100));
+    } else if ((mapVariable['RI'] == 0) &&
+        (mapVariable['RN'] == 0) &&
+        (mapVariable['RL'] < (70 / 100))) {
+      newScores = ((2 * mapVariable['RL']) / (70 / 100));
     }
 
     return newScores;
   }
 
-  static double f11() {
+  double f11() {
     double newScores;
     double newPGBLK;
 
-    newPGBLK = (((map['NDGB'] + map['NDLK']) / map['NDTPS']) * (100 / 100));
-    map['PGBLK'] = newPGBLK;
+    newPGBLK =
+        (((mapVariable['NDGB'] + mapVariable['NDLK']) / mapVariable['NDTPS']) *
+            (100 / 100));
+    mapVariable['PGBLK'] = newPGBLK;
 
-    if (map['PGBLK'] >= (70 / 100)) {
+    if (mapVariable['PGBLK'] >= (70 / 100)) {
       newScores = 4;
-    } else if (map['PGBLK'] < (70 / 100)) {
-      newScores = ((2 + (20 * map['PGBLK'])) / 7);
+    } else if (mapVariable['PGBLK'] < (70 / 100)) {
+      newScores = ((2 + (20 * mapVariable['PGBLK'])) / 7);
     }
 
     return newScores;
   }
 
-  static double f12() {
+  double f12() {
     double newScores;
     double newPGBLK;
 
-    newPGBLK = (((map['NDGB'] + map['NDLK']) / map['NDTPS']) * (100 / 100));
-    map['PGBLK'] = newPGBLK;
-    
-    if ((map['NDGB'] >= 2) && (map['PGBLK'] >= (70 / 100))) {
+    newPGBLK =
+        (((mapVariable['NDGB'] + mapVariable['NDLK']) / mapVariable['NDTPS']) *
+            (100 / 100));
+    mapVariable['PGBLK'] = newPGBLK;
+
+    if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGBLK'] >= (70 / 100))) {
       newScores = 4;
-    } else if ((map['NDGB'] >= 2) && (map['PGBLK'] < (70 / 100))) {
-      newScores = ((2 + (20 * map['PGBLK'])) / 7);
+    } else if ((mapVariable['NDGB'] >= 2) &&
+        (mapVariable['PGBLK'] < (70 / 100))) {
+      newScores = ((2 + (20 * mapVariable['PGBLK'])) / 7);
     } else {
       // NDGB < 2
       newScores = 0;
@@ -347,17 +376,18 @@ class Formula {
     return newScores;
   }
 
-  static double f13() {
+  double f13() {
     double newScores;
     double newPGB;
-    
-    newPGB = ((map['NDGB'] / map['NDTPS']) * (100 / 100));
-    map['PGB'] = newPGB;
-    
-    if ((map['NDGB'] >= 2) && (map['PGB'] >= (70 / 100))) {
+
+    newPGB = ((mapVariable['NDGB'] / mapVariable['NDTPS']) * (100 / 100));
+    mapVariable['PGB'] = newPGB;
+
+    if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGB'] >= (70 / 100))) {
       newScores = 4;
-    } else if ((map['NDGB'] >= 2) && (map['PGB'] < (70 / 100))) {
-      newScores = ((2 + (20 * map['PGB'])) / 7);
+    } else if ((mapVariable['NDGB'] >= 2) &&
+        (mapVariable['PGB'] < (70 / 100))) {
+      newScores = ((2 + (20 * mapVariable['PGB'])) / 7);
     } else {
       // NDGB < 2
       newScores = 0;
@@ -366,17 +396,17 @@ class Formula {
     return newScores;
   }
 
-  static double f15() {
+  double f15() {
     double newScores;
     double newRDPS;
-    
-    newRDPS = (map['NDT'] / map['NPS']);
-    map['RDPS'] = newRDPS;
-    
-    if (map['RDPS'] >= 10) {
+
+    newRDPS = (mapVariable['NDT'] / mapVariable['NPS']);
+    mapVariable['RDPS'] = newRDPS;
+
+    if (mapVariable['RDPS'] >= 10) {
       newScores = 4;
-    } else if ((map['RDPS'] >= 5) && (map['RDPS'] < 10)) {
-      newScores = ((2 * map['RDPS']) / 5);
+    } else if ((mapVariable['RDPS'] >= 5) && (mapVariable['RDPS'] < 10)) {
+      newScores = ((2 * mapVariable['RDPS']) / 5);
     } else {
       // RDPS < 5
       newScores = 0;
@@ -385,17 +415,20 @@ class Formula {
     return newScores;
   }
 
-  static double f16() {
+  double f16() {
     double newScores;
     double newPDTT;
-    
-    newPDTT = (((map['NDTT'] / map['NDT']) / map['NDTT']) * (100 / 100));
-    map['PDTT'] = newPDTT;
-    
-    if (map['PDTT'] >= (10 / 100)) {
+
+    newPDTT =
+        (((mapVariable['NDTT'] / mapVariable['NDT']) / mapVariable['NDTT']) *
+            (100 / 100));
+    mapVariable['PDTT'] = newPDTT;
+
+    if (mapVariable['PDTT'] >= (10 / 100)) {
       newScores = 4;
-    } else if ((map['PDTT'] > (10 / 100)) && (map['PDTT']) <= (40 / 100)) {
-      newScores = ((14 - (20 * map['PDTT'])) / 3);
+    } else if ((mapVariable['PDTT'] > (10 / 100)) &&
+        (mapVariable['PDTT']) <= (40 / 100)) {
+      newScores = ((14 - (20 * mapVariable['PDTT'])) / 3);
     } else {
       // PDTT > 40%
       newScores = 0;
@@ -404,204 +437,240 @@ class Formula {
     return newScores;
   }
 
-  static double f17() {
+  double f17() {
     double newScores;
-    
-    newScores = ((map['A'] + (2 * map['B'])) / 3);
-    map['N2'] = newScores;
+
+    newScores = ((mapVariable['A'] + (2 * mapVariable['B'])) / 3);
+    mapVariable['N2'] = newScores;
 
     return newScores;
   }
 
-  static double f18() {
+  double f18() {
     double newScores;
     double newRL;
     double newRN;
     double newRI;
-    
-    newRL =
-        (((map['NA1'] + map['NB1'] + map['NC1']) / map['NM']) * (100 / 100));
-    newRN = (((map['NA2'] + map['NA3'] + map['NB2'] + map['NC2']) / map['NM']) *
+
+    newRL = (((mapVariable['NA1'] + mapVariable['NB1'] + mapVariable['NC1']) /
+            mapVariable['NM']) *
         (100 / 100));
-    newRI =
-        (((map['NA4'] + map['NB3'] + map['NC3']) / map['NM']) * (100 / 100));
+    newRN = (((mapVariable['NA2'] +
+                mapVariable['NA3'] +
+                mapVariable['NB2'] +
+                mapVariable['NC2']) /
+            mapVariable['NM']) *
+        (100 / 100));
+    newRI = (((mapVariable['NA4'] + mapVariable['NB3'] + mapVariable['NC3']) /
+            mapVariable['NM']) *
+        (100 / 100));
 
-    map['RL'] = newRL;
-    map['RN'] = newRN;
-    map['RI'] = newRI;
+    mapVariable['RL'] = newRL;
+    mapVariable['RN'] = newRN;
+    mapVariable['RI'] = newRI;
 
-    if (map['RI'] >= (3 / 100)) {
+    if (mapVariable['RI'] >= (3 / 100)) {
       newScores = 4;
-    } else if ((map['RI'] < (3 / 100)) && (map['RN'] >= (30 / 100))) {
-      newScores = (3 + (map['RI'] / (3 / 100)));
-    } else if (((map['RI'] < (3 / 100)) && (map['RI'] > 0)) &&
-        ((map['RN'] > 0) && (map['RN'] < (30 / 100)))) {
+    } else if ((mapVariable['RI'] < (3 / 100)) &&
+        (mapVariable['RN'] >= (30 / 100))) {
+      newScores = (3 + (mapVariable['RI'] / (3 / 100)));
+    } else if (((mapVariable['RI'] < (3 / 100)) && (mapVariable['RI'] > 0)) &&
+        ((mapVariable['RN'] > 0) && (mapVariable['RN'] < (30 / 100)))) {
       newScores = (2 +
-          (2 * (map['RI'] / (3 / 100))) +
-          (map['RN'] / (30 / 100)) -
-          ((map['RI'] * map['RN']) / ((3 / 100) * (30 / 100))));
-    } else if ((map['RI'] == 0) &&
-        (map['RN'] == 0) &&
-        (map['RL'] >= (90 / 100))) {
+          (2 * (mapVariable['RI'] / (3 / 100))) +
+          (mapVariable['RN'] / (30 / 100)) -
+          ((mapVariable['RI'] * mapVariable['RN']) / ((3 / 100) * (30 / 100))));
+    } else if ((mapVariable['RI'] == 0) &&
+        (mapVariable['RN'] == 0) &&
+        (mapVariable['RL'] >= (90 / 100))) {
       newScores = 2;
-    } else if ((map['RI'] == 0) &&
-        (map['RN'] == 0) &&
-        (map['RL'] < (90 / 100))) {
-      newScores = ((2 * map['RL']) / (90 / 100));
+    } else if ((mapVariable['RI'] == 0) &&
+        (mapVariable['RN'] == 0) &&
+        (mapVariable['RL'] < (90 / 100))) {
+      newScores = ((2 * mapVariable['RL']) / (90 / 100));
     }
 
     return newScores;
   }
 
-  static double f19() {
+  double f19() {
     double newScores;
-    
-    newScores = ((map['A'] + (2 * map['B'])) / 3);
-    map['N3'] = newScores;
+
+    newScores = ((mapVariable['A'] + (2 * mapVariable['B'])) / 3);
+    mapVariable['N3'] = newScores;
 
     return newScores;
   }
 
-  static double f20() {
+  double f20() {
     double newScores;
     double newNSA;
 
-    newNSA = (((4 * map['NUnggul']) + (3.5 * map['NA']) + (3 * map['NBaik_Sekali']) + (2.5 * map['NB']) + (2 * map['NBaik']) + (1.5 * map['NC'])) / (map['NUnggul'] + map['NA'] + map['NBaik_Sekali'] + map['NB'] + map['NBaik'] + map['NC'] + map['NK']));
-    map['NSA'] = newNSA;
+    newNSA = (((4 * mapVariable['NUnggul']) +
+            (3.5 * mapVariable['NA']) +
+            (3 * mapVariable['NBaik_Sekali']) +
+            (2.5 * mapVariable['NB']) +
+            (2 * mapVariable['NBaik']) +
+            (1.5 * mapVariable['NC'])) /
+        (mapVariable['NUnggul'] +
+            mapVariable['NA'] +
+            mapVariable['NBaik_Sekali'] +
+            mapVariable['NB'] +
+            mapVariable['NBaik'] +
+            mapVariable['NC'] +
+            mapVariable['NK']));
+    mapVariable['NSA'] = newNSA;
 
-    if (map['NSA'] >= 3.50) {
+    if (mapVariable['NSA'] >= 3.50) {
       newScores = 4;
-    } else if (map['NSA'] < 3.50) {
-      newScores = (map['NSA'] + 0.5);
+    } else if (mapVariable['NSA'] < 3.50) {
+      newScores = (mapVariable['NSA'] + 0.5);
     }
 
     return newScores;
   }
 
-  static double f21() {
+  double f21() {
     double newScores;
     double newRL;
     double newRN;
     double newRI;
-    
-    newRL = (map['NA1'] / map['NDT']);
-    newRN = ((map['NA2'] + map['NA3']) / map['NDT']);
-    newRI = (map['NA4'] / map['NDT']);
 
-    map['RL'] = newRL;
-    map['RN'] = newRN;
-    map['RI'] = newRI;
+    newRL = (mapVariable['NA1'] / mapVariable['NDT']);
+    newRN = ((mapVariable['NA2'] + mapVariable['NA3']) / mapVariable['NDT']);
+    newRI = (mapVariable['NA4'] / mapVariable['NDT']);
 
-    if (map['RI'] >= 0.1) {
+    mapVariable['RL'] = newRL;
+    mapVariable['RN'] = newRN;
+    mapVariable['RI'] = newRI;
+
+    if (mapVariable['RI'] >= 0.1) {
       newScores = 4;
-    } else if ((map['RI'] < 0.1) && (map['RN'] >= 1)) {
-      newScores = (3 + (map['RI'] + 0.1));
-    } else if ((map['RI'] > 0 && map['RI'] < 0.1) && (map['RN'] > 0 && map['RN'] < 1)) {
-      newScores = (2 + (2 * (map['RI'] / 0.1)) + (map['RN'] / 1) - ((map['RI'] * map['RN']) / (0.1 * 1)));
-    } else if ((map['RI'] == 0) && (map['RN'] == 0) && (map['RL'] >= 2)) {
+    } else if ((mapVariable['RI'] < 0.1) && (mapVariable['RN'] >= 1)) {
+      newScores = (3 + (mapVariable['RI'] + 0.1));
+    } else if ((mapVariable['RI'] > 0 && mapVariable['RI'] < 0.1) &&
+        (mapVariable['RN'] > 0 && mapVariable['RN'] < 1)) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] / 0.1)) +
+          (mapVariable['RN'] / 1) -
+          ((mapVariable['RI'] * mapVariable['RN']) / (0.1 * 1)));
+    } else if ((mapVariable['RI'] == 0) &&
+        (mapVariable['RN'] == 0) &&
+        (mapVariable['RL'] >= 2)) {
       newScores = 2;
-    } else if ((map['RI'] == 0) && (map['RN'] == 0) && (map['RL'] < 2)) {
-      newScores = ((2 * map['RL']) / 2);
+    } else if ((mapVariable['RI'] == 0) &&
+        (mapVariable['RN'] == 0) &&
+        (mapVariable['RL'] < 2)) {
+      newScores = ((2 * mapVariable['RL']) / 2);
     }
 
     return newScores;
   }
 
-  static double f22() {
+  double f22() {
     double newScores;
     double newRL;
     double newRN;
     double newRI;
-    
-    newRL = (map['NA1'] / map['NDT']);
-    newRN = ((map['NA2'] + map['NA3']) / map['NDT']);
-    newRI = (map['NA4'] / map['NDT']);
 
-    map['RL'] = newRL;
-    map['RN'] = newRN;
-    map['RI'] = newRI;
+    newRL = (mapVariable['NA1'] / mapVariable['NDT']);
+    newRN = ((mapVariable['NA2'] + mapVariable['NA3']) / mapVariable['NDT']);
+    newRI = (mapVariable['NA4'] / mapVariable['NDT']);
 
-    if (map['RI'] >= 0.05) {
+    mapVariable['RL'] = newRL;
+    mapVariable['RN'] = newRN;
+    mapVariable['RI'] = newRI;
+
+    if (mapVariable['RI'] >= 0.05) {
       newScores = 4;
-    } else if ((map['RI'] < 0.05) && (map['RN'] >= 0.5)) {
-      newScores = (3 + (map['RI'] + 0.05));
-    } else if ((map['RI'] > 0 && map['RI'] < 0.05) && (map['RN'] > 0 && map['RN'] < 0.5)) {
-      newScores = (2 + (2 * (map['RI'] / 0.05)) + (map['RN'] / 0.5) - ((map['RI'] * map['RN']) / (0.05 * 0.5)));
-    } else if ((map['RI'] == 0) && (map['RN'] == 0) && (map['RL'] >= 2)) {
+    } else if ((mapVariable['RI'] < 0.05) && (mapVariable['RN'] >= 0.5)) {
+      newScores = (3 + (mapVariable['RI'] + 0.05));
+    } else if ((mapVariable['RI'] > 0 && mapVariable['RI'] < 0.05) &&
+        (mapVariable['RN'] > 0 && mapVariable['RN'] < 0.5)) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] / 0.05)) +
+          (mapVariable['RN'] / 0.5) -
+          ((mapVariable['RI'] * mapVariable['RN']) / (0.05 * 0.5)));
+    } else if ((mapVariable['RI'] == 0) &&
+        (mapVariable['RN'] == 0) &&
+        (mapVariable['RL'] >= 2)) {
       newScores = 2;
-    } else if ((map['RI'] == 0) && (map['RN'] == 0) && (map['RL'] < 2)) {
-      newScores = ((2 * map['RL']) / 2);
+    } else if ((mapVariable['RI'] == 0) &&
+        (mapVariable['RN'] == 0) &&
+        (mapVariable['RL'] < 2)) {
+      newScores = ((2 * mapVariable['RL']) / 2);
     }
 
     return newScores;
   }
 
-  static double f23() {
+  double f23() {
     double newScores;
 
-    newScores = map['A'];
-    
+    newScores = mapVariable['A'];
+
     return newScores;
   }
 
-  static double f24() {
+  double f24() {
     double newScores;
 
-    newScores = map['B'];
-    
+    newScores = mapVariable['B'];
+
     return newScores;
   }
 
-  static double f25() {
+  double f25() {
     double newScores;
 
-    newScores = map['C'];
-    
+    newScores = mapVariable['C'];
+
     return newScores;
   }
 
-  static double f26() {
+  double f26() {
     double newScores;
 
-    newScores = map['D'];
-    
+    newScores = mapVariable['D'];
+
     return newScores;
   }
 
-  static double f27() {
+  double f27() {
     double newScores;
 
-    newScores = map['E'];
-    
+    newScores = mapVariable['E'];
+
     return newScores;
   }
 
-  static double f28() {
+  double f28() {
     double newScores;
 
-    newScores = map['F'];
-    
+    newScores = mapVariable['F'];
+
     return newScores;
   }
 
-  static double f29() {
+  double f29() {
     double newScores;
     double newPJ;
     double newPrmin;
     double formula;
 
-    newPJ = ((map['NLtotal'] / map['NJtotal']) * 100);
+    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
 
-    if ((map['NLtotal'] >= 300)) {
+    if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
-    } else if (map['NLtotal'] < 300) {
-      newPrmin = ((50 / 100) - ((map['NLtotal'] / 300) * (20 / 100))) * 100;
+    } else if (mapVariable['NLtotal'] < 300) {
+      newPrmin =
+          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    if (map['PBS'] >= 80) {
+    if (mapVariable['PBS'] >= 80) {
       formula = 4;
-    } else if (map['PBS'] < 80) {
-      formula = (5 * map['PBS']);
+    } else if (mapVariable['PBS'] < 80) {
+      formula = (5 * mapVariable['PBS']);
     }
 
     if (newPJ >= newPrmin) {
@@ -610,29 +679,29 @@ class Formula {
       newScores = ((newPJ / newPrmin) * formula);
     }
 
-    map['PJ'] = newPJ;
-    map['Prmin'] = newPrmin;
+    mapVariable['PJ'] = newPJ;
+    mapVariable['Prmin'] = newPrmin;
 
     return newScores;
   }
 
-  static double f30() {
+  double f30() {
     double newScores;
 
-    newScores = map['N'];
-    
+    newScores = mapVariable['N'];
+
     return newScores;
   }
 
-  static double f31() {
+  double f31() {
     double newScores;
 
-    newScores = map['O'];
-    
+    newScores = mapVariable['O'];
+
     return newScores;
   }
 
-  static String getAccreditation() {
-   return 'TERAKREDITASI UNGGUL'; 
+  String getAccreditation() {
+    return 'TERAKREDITASI UNGGUL';
   }
 }

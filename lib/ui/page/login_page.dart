@@ -38,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _formKey.currentState.dispose();
     super.dispose();
   }
 

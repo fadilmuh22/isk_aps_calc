@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:isk_aps_calc/data/model/jumlah_lulusan_model.dart';
-
-import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
-import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
-
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
-
-import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
+import 'package:isk_aps_calc/data/model/jumlah_lulusan_model.dart';
+import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
+
+import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
+
+import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
 
 class NewSimulationPage extends StatefulWidget {
   static const String tag = '/simulatsi/create';
@@ -92,25 +91,28 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
 
   @override
   void dispose() {
-    _formKey.currentState.dispose();
     super.dispose();
   }
 
   void toggleEducationStagesActive(int index) {
     setState(() {
+      newSimulation.educationStage = educationStages[index]['id'];
       newSimulation.educationStageName = educationStages[index]['name'];
       educationStagesActive = index;
     });
   }
 
-  handleNextButton() {
-    if (newSimulation.educationStageName != null &&
+  handleNextButton() async {
+    if (_formKey.currentState.validate() &&
+        newSimulation.educationStageName != null &&
         newSimulation.educationStageName.isNotEmpty) {
-      //_formKey.currentState.validate() &&
       _formKey.currentState.save();
 
       Provider.of<SimulationBloc>(context, listen: false).newSimulation =
           newSimulation;
+
+      await Provider.of<SimulationBloc>(context, listen: false)
+          .mappingIndicator();
 
       Navigator.pushNamed(context, IndicatorPage.tag);
     } else if (newSimulation.educationStageName == null ||
@@ -119,6 +121,17 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         educationStagesInvalid = true;
       });
     }
+  }
+
+  String numberValidator(String value) {
+    if (value == null) {
+      return null;
+    }
+    final n = num.tryParse(value);
+    if (n == null) {
+      return '"$value" is not a valid number';
+    }
+    return null;
   }
 
   @override
@@ -243,13 +256,12 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                     ),
                   ),
                   ...List.generate(
-                      newSimulation.jumlahLulusan[index].title.length, (index) {
-                    newSimulation.jumlahLulusan[index].value = new List(
-                        newSimulation.jumlahLulusan[index].title.length);
+                      newSimulation.jumlahLulusan[index].title.length, (fadil) {
+                    newSimulation.jumlahLulusan[index].value = new List(3);
                     return _jumlahLulusanItem(
-                      newSimulation.jumlahLulusan[index].title[index],
-                      (value) => newSimulation
-                          .jumlahLulusan[index].value[index] = value,
+                      newSimulation.jumlahLulusan[index].title[fadil],
+                      (value) => newSimulation.jumlahLulusan[index]
+                          .value[fadil] = num.tryParse(value),
                     );
                   }),
                 ],
@@ -270,15 +282,12 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                     ),
                   ),
                   ...List.generate(
-                      newSimulation.jumlahLulusan[index].title.length, (index) {
-                    newSimulation.jumlahLulusan[index].value = new List(
-                      newSimulation.jumlahLulusan[index].title.length,
-                    );
-
+                      newSimulation.jumlahLulusan[index].title.length, (fadil) {
+                    newSimulation.jumlahLulusan[index].value = new List(3);
                     return _jumlahLulusanItem(
-                      newSimulation.jumlahLulusan[index].title[index],
-                      (value) => newSimulation
-                          .jumlahLulusan[index].value[index] = value,
+                      newSimulation.jumlahLulusan[index].title[fadil],
+                      (value) => newSimulation.jumlahLulusan[index]
+                          .value[fadil] = num.tryParse(value),
                     );
                   }),
                 ],
@@ -442,12 +451,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         autofocus: false,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please provide value';
-                          }
-                          return null;
-                        },
+                        validator: numberValidator,
                         onSaved: onSaved,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.edit),
