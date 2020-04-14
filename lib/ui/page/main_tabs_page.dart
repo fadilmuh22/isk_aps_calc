@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:isk_aps_calc/ui/page/home_page.dart';
 import 'package:isk_aps_calc/ui/page/profile_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/new_simulation_page.dart';
+import 'package:isk_aps_calc/constants.dart';
 
 class MainTabs extends StatefulWidget {
   static String tag = '/main-tabs';
@@ -68,7 +69,7 @@ class _MainTabsState extends State<MainTabs> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.shifting,
       unselectedItemColor: Colors.grey,
-      selectedItemColor: Colors.redAccent,
+      selectedItemColor: Constants.accentColor,
       currentIndex: _currentIndex,
       onTap: (index) {
         setState(() {
