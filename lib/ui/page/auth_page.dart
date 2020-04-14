@@ -45,7 +45,10 @@ class _AuhthenticationPageState extends State<AuhthenticationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          backgroundColor: Color(0xffC82247),
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xffffffff)),
+        ),
       ),
     );
   }
