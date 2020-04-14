@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
     loadImageFromPreferences();
     AppStorage().read(key: 'user').then((data) => setState(() {
           user = UserModel.fromJson(jsonDecode(data));
-          user.institute = 'Nama Institute Anda';
+          user.institute = user.institute ?? 'Nama Institute Anda';
         }));
   }
 
@@ -80,8 +80,10 @@ class _ProfilePageState extends State<ProfilePage> {
       await AppStorage().delete(key: 'user');
       await AppStorage().write(
         key: 'user',
-        value: jsonEncode(user.toJson()),
+        value: jsonEncode(userUpdated.toJson()),
       );
+
+      print(await AppStorage().read(key: 'user'));
 
       if (count != null && count > 0) {
         showDialog(

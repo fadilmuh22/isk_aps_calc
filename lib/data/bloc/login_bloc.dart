@@ -30,21 +30,23 @@ class LoginBloc extends ChangeNotifier {
         return false;
       }
 
-      await UserDao().insert(UserModel(
+      UserModel newUser = UserModel(
         id: data.id,
         name: data.displayName,
         email: data.email,
-        password: DBCrypt().hashpw('12345', new DBCrypt().gensalt()),
-        status: 1.toString(),
-      ));
+        password: DBCrypt().hashpw(data.email, new DBCrypt().gensalt()),
+        status: '1',
+        updateDateTime: DateTime.now().toString(),
+      );
+      await UserDao().insert(newUser);
       await AppStorage().write(
         key: 'user',
-        value: jsonEncode(user.toJson()),
+        value: jsonEncode(newUser.toJson()),
       );
 
       loginMessage = flash(
         'Login Berhasil',
-        'Berhasil login dengan google\nSilahkan Lanjutkan Login Dengan Email Google Yang Sudah Terdaftar',
+        '\nBerhasil login dengan google\nSilahkan lanjutkan dengan email google yang sudah terdaftar dan passordnya di isi sama dengan email',
       );
       return true;
     }
@@ -56,8 +58,7 @@ class LoginBloc extends ChangeNotifier {
   localLogin(LoginModel data) async {
     UserModel user = await UserDao().selectOne(data.email);
     if (user != null) {
-      // bool isCorrect = DBCrypt().checkpw(data.password, user.password);
-      bool isCorrect = true;
+      bool isCorrect = DBCrypt().checkpw(data.password, user.password);
       if (isCorrect) {
         await AppStorage().write(
           key: 'user',

@@ -13,10 +13,6 @@ class UserDao {
   }
 
   Future<UserModel> selectOne(String username) async {
-    var tables = await AppDatabase().db.rawQuery('''
-      SELECT name FROM sqlite_master WHERE type='table'
-    ''');
-    print(tables[0]);
     var mapList = await AppDatabase().db.query(
           table,
           where: 'user_email=? OR user_name=?',

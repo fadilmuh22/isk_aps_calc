@@ -17,6 +17,7 @@ class UserModel {
     email = map['user_email'];
     password = map['user_password'];
     institute = map['institute'];
+    status = '${map['status']}';
     updateDateTime = map['update_dtm'];
   }
 
@@ -26,6 +27,7 @@ class UserModel {
         'user_email': email,
         'user_password': password,
         'institute': institute,
-        'update_dtm': updateDateTime,
+        'status': status,
+        'update_dtm': updateDateTime.toString() ?? DateTime.now().toString(),
       };
 }
