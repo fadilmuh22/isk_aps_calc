@@ -101,7 +101,8 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
       newSimulation.educationStage = educationStages[index]['id'];
       newSimulation.educationStageName = educationStages[index]['name'];
       educationStagesActive = index;
-      Scrollable.ensureVisible(dataKey.currentContext, duration: Duration(seconds: 2));
+      Scrollable.ensureVisible(dataKey.currentContext,
+          duration: Duration(seconds: 2));
     });
   }
 
@@ -113,8 +114,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
 
       Provider.of<SimulationBloc>(context, listen: false).newSimulation =
           newSimulation;
-
-      print(newSimulation.toJson());
 
       await Provider.of<SimulationBloc>(context, listen: false)
           .mappingIndicator();
