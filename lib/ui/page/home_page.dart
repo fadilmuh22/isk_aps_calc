@@ -33,11 +33,34 @@ class _HomePageState extends State<HomePage> {
       appBar: CustomAppBar(),
       backgroundColor: Colors.white,
       body: Container(
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: <Widget>[
-            newSimulationCard(),
-            cardSimulationHistoryContainer(),
+        child: new Column(
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(
+                    bottom: 0, left: 16, right: 16, top: 0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      newSimulationCard(),
+                    ])),
+            Padding(
+              padding: const EdgeInsets.only(
+                    bottom: 0, left: 16, right: 16, top: 16),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _simulationHistoryTitle(),
+                  ]),
+            ),
+            new Expanded(
+              child: new ListView(
+                padding: const EdgeInsets.only(
+                    bottom: 8, left: 8, right: 8, top: 0),
+                children: <Widget>[
+                  cardSimulationHistoryContainer(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -100,7 +123,6 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _simulationHistoryTitle(),
               SizedBox(height: 10.0),
               for (var i = 0; i < 4; i++)
                 _simulationHistoryItem(
