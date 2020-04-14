@@ -174,7 +174,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Accreditasi Saat Ini:'),
+        Text('Akreditasi Saat Ini:'),
         Row(
           children: <Widget>[
             Expanded(

@@ -87,7 +87,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         child: Text(
           'Simulasi Baru',
           style: TextStyle(
-              fontSize: 20,
+              fontSize: 40,
               fontWeight: FontWeight.bold,
               color: Constants.accentColor),
         ),

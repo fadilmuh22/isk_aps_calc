@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(right: 16),
+                padding: const EdgeInsets.only(right: 8),
                 child: CircleAvatar(
                   maxRadius: 16.0,
                   backgroundColor: Constants.primaryColor,
@@ -93,10 +93,10 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(12),
         ),
         margin: EdgeInsets.only(
-          top: 32,
+          top: 8,
         ),
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -150,10 +150,10 @@ class _HomePageState extends State<HomePage> {
     String id,
   }) =>
       Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0),
+        margin: EdgeInsets.symmetric(vertical: 4.0),
         child: SizedBox(
           width: double.infinity,
-          height: 85,
+          height: 65,
           child: OutlineButton(
             onPressed: () {},
             shape: RoundedRectangleBorder(

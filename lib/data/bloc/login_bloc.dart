@@ -63,7 +63,7 @@ class LoginBloc extends ChangeNotifier {
           key: 'user',
           value: jsonEncode(user.toJson()),
         );
-        loginMessage = flash('Login Berhasil', 'Welcome ${user.name} ');
+        loginMessage = flash('Login Berhasil', 'Selamat Datang ${user.name} ');
         return true;
       }
       loginMessage = flash('Login Gagal', 'Password anda tidak sesuai');
