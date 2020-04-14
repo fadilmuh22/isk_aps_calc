@@ -145,7 +145,7 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   Widget nextButton() => SizedBox(
-        width: 100.0,
+        width: 140.0,
         child: CustomRoundedButton(
           items: <Widget>[
             Text(
@@ -154,7 +154,10 @@ class _IndicatorPageState extends State<IndicatorPage>
                   : 'Lanjutkan',
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            Icon(Icons.keyboard_arrow_right)
+            Icon(
+              Icons.keyboard_arrow_right,
+              color: Colors.white,
+            )
           ],
           onPressed: handleTabNext,
         ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:isk_aps_calc/constants.dart';
 
 class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
-  final double appBarHeight = 80.0;
+  final double appBarHeight = 60.0;
   @override
   get preferredSize => Size.fromHeight(appBarHeight);
 
@@ -38,7 +38,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(context) {
     return Container(
-      margin: EdgeInsets.only(top: 22.0),
+      margin: EdgeInsets.only(top: 27.0),
       decoration: BoxDecoration(
         color: Constants.primaryColor,
       ),
@@ -48,6 +48,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
           if (widget.canBack) ...[
             Expanded(
               child: IconButton(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 10.0),
                 icon: Icon(
                   Icons.arrow_back,
                   color: Constants.accentColor,
@@ -99,11 +101,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
           decoration: BoxDecoration(
             color: Constants.accentColor,
             borderRadius: BorderRadius.only(
-              topRight: Radius.circular(5.0),
+              bottomLeft: Radius.circular(5.0),
             ),
           ),
+          padding: EdgeInsets.only(left: 10.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
@@ -111,6 +114,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               Flexible(
@@ -118,8 +122,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   widget.studyProgramName,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 10.0,
+                    fontSize: 12.0,
                     color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
