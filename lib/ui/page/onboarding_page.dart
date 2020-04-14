@@ -37,7 +37,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     );
     slides.add(
       new Slide(
-        pathImage: 'assets/images/onboarding_2.png',
+        pathImage: 'assets/images/onboarding_3.png',
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
         widthImage: 320.0,
         heightImage: 352.0,
