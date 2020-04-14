@@ -11,7 +11,7 @@ class JumlahLulusanModel {
       'Jumlah Lulusan TS-3',
       'Jumlah Lulusan TS-2'
     ],
-    this.value,
+    this.value = const [0, 0, 0],
   });
 
   JumlahLulusanModel.fromJson(Map<String, dynamic> json) {

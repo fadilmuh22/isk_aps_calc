@@ -112,6 +112,8 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
       Provider.of<SimulationBloc>(context, listen: false).newSimulation =
           newSimulation;
 
+      print(newSimulation.toJson());
+
       await Provider.of<SimulationBloc>(context, listen: false)
           .mappingIndicator();
 
@@ -224,15 +226,26 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         ),
       );
 
+  bool isMagister(int index) {
+    return newSimulation.jumlahLulusan[index].type ==
+                Constants.lulusanTanggap &&
+            educationStagesActive != null &&
+            educationStagesActive == 3 ||
+        educationStagesActive == 4;
+  }
+
+  bool isNotMagister(int index) {
+    return newSimulation.jumlahLulusan[index].type !=
+            Constants.lulusanTanggap &&
+        educationStagesActive != null &&
+        educationStagesActive <= 4;
+  }
+
   Widget jumlahLulusanContainer() {
     return Column(
       children: <Widget>[
         ...List.generate(newSimulation.jumlahLulusan.length, (index) {
-          if (newSimulation.jumlahLulusan[index].type ==
-                      Constants.lulusanTanggap &&
-                  educationStagesActive != null &&
-                  educationStagesActive == 3 ||
-              educationStagesActive == 4) {
+          if (isMagister(index)) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 36.0),
               child: Column(
@@ -257,8 +270,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                 ],
               ),
             );
-          } else if (newSimulation.jumlahLulusan[index].type !=
-              Constants.lulusanTanggap) {
+          } else if (isNotMagister(index)) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 36.0),
               child: Column(
