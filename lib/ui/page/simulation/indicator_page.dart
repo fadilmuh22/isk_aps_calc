@@ -174,7 +174,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             validator: Validator.numberValidator,
             onSaved: (value) => map[indicator.variable] = value,
             decoration: InputDecoration(
-              suffixIcon: Icon(Icons.edit),
+              contentPadding: EdgeInsets.only(top: 16.0),
+              suffixIcon: Icon(Icons.edit, size: 20.0),
               border: new UnderlineInputBorder(
                 borderSide: new BorderSide(
                     color: Colors.white, style: BorderStyle.solid),
