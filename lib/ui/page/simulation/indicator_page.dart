@@ -145,7 +145,7 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   Widget nextButton() => SizedBox(
-        width: 200.0,
+        width: 100.0,
         child: CustomRoundedButton(
           items: <Widget>[
             Text(

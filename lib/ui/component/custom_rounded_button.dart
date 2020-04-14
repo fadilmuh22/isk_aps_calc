@@ -7,7 +7,7 @@ class CustomRoundedButton extends StatelessWidget {
     this.items,
     this.onPressed,
     this.align = MainAxisAlignment.spaceBetween,
-    this.padding = const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+    this.padding = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
     this.color = Constants.accentColor,
   });
 
@@ -21,7 +21,7 @@ class CustomRoundedButton extends StatelessWidget {
   Widget build(context) {
     return RaisedButton(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
+        borderRadius: BorderRadius.circular(10.0),
       ),
       onPressed: onPressed,
       padding: padding,

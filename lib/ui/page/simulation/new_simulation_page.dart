@@ -22,6 +22,7 @@ class NewSimulationPage extends StatefulWidget {
 
 class _NewSimulationPageState extends State<NewSimulationPage> {
   final _formKey = GlobalKey<FormState>();
+  final dataKey = new GlobalKey();
 
   NewSimulationModel newSimulation = NewSimulationModel(
     jumlahLulusan: [
@@ -100,6 +101,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
       newSimulation.educationStage = educationStages[index]['id'];
       newSimulation.educationStageName = educationStages[index]['name'];
       educationStagesActive = index;
+      Scrollable.ensureVisible(dataKey.currentContext, duration: Duration(seconds: 2));
     });
   }
 
@@ -136,21 +138,21 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                SizedBox(height: 20.0),
+                SizedBox(height: 10.0),
                 studyProgramNameContainer(),
-                SizedBox(height: 20.0),
+                SizedBox(height: 10.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: currentAccreditation(),
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: 10.0),
                 educationStagesContainer(),
-                SizedBox(height: 20.0),
+                SizedBox(height: 10.0),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: jumlahLulusanContainer(),
                 ),
-                SizedBox(height: 36.0),
+                SizedBox(height: 10.0),
                 nextButton(),
                 SizedBox(height: 20.0),
               ],
@@ -244,6 +246,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   Widget jumlahLulusanContainer() {
     return Column(
       children: <Widget>[
+        new Card(key: dataKey),
         ...List.generate(newSimulation.jumlahLulusan.length, (index) {
           if (isMagister(index)) {
             return Padding(
@@ -304,7 +307,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   }
 
   Widget nextButton() => SizedBox(
-        width: 200.0,
+        width: 160.0,
         child: CustomRoundedButton(
           items: <Widget>[
             Row(
@@ -315,7 +318,10 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                 ),
               ],
             ),
-            Icon(Icons.keyboard_arrow_right)
+            Icon(
+              Icons.keyboard_arrow_right,
+              color: Colors.white,
+            )
           ],
           onPressed: handleNextButton,
         ),
@@ -359,7 +365,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         children: <Widget>[
           Text(
             'Pilih Program Pendidikan:',
-            style: TextStyle(fontSize: 24),
+            style: TextStyle(fontSize: 16),
           ),
         ],
       ));
@@ -373,7 +379,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   }) {
     return Container(
       key: ValueKey(key),
-      margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+      margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
       child: SizedBox(
         width: double.infinity,
         height: 55,

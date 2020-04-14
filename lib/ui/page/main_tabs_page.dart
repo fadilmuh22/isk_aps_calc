@@ -67,9 +67,10 @@ class _MainTabsState extends State<MainTabs> {
 
   BottomNavigationBar bottomNavigationBar() {
     return BottomNavigationBar(
-      type: BottomNavigationBarType.shifting,
+      backgroundColor: Constants.accentColor,
+      type: BottomNavigationBarType.fixed,
       unselectedItemColor: Colors.grey,
-      selectedItemColor: Constants.accentColor,
+      selectedItemColor: Colors.white,
       currentIndex: _currentIndex,
       onTap: (index) {
         setState(() {

@@ -219,9 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-          SizedBox(
-            height: 36.0,
-          ),
+          SizedBox(height: 20.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -232,9 +230,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-          SizedBox(
-            height: 36.0,
-          ),
+          SizedBox(height: 20.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -245,15 +241,18 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-          SizedBox(height: 64.0),
+          SizedBox(height: 60.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CustomRoundedButton(
                 color: Constants.accentColor,
-                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
                 items: <Widget>[
-                  Text('Logout'),
+                  Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ],
                 onPressed: logoutUser,
               ),
