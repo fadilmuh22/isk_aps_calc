@@ -46,7 +46,7 @@ class LoginBloc extends ChangeNotifier {
 
       loginMessage = flash(
         'Login Berhasil',
-        '\nBerhasil login dengan google\nSilahkan lanjutkan dengan email google yang sudah terdaftar dan passordnya di isi sama dengan email',
+        '\nBerhasil login dengan Akun Google Anda.\n\nMulai saat ini Email Anda sudah terdaftar dan dapat menggunakan nya untuk login dengan mengisikan username dan password menggunakan Email Anda.',
       );
       return true;
     }
@@ -67,11 +67,11 @@ class LoginBloc extends ChangeNotifier {
         loginMessage = flash('Login Berhasil', 'Selamat Datang ${user.name} ');
         return true;
       }
-      loginMessage = flash('Login Gagal', 'Password anda tidak sesuai');
+      loginMessage = flash('Login Gagal', 'Password anda tidak sesuai!');
       return false;
     }
 
-    loginMessage = flash('Login Gagal', 'Tidak ada email yang cocok');
+    loginMessage = flash('Login Gagal', 'Tidak ada email yang cocok!');
     return false;
   }
 
