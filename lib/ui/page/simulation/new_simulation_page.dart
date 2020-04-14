@@ -181,23 +181,27 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         Row(
           children: <Widget>[
             Expanded(
-              child: DropdownButton(
-                value: newSimulation.currentAccreditation,
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.transparent,
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: DropdownButton(
+                  isExpanded: true,
+                  value: newSimulation.currentAccreditation,
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Constants.accentColor,
+                  ),
+                  onChanged: (newValue) {
+                    setState(() {
+                      newSimulation.currentAccreditation = newValue;
+                    });
+                  },
+                  items: currentAccreditations.map((value) {
+                    return DropdownMenuItem(
+                      child: new Text(value),
+                      value: value,
+                    );
+                  }).toList(),
                 ),
-                onChanged: (newValue) {
-                  setState(() {
-                    newSimulation.currentAccreditation = newValue;
-                  });
-                },
-                items: currentAccreditations.map((value) {
-                  return DropdownMenuItem(
-                    child: new Text(value),
-                    value: value,
-                  );
-                }).toList(),
               ),
             ),
           ],
@@ -306,7 +310,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   }
 
   Widget nextButton() => SizedBox(
-        width: 160.0,
+        width: 140.0,
         child: CustomRoundedButton(
           items: <Widget>[
             Row(
@@ -347,7 +351,8 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           },
           onSaved: (value) => newSimulation.studyProgramName = value,
           decoration: InputDecoration(
-            suffixIcon: Icon(Icons.edit),
+            contentPadding: EdgeInsets.only(top: 16.0),
+            suffixIcon: Icon(Icons.edit, size: 20.0),
             border: new UnderlineInputBorder(
               borderSide:
                   new BorderSide(color: Colors.white, style: BorderStyle.solid),
@@ -461,7 +466,9 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                         validator: Validator.numberValidator,
                         onSaved: onSaved,
                         decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.edit),
+                          contentPadding:
+                              EdgeInsets.only(top: 16.0, left: 10.0),
+                          suffixIcon: Icon(Icons.edit, size: 16.0),
                           border: new UnderlineInputBorder(
                             borderSide: new BorderSide(
                               color: Colors.white,

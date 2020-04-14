@@ -145,7 +145,7 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   Widget nextButton() => SizedBox(
-        width: 100.0,
+        width: 140.0,
         child: CustomRoundedButton(
           items: <Widget>[
             Text(
@@ -154,7 +154,10 @@ class _IndicatorPageState extends State<IndicatorPage>
                   : 'Lanjutkan',
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            Icon(Icons.keyboard_arrow_right)
+            Icon(
+              Icons.keyboard_arrow_right,
+              color: Colors.white,
+            )
           ],
           onPressed: handleTabNext,
         ),
@@ -171,7 +174,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             validator: Validator.numberValidator,
             onSaved: (value) => map[indicator.variable] = value,
             decoration: InputDecoration(
-              suffixIcon: Icon(Icons.edit),
+              contentPadding: EdgeInsets.only(top: 16.0),
+              suffixIcon: Icon(Icons.edit, size: 20.0),
               border: new UnderlineInputBorder(
                 borderSide: new BorderSide(
                     color: Colors.white, style: BorderStyle.solid),
