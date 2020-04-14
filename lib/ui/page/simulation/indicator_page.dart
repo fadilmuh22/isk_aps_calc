@@ -48,6 +48,10 @@ class _IndicatorPageState extends State<IndicatorPage>
         .newSimulation
         .getJumlahLulusan());
 
+    print(Provider.of<SimulationBloc>(context, listen: false)
+        .newSimulation
+        .getJumlahLulusan());
+
     _tabController = TabController(vsync: this, length: indicator.length);
     _tabController.addListener((_setActiveTabIndex));
   }

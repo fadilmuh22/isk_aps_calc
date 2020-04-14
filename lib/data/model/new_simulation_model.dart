@@ -1,5 +1,3 @@
-import 'package:isk_aps_calc/data/model/jumlah_lulusan_model.dart';
-
 class NewSimulationModel {
   int educationStage;
   String studyProgramName, educationStageName, currentAccreditation;
@@ -31,9 +29,11 @@ class NewSimulationModel {
 
     for (var i = 0; i < jumlahLulusan.length; i++) {
       if (jumlahLulusan[i].value != null && jumlahLulusan[i].value.isNotEmpty) {
-        print(
-            'ini bool nya${jumlahLulusan[i].value != null && jumlahLulusan[i].value.isNotEmpty} ${jumlahLulusan[i].value}');
-        int sum = jumlahLulusan[i].value.reduce((a, b) => a + b);
+        int sum = jumlahLulusan[i].value.reduce((a, b) {
+          if (a != null && b != null) {
+            return a + b;
+          }
+        });
         map[jumlahLulusan[i].variable] = sum;
       }
     }
