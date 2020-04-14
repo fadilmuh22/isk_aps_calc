@@ -113,7 +113,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget loading() {
     return Center(
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        backgroundColor: Color(0xffC82247),
+        valueColor: AlwaysStoppedAnimation<Color>(Color(0xffffffff)),
+      ),
     );
   }
 
@@ -276,17 +279,17 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             margin: EdgeInsets.all(1.0),
             padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(16.0),
-                  bottomLeft: const Radius.circular(16.0),
+                  topLeft: const Radius.circular(8.0),
+                  bottomLeft: const Radius.circular(8.0),
                 )),
             child: Image.asset('assets/images/google_logo.png'),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(

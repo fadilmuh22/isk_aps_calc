@@ -20,7 +20,8 @@ class LoginBloc extends ChangeNotifier {
     try {
       data = await _googleSignIn.signIn();
     } catch (e) {
-      print('$e');
+      loginMessage = flash('Login Gagal', 'Coba beberapa saat lagi.');
+      return false;
     }
 
     if (data != null) {

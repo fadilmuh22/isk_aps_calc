@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
-import 'package:isk_aps_calc/constants.dart';
 
 import 'package:isk_aps_calc/ui/page/login_page.dart';
 
@@ -53,11 +52,14 @@ class OnBoardingPageState extends State<OnBoardingPage> {
         Navigator.of(context).pushReplacementNamed(LoginPage.tag);
       },
       colorSkipBtn: Color.fromRGBO(255, 255, 255, 1.0),
-      styleNameSkipBtn: TextStyle(color: Color.fromRGBO(255, 0, 0, 1.0)),
-      colorDoneBtn: Color.fromRGBO(255, 0, 0, 1.0),
+      styleNameSkipBtn: TextStyle(color: Color(0xffC82247)),
+      colorDoneBtn: Color(0xffC82247),
       styleNameDoneBtn: TextStyle(
         color: Color.fromRGBO(255, 255, 255, 1.0),
       ),
+      colorDot: Color(0xffDEDEDE),
+      colorActiveDot: Color(0xffC82247),
+      sizeDot: 8.0,
     );
   }
 }
