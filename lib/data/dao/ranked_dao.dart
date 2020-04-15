@@ -1,14 +1,10 @@
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 
-import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_model.dart';
 
 class RankedDao {
   Future<MappingRankedModel> mappingRanked(
-    int educationStage,
-    String indicatorCategory,
-    String indicatorSubcategory,
-    double indicatorValue,
+    MappingRankedModel mappingRankedModel,
   ) async {
     var result = await AppDatabase().db.rawQuery('''
       select
@@ -23,35 +19,18 @@ class RankedDao {
       and indicator_category = ?
       and indicator_subcategory = ? ;
     ''', [
-      indicatorValue,
-      indicatorValue,
-      indicatorValue,
-      indicatorValue,
-      indicatorValue,
-      indicatorValue,
-      educationStage,
-      indicatorCategory,
-      indicatorSubcategory,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.educationStage,
+      mappingRankedModel.indicatorCategory,
+      mappingRankedModel.indicatorSubcategory,
     ]);
     MappingRankedModel mappingRanked = MappingRankedModel.fromJson(result[0]);
 
     return mappingRanked;
-  }
-
-  Future<List<IndicatorModel>> select(
-    String indicatorCategory,
-    String indicatorSubcategory,
-  ) async {
-    var mapList = await AppDatabase().db.query(
-      'indicator',
-      where: 'indicator_category=?',
-      whereArgs: [indicatorCategory],
-    );
-    if (mapList.isNotEmpty) {
-      return mapList
-          .map<IndicatorModel>((user) => IndicatorModel.fromJson(user))
-          .toList();
-    }
-    return null;
   }
 }

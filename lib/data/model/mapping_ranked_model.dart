@@ -9,6 +9,7 @@ class MappingRankedModel {
     this.educationStage,
     this.indicatorCategory,
     this.indicatorSubcategory,
+    this.indicatorValue,
     this.ranked,
   });
 

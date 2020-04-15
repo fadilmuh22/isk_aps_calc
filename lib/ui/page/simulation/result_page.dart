@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
+import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
+import 'package:isk_aps_calc/data/model/subcategory_model.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
@@ -24,6 +26,9 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   Widget build(context) {
+    MappingRankedConvertModel resultConvert =
+        Provider.of<SimulationBloc>(context).resultConvert;
+
     List<MappingIndicatorModel> accreditation =
         Provider.of<SimulationBloc>(context).mapIndicator;
 
@@ -40,7 +45,7 @@ class _ResultPageState extends State<ResultPage> {
         child: ListView(
           padding: EdgeInsets.all(16.0),
           children: <Widget>[
-            cardResult(),
+            cardResult(resultConvert),
             SizedBox(height: 48),
             Column(
               children: List.generate(accreditation.length, (index) {
@@ -53,7 +58,7 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
-  Widget cardResult() => GestureDetector(
+  Widget cardResult(MappingRankedConvertModel resultConvert) => GestureDetector(
         onTap: () {},
         child: Container(
           decoration: BoxDecoration(
@@ -73,7 +78,7 @@ class _ResultPageState extends State<ResultPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'TERAKREDITASI',
+                      resultConvert.rankedConvert,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -97,8 +102,11 @@ class _ResultPageState extends State<ResultPage> {
           style: Constants.titleStyle,
         ),
         SizedBox(height: 16.0),
-        ...List.generate(indicator.indicator.length, (index) {
-          return _indicatorFieldContainer(indicator.indicator[index]);
+        ...List.generate(indicator.subcategory.length, (index) {
+          return _indicatorFieldContainer(
+            indicator.subcategory[index],
+            indicator.indicator[index],
+          );
         }),
         SizedBox(height: 36.0),
         Column(
@@ -112,19 +120,28 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
-  Widget _indicatorFieldContainer(IndicatorModel indicator) {
+  Widget _indicatorFieldContainer(
+    SubcategoryModel subcategory,
+    IndicatorModel indicator,
+  ) {
     return Container(
       padding: EdgeInsets.only(bottom: 36.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _indicatorField(indicator),
+          _indicatorField(
+            subcategory,
+            indicator,
+          ),
         ],
       ),
     );
   }
 
-  Widget _indicatorField(IndicatorModel indicator) {
+  Widget _indicatorField(
+    SubcategoryModel subcategory,
+    IndicatorModel indicator,
+  ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,7 +150,7 @@ class _ResultPageState extends State<ResultPage> {
           flex: 3,
           child: Container(
             margin: EdgeInsets.only(right: 24.0, left: 8.0),
-            child: Text(indicator.name),
+            child: Text(subcategory.name),
           ),
         ),
         Expanded(

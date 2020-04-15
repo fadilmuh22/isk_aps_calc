@@ -17,6 +17,10 @@ class Constants {
   static const String lulusanTanggap =
       '# Jumlah Pengguna Lulusan Yang Memberi Tanggapan Atas Studi Pelacakan Lulusan Dalam 3 Thn';
 
+  static const String baik = 'BAIK';
+  static const String baikSekali = 'BAIK SEKALI';
+  static const String unggul = 'UNGGUL';
+
   static const String oauthKey =
       '397061739942-1a3mcj0375bi8mv236ghi85depms10ob.apps.googleusercontent.com';
 }

@@ -5,6 +5,7 @@ class MappingIndicatorModel {
       indicatorCategoryName,
       indicatorSubcategory;
   List<dynamic> indicator;
+  List<dynamic> subcategory;
 
   MappingIndicatorModel({
     this.educationStage,

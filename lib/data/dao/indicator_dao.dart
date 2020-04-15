@@ -1,3 +1,4 @@
+import 'package:isk_aps_calc/data/model/subcategory_model.dart';
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
@@ -20,16 +21,21 @@ class IndicatorDao {
             (data) => MappingIndicatorModel.fromJson(data))
         .toList();
     for (var i = 0; i < mappingIndicator.length; i++) {
-      var indicator = await this.select(mappingIndicator[i].indicatorCategory,
-          mappingIndicator[i].indicatorSubcategory);
+      var indicator = await this.select(
+        mappingIndicator[i].indicatorCategory,
+      );
       mappingIndicator[i].indicator = indicator;
+
+      var subcategory = await this.subcategory(
+        mappingIndicator[i].indicatorSubcategory,
+      );
+      mappingIndicator[i].subcategory = subcategory;
     }
     return mappingIndicator;
   }
 
   Future<List<IndicatorModel>> select(
     String indicatorCategory,
-    String indicatorSubCategory,
   ) async {
     var mapList = await AppDatabase().db.query(
       'indicator',
@@ -38,7 +44,22 @@ class IndicatorDao {
     );
     if (mapList.isNotEmpty) {
       return mapList
-          .map<IndicatorModel>((user) => IndicatorModel.fromJson(user))
+          .map<IndicatorModel>((result) => IndicatorModel.fromJson(result))
+          .toList();
+    }
+    return null;
+  }
+
+  Future<List<SubcategoryModel>> subcategory(String id) async {
+    var results = await AppDatabase().db.query(
+          'indicator_subcategory',
+          where: 'indicator_subcategory_id=?',
+          whereArgs: [id],
+          limit: 1,
+        );
+    if (results.isNotEmpty) {
+      return results
+          .map<SubcategoryModel>((result) => SubcategoryModel.fromJson(result))
           .toList();
     }
     return null;
