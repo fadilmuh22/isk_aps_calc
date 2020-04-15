@@ -59,19 +59,20 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   _setActiveTabIndex() {
+    _formKey.currentState.save();
     setState(() {
       _activeTabIndex = _tabController.index;
     });
   }
 
-  handleTabNext() {
+  handleTabNext() async {
     _formKey.currentState.save();
     if (_tabController.index != null) {
       if (_activeTabIndex == (indicator.length - 1)) {
-        Provider.of<SimulationBloc>(context, listen: false)
+        await Provider.of<SimulationBloc>(context, listen: false)
             .accreditate(map, indicator);
 
-        Navigator.of(context).pushNamed(ResultPage.tag);
+        // Navigator.of(context).pushNamed(ResultPage.tag);
       } else {
         _tabController.animateTo((_tabController.index + 1));
       }
@@ -171,6 +172,9 @@ class _IndicatorPageState extends State<IndicatorPage>
             key: UniqueKey(),
             keyboardType: TextInputType.number,
             autofocus: false,
+            initialValue: map[indicator.variable] != null
+                ? map[indicator.variable].toString()
+                : '0',
             validator: Validator.numberValidator,
             onSaved: (value) {
               if (value == null || value.isEmpty) {
@@ -220,6 +224,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         );
         break;
       case IndicatorField.radio:
+        map[indicator.variable] = 0;
         return Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,11 +269,11 @@ class _IndicatorPageState extends State<IndicatorPage>
           },
         );
       case IndicatorField.multiple_number:
-        map[indicator.variable] = new List(4);
         List defaultValue = indicator.defaultValue.split('/');
         return Row(
-          key: UniqueKey(),
+          key: ValueKey(indicator.variable),
           children: List.generate(defaultValue.length, (index) {
+            map['${indicator.variable}${index + 1}'] = 0;
             return Flexible(
               child: Container(
                 margin: EdgeInsets.only(left: 5.0, top: 8.0),
@@ -279,15 +284,10 @@ class _IndicatorPageState extends State<IndicatorPage>
                     autofocus: false,
                     validator: Validator.numberValidator,
                     onSaved: (value) {
-                      if (value == null || value.isEmpty) {
-                        setState(() {
-                          map[indicator.variable][index] = 0;
-                        });
-                      } else {
-                        setState(() {
-                          map[indicator.variable][index] = value;
-                        });
-                      }
+                      map['${indicator.variable}${index + 1}'] = value;
+                    },
+                    onChanged: (value) {
+                      map['${indicator.variable}${index + 1}'] = value;
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(

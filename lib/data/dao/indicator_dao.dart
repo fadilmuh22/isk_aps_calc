@@ -12,7 +12,7 @@ class IndicatorDao {
       SELECT *
       FROM mapping_stage_indicator
       JOIN indicator_category
-      ON mapping_stage_indicator.indicator_category = indicator_category.indicator_category_id
+        ON mapping_stage_indicator.indicator_category = indicator_category.indicator_category_id
       WHERE mapping_stage_indicator.education_stage = $educationStage
       GROUP BY mapping_stage_indicator.indicator_category;
     ''');
@@ -23,6 +23,7 @@ class IndicatorDao {
     for (var i = 0; i < mappingIndicator.length; i++) {
       var indicator = await this.select(
         mappingIndicator[i].indicatorCategory,
+        mappingIndicator[i].indicatorSubcategory,
       );
       mappingIndicator[i].indicator = indicator;
 
@@ -36,11 +37,20 @@ class IndicatorDao {
 
   Future<List<IndicatorModel>> select(
     String indicatorCategory,
+    String indicatorSubcategory,
   ) async {
-    var mapList = await AppDatabase().db.query(
-      'indicator',
-      where: 'indicator_category=?',
-      whereArgs: [indicatorCategory],
+    var mapList = await AppDatabase().db.rawQuery(
+      '''
+      SELECT * FROM indicator
+      JOIN mapping_formula
+        ON mapping_formula.indicator_category = indicator.indicator_category
+          AND mapping_formula.indicator_subcategory = indicator.indicator_subcategory
+      WHERE indicator.indicator_category = ?
+      GROUP BY indicator.indicator_name;
+      ''',
+      [
+        indicatorCategory,
+      ],
     );
     if (mapList.isNotEmpty) {
       return mapList

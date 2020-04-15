@@ -26,27 +26,25 @@ class SimulationBloc extends ChangeNotifier {
     Map<String, dynamic> map,
     List<MappingIndicatorModel> lmap,
   ) async {
-    List<MappingRankedModel> results;
+    List<MappingRankedModel> results = [];
 
     var resultFormula = Formula().accreditate(map, lmap);
 
-    resultFormula.map((mapIndicator) {
-      mapIndicator.indicator.map((indicator) {
+    resultFormula.forEach((mapIndicator) {
+      mapIndicator.indicator.forEach((indicator) {
         MappingRankedModel mappingRankedModel = MappingRankedModel(
           educationStage: mapIndicator.educationStage,
-          indicatorCategory: indicator.indicatorCategory,
-          indicatorSubcategory: indicator.indicatorSubcategory,
-          indicatorValue: indicator.value,
+          indicatorCategory: indicator.category,
+          indicatorSubcategory: indicator.subcategory,
+          indicatorValue: indicator.value.toDouble(),
         );
-        MappingRankedModel result;
-        RankedDao()
-            .mappingRanked(mappingRankedModel)
-            .then((value) => result = value);
-        results.add(result);
+
+        RankedDao().mappingRanked(mappingRankedModel).then((value) {
+          results.add(value);
+        });
       });
     });
-
-    print('ini results $results');
+    // return null;
 
     int rank1 = results
         .where((mapRanked) => mapRanked.ranked == Constants.baik)
@@ -74,7 +72,7 @@ class SimulationBloc extends ChangeNotifier {
     MappingRankedConvertModel mappingRankedConvertModel =
         MappingRankedConvertModel(
       currentAccreditation: newSimulation.currentAccreditation,
-      inputAccreditation: inputRank,
+      inputAccreditation: inputRank ?? 'BELUM MEMENUHI SYARAT AKREDITASI [2]',
     );
 
     RankedConvertDao()
