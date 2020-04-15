@@ -172,7 +172,17 @@ class _IndicatorPageState extends State<IndicatorPage>
             keyboardType: TextInputType.number,
             autofocus: false,
             validator: Validator.numberValidator,
-            onSaved: (value) => map[indicator.variable] = value,
+            onSaved: (value) {
+              if (value == null || value.isEmpty) {
+                setState(() {
+                  map[indicator.variable] = 0;
+                });
+              } else {
+                setState(() {
+                  map[indicator.variable] = value;
+                });
+              }
+            },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 16.0),
               suffixIcon: Icon(Icons.edit, size: 20.0),
@@ -224,9 +234,15 @@ class _IndicatorPageState extends State<IndicatorPage>
                 groupValue: map[indicator.variable],
                 value: indicator.defaultValue,
                 onChanged: (value) {
-                  setState(() {
-                    map[indicator.variable] = value;
-                  });
+                  if (value == null || value.isEmpty) {
+                    setState(() {
+                      map[indicator.variable] = 0;
+                    });
+                  } else {
+                    setState(() {
+                      map[indicator.variable] = value;
+                    });
+                  }
                 },
               ),
             ),
@@ -263,7 +279,15 @@ class _IndicatorPageState extends State<IndicatorPage>
                     autofocus: false,
                     validator: Validator.numberValidator,
                     onSaved: (value) {
-                      map[indicator.variable][index] = value;
+                      if (value == null || value.isEmpty) {
+                        setState(() {
+                          map[indicator.variable][index] = 0;
+                        });
+                      } else {
+                        setState(() {
+                          map[indicator.variable][index] = value;
+                        });
+                      }
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(

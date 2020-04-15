@@ -46,6 +46,8 @@ class SimulationBloc extends ChangeNotifier {
       });
     });
 
+    print('ini results $results');
+
     int rank1 = results
         .where((mapRanked) => mapRanked.ranked == Constants.baik)
         .toList()
@@ -77,7 +79,10 @@ class SimulationBloc extends ChangeNotifier {
 
     RankedConvertDao()
         .mappingRankedConvert(mappingRankedConvertModel)
-        .then((value) => resultConvert = value);
+        .then((value) {
+      print('ini rank ${value.rankedConvert}');
+      return resultConvert = value;
+    });
 
     mapIndicator =
         await IndicatorDao().mappingIndicator(newSimulation.educationStage);
