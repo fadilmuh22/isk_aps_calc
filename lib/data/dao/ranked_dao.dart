@@ -4,13 +4,13 @@ import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_model.dart';
 
 class RankedDao {
-  Future<List<MappingIndicatorModel>> mappingIndicator(
+  Future<MappingRankedModel> mappingRanked(
     int educationStage,
     String indicatorCategory,
     String indicatorSubcategory,
     double indicatorValue,
   ) async {
-    var mapList = await AppDatabase().db.rawQuery('''
+    var result = await AppDatabase().db.rawQuery('''
       select
       case
         when ? >= rank3 then 'UNGGUL'
@@ -33,16 +33,9 @@ class RankedDao {
       indicatorCategory,
       indicatorSubcategory,
     ]);
-    List<MappingIndicatorModel> mappingIndicator = mapList
-        .map<MappingIndicatorModel>(
-            (data) => MappingIndicatorModel.fromJson(data))
-        .toList();
-    for (var i = 0; i < mappingIndicator.length; i++) {
-      var indicator = await this.select(mappingIndicator[i].indicatorCategory,
-          mappingIndicator[i].indicatorSubcategory);
-      mappingIndicator[i].indicator = indicator;
-    }
-    return mappingIndicator;
+    MappingRankedModel mappingRanked = MappingRankedModel.fromJson(result[0]);
+
+    return mappingRanked;
   }
 
   Future<List<IndicatorModel>> select(

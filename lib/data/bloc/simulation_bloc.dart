@@ -19,7 +19,11 @@ class SimulationBloc extends ChangeNotifier {
     Map<String, dynamic> map,
     List<MappingIndicatorModel> lmap,
   ) {
-    mapIndicator = Formula().accreditate(map, lmap);
+    var resultFormula = Formula().accreditate(map, lmap);
+    // resultFormula.indicator.map((indicator) {
+    //   indicator.
+    // });
+    
     notifyListeners();
   }
 
