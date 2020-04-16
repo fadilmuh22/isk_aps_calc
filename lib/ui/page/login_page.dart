@@ -51,13 +51,19 @@ class _LoginPageState extends State<LoginPage> {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                if (succeed)
+                if (succeed) {
                   Navigator.of(context).pushReplacementNamed(MainTabs.tag);
+                }
               },
             ),
           ],
         ),
-      );
+      ).then((data) {
+        print(data);
+        if (succeed) {
+          Navigator.of(context).pushReplacementNamed(MainTabs.tag);
+        }
+      });
 
   void handleLocalLogin() async {
     await setIsLoading(true);

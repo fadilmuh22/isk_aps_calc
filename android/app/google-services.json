@@ -1,1 +1,48 @@
-{"installed":{"client_id":"397061739942-1a3mcj0375bi8mv236ghi85depms10ob.apps.googleusercontent.com","project_id":"isk-aps-calc-tel-u","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}}
+{
+  "project_info": {
+    "project_number": "397061739942",
+    "firebase_url": "https://isk-aps-calc-tel-u.firebaseio.com",
+    "project_id": "isk-aps-calc-tel-u",
+    "storage_bucket": "isk-aps-calc-tel-u.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397061739942:android:02541b48f6aa13e936ab67",
+        "android_client_info": {
+          "package_name": "com.kanzen.isk_aps_calc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397061739942-1a3mcj0375bi8mv236ghi85depms10ob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kanzen.isk_aps_calc",
+            "certificate_hash": "bed6f14501f81a2e4db65b723874d8163813e3e1"
+          }
+        },
+        {
+          "client_id": "397061739942-3tas6kha38e8ree01eaa64pgmi0joji0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW0gjP29ike3tnN7UIv-u6ZpOe4c6cmKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397061739942-3tas6kha38e8ree01eaa64pgmi0joji0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
