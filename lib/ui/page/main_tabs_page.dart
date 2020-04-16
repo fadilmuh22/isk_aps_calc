@@ -5,8 +5,6 @@ import 'package:isk_aps_calc/ui/page/home_page.dart';
 import 'package:isk_aps_calc/ui/page/profile_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/new_simulation_page.dart';
 import 'package:isk_aps_calc/constants.dart';
-import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
-import 'package:provider/provider.dart';
 
 class MainTabs extends StatefulWidget {
   static String tag = '/main-tabs';
@@ -26,8 +24,6 @@ class _MainTabsState extends State<MainTabs> {
         return NewSimulationPage();
       case 2:
         return ProfilePage();
-      case 3:
-        return ResultPage();
     }
     return HomePage(goToPage: this.goToPage);
   }
@@ -62,10 +58,6 @@ class _MainTabsState extends State<MainTabs> {
   @override
   void initState() {
     super.initState();
-    print(Provider.of<SimulationBloc>(context, listen: false).fromIndicator);
-    if (Provider.of<SimulationBloc>(context, listen: false).fromIndicator) {
-      _currentIndex = 3;
-    }
   }
 
   @override

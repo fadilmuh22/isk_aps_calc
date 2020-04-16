@@ -79,7 +79,6 @@ class SimulationBloc extends ChangeNotifier {
     RankedConvertDao()
         .mappingRankedConvert(mappingRankedConvertModel)
         .then((value) {
-      print('ini rank ${value.rankedConvert}');
       return resultConvert = value;
     });
 

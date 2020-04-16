@@ -6,12 +6,6 @@ class RankedDao {
   Future<MappingRankedModel> mappingRanked(
     MappingRankedModel mappingRankedModel,
   ) async {
-    // print('''
-    //   ini mapnya ${mappingRankedModel.indicatorValue}
-    //   ${mappingRankedModel.educationStage}
-    //   ${mappingRankedModel.indicatorCategory}
-    //   ${mappingRankedModel.indicatorSubcategory}
-    // ''');
     var result = await AppDatabase().db.rawQuery('''
       select
       case

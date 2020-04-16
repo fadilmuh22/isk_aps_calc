@@ -59,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ).then((data) {
-        print(data);
         if (succeed) {
           Navigator.of(context).pushReplacementNamed(MainTabs.tag);
         }
