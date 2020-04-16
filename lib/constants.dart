@@ -10,10 +10,15 @@ class Constants {
   static const String appName = 'KALKULATOR ISK APS';
   static const String newSimulation = 'Simulasi Baru';
   static const String simulationHistory = 'Riwayat Simulasi';
+
+  static const String tipe3Subtitle =
+      'Pilih salah satu yang sesuai dengan kondisi Program Studi Anda';
+  static const String tipe4Subtitle =
+      'Isikan presentase setiap kriteria dengan kondisi Program Studi Anda';
+
   static const String lulusanNormal = '# Jumlah Lulusan Dalam 3 Tahun';
   static const String lulusanTerlacak =
       '# Jumlah Lulusan Dalam 3 Tahun Yang Terlacak';
-
   static const String lulusanTanggap =
       '# Jumlah Pengguna Lulusan Yang Memberi Tanggapan Atas Studi Pelacakan Lulusan Dalam 3 Thn';
 

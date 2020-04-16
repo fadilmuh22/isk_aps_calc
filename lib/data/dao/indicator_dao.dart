@@ -14,7 +14,6 @@ class IndicatorDao {
       JOIN indicator_category
         ON mapping_stage_indicator.indicator_category = indicator_category.indicator_category_id
       WHERE mapping_stage_indicator.education_stage = $educationStage
-      GROUP BY mapping_stage_indicator.indicator_category;
     ''');
     List<MappingIndicatorModel> mappingIndicator = mapList
         .map<MappingIndicatorModel>(
@@ -45,11 +44,12 @@ class IndicatorDao {
       JOIN mapping_formula
         ON mapping_formula.indicator_category = indicator.indicator_category
           AND mapping_formula.indicator_subcategory = indicator.indicator_subcategory
-      WHERE indicator.indicator_category = ?
+      WHERE indicator.indicator_category = ? AND indicator.indicator_subcategory = ?
       GROUP BY indicator.indicator_name;
       ''',
       [
         indicatorCategory,
+        indicatorSubcategory,
       ],
     );
     if (mapList.isNotEmpty) {

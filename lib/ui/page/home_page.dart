@@ -5,10 +5,9 @@ import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = '/home';
+  final Function goToPage;
 
   HomePage({this.goToPage});
-
-  final Function goToPage;
 
   @override
   _HomePageState createState() => new _HomePageState();
@@ -45,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                     ])),
             Padding(
               padding: const EdgeInsets.only(
-                    bottom: 0, left: 16, right: 16, top: 16),
+                  bottom: 0, left: 16, right: 16, top: 16),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -54,8 +53,8 @@ class _HomePageState extends State<HomePage> {
             ),
             new Expanded(
               child: new ListView(
-                padding: const EdgeInsets.only(
-                    bottom: 8, left: 8, right: 8, top: 0),
+                padding:
+                    const EdgeInsets.only(bottom: 8, left: 8, right: 8, top: 0),
                 children: <Widget>[
                   cardSimulationHistoryContainer(),
                 ],

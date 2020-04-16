@@ -23,9 +23,7 @@ class Formula extends _$FormulaSerializable {
   ) {
     this.mapVariable = map;
     mapVariable.forEach((k, v) {
-      if (v is int && v == null) {
-        mapVariable[k] = 0;
-      } else if (v is int) {
+      if (v is int) {
         mapVariable[k] = v.toDouble();
       } else if (v is String) {
         if (v.isEmpty) {
@@ -33,6 +31,8 @@ class Formula extends _$FormulaSerializable {
         } else {
           mapVariable[k] = double.parse(v);
         }
+      } else {
+        mapVariable[k] = 0.0;
       }
     });
 

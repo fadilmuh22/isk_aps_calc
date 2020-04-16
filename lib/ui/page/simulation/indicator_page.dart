@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
 import 'package:isk_aps_calc/util/validator.dart';
 import 'package:provider/provider.dart';
 
@@ -29,14 +30,12 @@ class IndicatorPage extends StatefulWidget {
 
 class _IndicatorPageState extends State<IndicatorPage>
     with SingleTickerProviderStateMixin {
-  Map<String, dynamic> map = Map<String, dynamic>();
-  final _formKey = GlobalKey<FormState>();
-
-  var _activeTabIndex;
-
-  TabController _tabController;
-
   var indicator;
+  Map<String, dynamic> map = Map<String, dynamic>();
+
+  final _formKey = GlobalKey<FormState>();
+  TabController _tabController;
+  var _activeTabIndex;
 
   @override
   void initState() {
@@ -72,7 +71,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         await Provider.of<SimulationBloc>(context, listen: false)
             .accreditate(map, indicator);
 
-        // Navigator.of(context).pushNamed(ResultPage.tag);
+        Navigator.of(context).pushNamed(ResultPage.tag);
       } else {
         _tabController.animateTo((_tabController.index + 1));
       }
@@ -111,7 +110,17 @@ class _IndicatorPageState extends State<IndicatorPage>
           mappingIndicator.indicatorCategoryName,
           style: Constants.titleStyle,
         ),
+        if (mappingIndicator.indicator[0].type == 3) ...[
+          Text(
+            Constants.tipe3Subtitle,
+          ),
+        ] else if (mappingIndicator.indicator[0].type == 4) ...[
+          Text(
+            Constants.tipe4Subtitle,
+          ),
+        ],
         ...List.generate(mappingIndicator.indicator.length, (index) {
+          if (mappingIndicator.indicator[index].type == 3) {}
           return _indicatorFieldContainer(mappingIndicator.indicator[index]);
         }),
         SizedBox(height: 36.0),
@@ -165,6 +174,9 @@ class _IndicatorPageState extends State<IndicatorPage>
       );
 
   Widget _indicatorField(IndicatorModel indicator) {
+    if (map[indicator.variable] == null) {
+      map[indicator.variable] = null;
+    }
     switch (IndicatorField.values[indicator.type - 1]) {
       case IndicatorField.number:
         return Theme(
@@ -177,15 +189,9 @@ class _IndicatorPageState extends State<IndicatorPage>
                 : '0',
             validator: Validator.numberValidator,
             onSaved: (value) {
-              if (value == null || value.isEmpty) {
-                setState(() {
-                  map[indicator.variable] = 0;
-                });
-              } else {
-                setState(() {
-                  map[indicator.variable] = value;
-                });
-              }
+              setState(() {
+                map[indicator.variable] = value;
+              });
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 16.0),
@@ -205,13 +211,11 @@ class _IndicatorPageState extends State<IndicatorPage>
             key: UniqueKey(),
             keyboardType: TextInputType.text,
             autofocus: false,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please provide value';
-              }
-              return null;
+            onSaved: (value) {
+              setState(() {
+                map[indicator.variable] = value;
+              });
             },
-            onSaved: (value) => map[indicator.variable] = value,
             decoration: InputDecoration(
               suffixIcon: Icon(Icons.edit),
               border: new UnderlineInputBorder(
@@ -224,7 +228,6 @@ class _IndicatorPageState extends State<IndicatorPage>
         );
         break;
       case IndicatorField.radio:
-        map[indicator.variable] = 0;
         return Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -239,15 +242,9 @@ class _IndicatorPageState extends State<IndicatorPage>
                 groupValue: map[indicator.variable],
                 value: indicator.defaultValue,
                 onChanged: (value) {
-                  if (value == null || value.isEmpty) {
-                    setState(() {
-                      map[indicator.variable] = 0;
-                    });
-                  } else {
-                    setState(() {
-                      map[indicator.variable] = value;
-                    });
-                  }
+                  setState(() {
+                    map[indicator.variable] = indicator.defaultValue;
+                  });
                 },
               ),
             ),
@@ -284,10 +281,9 @@ class _IndicatorPageState extends State<IndicatorPage>
                     autofocus: false,
                     validator: Validator.numberValidator,
                     onSaved: (value) {
-                      map['${indicator.variable}${index + 1}'] = value;
-                    },
-                    onChanged: (value) {
-                      map['${indicator.variable}${index + 1}'] = value;
+                      setState(() {
+                        map['${indicator.variable}${index + 1}'] = value;
+                      });
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(

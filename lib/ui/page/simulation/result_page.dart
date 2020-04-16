@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
 import 'package:isk_aps_calc/data/model/subcategory_model.dart';
+import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
+import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
@@ -52,6 +54,34 @@ class _ResultPageState extends State<ResultPage> {
                 return indicatorContainer(accreditation[index]);
               }),
             ),
+            SizedBox(height: 36.0),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 200.0,
+                  child: CustomRoundedButton(
+                    items: <Widget>[
+                      Text(
+                        'Kembali',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Icon(Icons.keyboard_arrow_right),
+                    ],
+                    onPressed: () {
+                      Navigator.of(context).popUntil((route) {
+                        if (route.settings.name == MainTabs.tag) {
+                          return true;
+                        } else {
+                          return false;
+                        }
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(height: 24.0),
+              ],
+            ),
           ],
         ),
       ),
@@ -74,18 +104,16 @@ class _ResultPageState extends State<ResultPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Flexible(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      resultConvert.rankedConvert,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
+                child: Text(
+                  resultConvert.rankedConvert ?? 'Akreditasi',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: Colors.white,
+                  ),
                 ),
               )
             ],
@@ -108,14 +136,6 @@ class _ResultPageState extends State<ResultPage> {
             indicator.indicator[index],
           );
         }),
-        SizedBox(height: 36.0),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(),
-            SizedBox(height: 24.0),
-          ],
-        ),
       ],
     );
   }

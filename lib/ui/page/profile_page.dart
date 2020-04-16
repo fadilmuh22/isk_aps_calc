@@ -83,8 +83,6 @@ class _ProfilePageState extends State<ProfilePage> {
         value: jsonEncode(userUpdated.toJson()),
       );
 
-      print(await AppStorage().read(key: 'user'));
-
       if (count != null && count > 0) {
         showDialog(
           context: context,
