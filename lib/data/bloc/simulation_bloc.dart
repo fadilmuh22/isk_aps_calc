@@ -90,7 +90,7 @@ class SimulationBloc extends ChangeNotifier {
 
     Map<String, dynamic> mapVariable = map;
     mapVariable.forEach((k, v) {
-      if (mapVariable[k].isNaN) {
+      if (mapVariable[k].isNaN || mapVariable[k].isInfinite) {
         mapVariable[k] = 0.0;
       }
     });

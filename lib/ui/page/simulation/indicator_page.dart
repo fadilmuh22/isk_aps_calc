@@ -29,13 +29,18 @@ class IndicatorPage extends StatefulWidget {
 }
 
 class _IndicatorPageState extends State<IndicatorPage>
-    with SingleTickerProviderStateMixin {
-  var indicator;
-  Map<String, dynamic> map = Map<String, dynamic>();
+    with
+        SingleTickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<IndicatorPage> {
+  List<MappingIndicatorModel> indicator;
+  final Map<String, dynamic> map = Map<String, dynamic>();
 
   final _formKey = GlobalKey<FormState>();
   TabController _tabController;
-  var _activeTabIndex;
+  int _activeTabIndex;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -59,6 +64,7 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   _setActiveTabIndex() {
     _formKey.currentState.save();
+    print(map);
     setState(() {
       _activeTabIndex = _tabController.index;
     });
@@ -78,25 +84,60 @@ class _IndicatorPageState extends State<IndicatorPage>
     }
   }
 
+  Future<bool> handleBackButton() {
+    _formKey.currentState.save();
+    if (_tabController.index != null) {
+      if (_tabController.index == 0) {
+        return showDialog(
+                context: context,
+                builder: (context) => new AlertDialog(
+                      title: new Text('Konfirmasi'),
+                      content: new Text(
+                          'Apakah Anda Yakin Ingin Keluar Dari Simulasi?'),
+                      actions: <Widget>[
+                        new FlatButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: new Text('Tidak'),
+                        ),
+                        new FlatButton(
+                          onPressed: () {
+                            print('masuk4');
+                            Navigator.of(context).pop(true);
+                          },
+                          child: new Text('Ya'),
+                        ),
+                      ],
+                    )) ??
+            false;
+      } else if (_tabController.index < indicator.length) {
+        _tabController.animateTo((_tabController.index - 1));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        educationStageName: Provider.of<SimulationBloc>(context)
-            .newSimulation
-            .educationStageName,
-        studyProgramName:
-            Provider.of<SimulationBloc>(context).newSimulation.studyProgramName,
-      ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: TabBarView(
-            controller: _tabController,
-            children: List.generate(indicator.length, (index) {
-              return indicatorContainer(indicator[index]);
-            }),
+    return WillPopScope(
+      onWillPop: handleBackButton,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          educationStageName: Provider.of<SimulationBloc>(context)
+              .newSimulation
+              .educationStageName,
+          studyProgramName: Provider.of<SimulationBloc>(context)
+              .newSimulation
+              .studyProgramName,
+        ),
+        body: Container(
+          padding: EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: TabBarView(
+              controller: _tabController,
+              children: List.generate(indicator.length, (index) {
+                return indicatorContainer(indicator[index]);
+              }),
+            ),
           ),
         ),
       ),
@@ -174,24 +215,20 @@ class _IndicatorPageState extends State<IndicatorPage>
       );
 
   Widget _indicatorField(IndicatorModel indicator) {
-    if (map[indicator.variable] == null) {
-      map[indicator.variable] = null;
-    }
     switch (IndicatorField.values[indicator.type - 1]) {
       case IndicatorField.number:
         return Theme(
           child: TextFormField(
-            key: UniqueKey(),
+            key: ObjectKey(map[indicator.variable]),
             keyboardType: TextInputType.number,
             autofocus: false,
-            initialValue: map[indicator.variable] != null
-                ? map[indicator.variable].toString()
-                : '0',
             validator: Validator.numberValidator,
+            initialValue: map[indicator.variable].toString(),
+            onChanged: (value) {
+              map[indicator.variable] = value;
+            },
             onSaved: (value) {
-              setState(() {
-                map[indicator.variable] = value;
-              });
+              map[indicator.variable] = value;
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 16.0),
@@ -208,13 +245,12 @@ class _IndicatorPageState extends State<IndicatorPage>
       case IndicatorField.text:
         return Theme(
           child: TextFormField(
-            key: UniqueKey(),
+            key: ObjectKey(map[indicator.variable]),
             keyboardType: TextInputType.text,
             autofocus: false,
+            initialValue: map[indicator.variable],
             onSaved: (value) {
-              setState(() {
-                map[indicator.variable] = value;
-              });
+              map[indicator.variable] = value;
             },
             decoration: InputDecoration(
               suffixIcon: Icon(Icons.edit),
@@ -238,7 +274,6 @@ class _IndicatorPageState extends State<IndicatorPage>
                   indicator.name,
                   style: TextStyle(fontSize: 12.0),
                 ),
-                key: UniqueKey(),
                 groupValue: map[indicator.variable],
                 value: indicator.defaultValue,
                 onChanged: (value) {
@@ -268,27 +303,27 @@ class _IndicatorPageState extends State<IndicatorPage>
       case IndicatorField.multiple_number:
         List defaultValue = indicator.defaultValue.split('/');
         return Row(
-          key: ValueKey(indicator.variable),
           children: List.generate(defaultValue.length, (index) {
-            map['${indicator.variable}${index + 1}'] = 0;
             return Flexible(
               child: Container(
                 margin: EdgeInsets.only(left: 5.0, top: 8.0),
                 child: Theme(
                   child: TextFormField(
-                    key: UniqueKey(),
                     keyboardType: TextInputType.number,
                     autofocus: false,
                     validator: Validator.numberValidator,
+                    initialValue: map['${indicator.variable}${index + 1}'],
+                    onChanged: (value) {
+                      map['${indicator.variable}${index + 1}'] = value;
+                    },
                     onSaved: (value) {
-                      setState(() {
-                        map['${indicator.variable}${index + 1}'] = value;
-                      });
+                      map['${indicator.variable}${index + 1}'] = value;
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
+                      hintText: map['${indicator.variable}${index + 1}'],
                       labelText: defaultValue[index],
                       labelStyle: TextStyle(
                         fontSize: 8.0,
