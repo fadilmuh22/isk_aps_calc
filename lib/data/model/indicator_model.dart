@@ -1,7 +1,7 @@
 class IndicatorModel {
   int id, type;
-  String category, subcategory, name, variable, formula;
-  dynamic defaultValue, value;
+  String category, subcategory, subcategoryName, name, variable;
+  dynamic defaultValue;
 
   IndicatorModel({
     this.id,
@@ -11,7 +11,6 @@ class IndicatorModel {
     this.variable,
     this.type,
     this.defaultValue,
-    this.formula,
   });
 
   IndicatorModel.fromJson(Map<String, dynamic> json) {
@@ -22,7 +21,6 @@ class IndicatorModel {
     variable = json['indicator_variable'];
     type = json['indicator_type'];
     defaultValue = json['default_value'];
-    formula = json['formula'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -33,6 +31,5 @@ class IndicatorModel {
         'indicator_variable': variable,
         'indicator_type': type,
         'indicator_default_value': defaultValue,
-        'fomula': formula,
       };
 }

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:isk_aps_calc/constants.dart';
+import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
+import 'package:isk_aps_calc/data/model/history_model.dart';
+import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
+import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
+import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
+import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = '/home';
@@ -14,11 +21,54 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  _HomePageState();
+  List<HistoryModel> histories = [
+    HistoryModel(
+      id: 0,
+      institute: 'user.institute',
+      studyProgram: 'studyProgramName',
+      educationStage: 1,
+      educationStageName: 'S1',
+      indicatorDetail: 'indicatorDetail',
+      variables: {'NDTPS': 1},
+      result: 'Rank',
+      resultDetail: 'jsonEncode(mapIndicator)',
+      userId: '0',
+      updateDateTime: DateTime.now().toString(),
+    ),
+  ];
+
+  void onTapHistoryItem(int index) {
+    NewSimulationModel historySimulation = NewSimulationModel(
+      educationStage: histories[index].educationStage,
+      educationStageName: histories[index].educationStageName,
+      studyProgramName: histories[index].studyProgram,
+    );
+    Provider.of<SimulationBloc>(context, listen: false).newSimulation =
+        historySimulation;
+
+    List<MappingIndicatorModel> mapIndicator = List();
+    histories[index].resultDetail.forEach((data) {
+      mapIndicator.add(MappingIndicatorModel.fromJson(data));
+    });
+    Provider.of<SimulationBloc>(context, listen: false).mapIndicator =
+        mapIndicator;
+
+    Provider.of<SimulationBloc>(context, listen: false).resultConvert =
+        MappingRankedConvertModel(rankedConvert: histories[index].result);
+
+    Navigator.pushNamed(context, ResultPage.tag);
+  }
 
   @override
   void initState() {
     super.initState();
+    Provider.of<SimulationBloc>(context, listen: false)
+        .getHistories()
+        .then((data) {
+      setState(() {
+        histories = data;
+      });
+    });
   }
 
   @override
@@ -110,30 +160,33 @@ class _HomePageState extends State<HomePage> {
         ),
       );
 
-  Widget cardSimulationHistoryContainer() => Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+  Widget cardSimulationHistoryContainer() {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: EdgeInsets.only(
+        top: 8,
+      ),
+      child: Container(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 10.0),
+            ...List.generate(histories.length, (index) {
+              return _simulationHistoryItem(
+                index: index,
+                title:
+                    '${histories[index].educationStageName} ${histories[index].studyProgram}',
+                description: 'Lorem Ipsum',
+              );
+            })
+          ],
         ),
-        margin: EdgeInsets.only(
-          top: 8,
-        ),
-        child: Container(
-          padding: EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 10.0),
-              for (var i = 0; i < 4; i++)
-                _simulationHistoryItem(
-                  id: '1',
-                  title: '1',
-                  description:
-                      'fadil aja asldjasldjasldjlasjdlasjldjaslo asdhjasldhaskhdkashdkashkdhsakhdkashdkashdkashdkashkdhask',
-                )
-            ],
-          ),
-        ),
-      );
+      ),
+    );
+  }
 
   Widget _simulationHistoryTitle() => Container(
         color: Colors.white,
@@ -166,17 +219,20 @@ class _HomePageState extends State<HomePage> {
       );
 
   Widget _simulationHistoryItem({
+    int index,
     String title,
     String description,
-    String id,
   }) =>
       Container(
+        key: UniqueKey(),
         margin: EdgeInsets.symmetric(vertical: 4.0),
         child: SizedBox(
           width: double.infinity,
           height: 65,
           child: OutlineButton(
-            onPressed: () {},
+            onPressed: () {
+              onTapHistoryItem(index);
+            },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),

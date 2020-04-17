@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
-import 'package:isk_aps_calc/data/model/subcategory_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
 import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +9,6 @@ import 'package:isk_aps_calc/constants.dart';
 
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
-import 'package:isk_aps_calc/data/model/indicator_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 
 class ResultPage extends StatefulWidget {
@@ -34,6 +32,23 @@ class _ResultPageState extends State<ResultPage> {
     List<MappingIndicatorModel> accreditation =
         Provider.of<SimulationBloc>(context).mapIndicator;
 
+    Map<String, List<MappingIndicatorModel>> accreditationFiltered = new Map();
+    accreditation.forEach((data) {
+      accreditationFiltered[data.indicatorCategoryName] =
+          List<MappingIndicatorModel>();
+    });
+
+    accreditation.reduce((a, b) {
+      if (a.indicatorCategory == b.indicatorCategory) {
+        accreditationFiltered[a.indicatorCategoryName].addAll([a, b]);
+        return a;
+      }
+      accreditationFiltered[b.indicatorCategoryName].add(b);
+      return a;
+    });
+
+    var keys = accreditationFiltered.keys.toList();
+
     return Scaffold(
       appBar: CustomAppBar(
         canBack: false,
@@ -50,8 +65,11 @@ class _ResultPageState extends State<ResultPage> {
             cardResult(resultConvert),
             SizedBox(height: 48),
             Column(
-              children: List.generate(accreditation.length, (index) {
-                return indicatorContainer(accreditation[index]);
+              children: List.generate(keys.length, (index) {
+                return indicatorContainer(
+                  keys[index],
+                  accreditationFiltered[keys[index]],
+                );
               }),
             ),
             SizedBox(height: 36.0),
@@ -121,72 +139,67 @@ class _ResultPageState extends State<ResultPage> {
         ),
       );
 
-  Widget indicatorContainer(MappingIndicatorModel indicator) {
+  Widget indicatorContainer(String category, List<MappingIndicatorModel> lmap) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        SizedBox(
+          height: 24.0,
+        ),
         Text(
-          indicator.indicatorCategoryName,
+          category,
           style: Constants.titleStyle,
         ),
-        SizedBox(height: 16.0),
-        ...List.generate(indicator.subcategory.length, (index) {
-          return _indicatorFieldContainer(
-            indicator.subcategory[index],
-            indicator.indicator[index],
+        SizedBox(
+          height: 16.0,
+        ),
+        ...List.generate(lmap.length, (index) {
+          return _indicatorField(
+            lmap[index].indicatorSubcategoryName,
+            lmap[index].indicatorValue,
           );
         }),
       ],
     );
   }
 
-  Widget _indicatorFieldContainer(
-    SubcategoryModel subcategory,
-    IndicatorModel indicator,
-  ) {
+  Widget _indicatorField(
+      String indicatorSubcategoryName, double indicatorValue) {
     return Container(
-      padding: EdgeInsets.only(bottom: 36.0),
+      padding: EdgeInsets.only(bottom: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _indicatorField(
-            subcategory,
-            indicator,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                flex: 3,
+                child: Container(
+                  margin: EdgeInsets.only(right: 24.0, left: 8.0),
+                  child: Text(
+                    indicatorSubcategoryName,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    '${indicatorValue ?? 0.0}',
+                    textAlign: TextAlign.end,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xffC4C4C4),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
-    );
-  }
-
-  Widget _indicatorField(
-    SubcategoryModel subcategory,
-    IndicatorModel indicator,
-  ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Expanded(
-          flex: 3,
-          child: Container(
-            margin: EdgeInsets.only(right: 24.0, left: 8.0),
-            child: Text(subcategory.name),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Container(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              '${indicator.value != null ? indicator.value : 0.0}',
-              textAlign: TextAlign.end,
-            ),
-            decoration: BoxDecoration(
-              color: Color(0xffC4C4C4),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

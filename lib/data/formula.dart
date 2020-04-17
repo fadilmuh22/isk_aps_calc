@@ -38,12 +38,10 @@ class Formula extends _$FormulaSerializable {
 
     var newlmap = lmap;
     for (int i = 0; i < newlmap.length; i++) {
-      for (int x = 0; x < newlmap[i].indicator.length; x++) {
-        newlmap[i].indicator[x].value = mappingFormula(
-              newlmap[i].indicator[x].formula,
-            ) ??
-            0;
-      }
+      newlmap[i].indicatorValue = mappingFormula(
+            newlmap[i].formula,
+          ) ??
+          0;
     }
     mapVariable = {};
     return newlmap;

@@ -1,18 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:isk_aps_calc/constants.dart';
+import 'package:isk_aps_calc/data/dao/history_dao.dart';
 import 'package:isk_aps_calc/data/dao/indicator_dao.dart';
 import 'package:isk_aps_calc/data/dao/ranked_dao.dart';
 import 'package:isk_aps_calc/data/dao/ranked_convert_dao.dart';
 
 import 'package:isk_aps_calc/data/formula.dart';
+import 'package:isk_aps_calc/data/model/history_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_model.dart';
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
+import 'package:isk_aps_calc/data/model/user_model.dart';
+import 'package:isk_aps_calc/data/repository/app_storage.dart';
 
 class SimulationBloc extends ChangeNotifier {
   NewSimulationModel newSimulation;
   List<MappingIndicatorModel> mapIndicator;
+
   MappingRankedConvertModel resultConvert;
   String inputRank;
 
@@ -28,20 +35,18 @@ class SimulationBloc extends ChangeNotifier {
   ) async {
     List<MappingRankedModel> results = [];
 
-    var resultFormula = Formula().accreditate(map, lmap);
+    mapIndicator = Formula().accreditate(map, lmap);
 
-    resultFormula.forEach((mapIndicator) {
-      mapIndicator.indicator.forEach((indicator) {
-        MappingRankedModel mappingRankedModel = MappingRankedModel(
-          educationStage: mapIndicator.educationStage,
-          indicatorCategory: indicator.category,
-          indicatorSubcategory: indicator.subcategory,
-          indicatorValue: indicator.value.toDouble(),
-        );
+    mapIndicator.forEach((mapIndicator) {
+      MappingRankedModel mappingRankedModel = MappingRankedModel(
+        educationStage: mapIndicator.educationStage,
+        indicatorCategory: mapIndicator.indicatorCategory,
+        indicatorSubcategory: mapIndicator.indicatorSubcategory,
+        indicatorValue: mapIndicator.indicatorValue.toDouble(),
+      );
 
-        RankedDao().mappingRanked(mappingRankedModel).then((value) {
-          results.add(value);
-        });
+      RankedDao().mappingRanked(mappingRankedModel).then((value) {
+        results.add(value);
       });
     });
     // return null;
@@ -75,13 +80,39 @@ class SimulationBloc extends ChangeNotifier {
       inputAccreditation: inputRank ?? 'BELUM MEMENUHI SYARAT AKREDITASI [2]',
     );
 
-    RankedConvertDao()
-        .mappingRankedConvert(mappingRankedConvertModel)
-        .then((value) {
-      return resultConvert = value;
-    });
+    resultConvert = await RankedConvertDao()
+        .mappingRankedConvert(mappingRankedConvertModel);
 
     notifyListeners();
+
+    UserModel user =
+        UserModel.fromJson(jsonDecode(await AppStorage().read(key: 'user')));
+
+    Map<String, dynamic> mapVariable = map;
+    mapVariable.forEach((k, v) {
+      if (mapVariable[k].isNaN) {
+        mapVariable[k] = 0.0;
+      }
+    });
+
+    HistoryModel newHistory = HistoryModel(
+      institute: user.institute,
+      studyProgram: newSimulation.studyProgramName,
+      educationStage: newSimulation.educationStage,
+      educationStageName: newSimulation.educationStageName,
+      indicatorDetail: jsonEncode(lmap),
+      variables: map,
+      result: resultConvert.rankedConvert,
+      resultDetail: jsonEncode(mapIndicator),
+      userId: user.id.toString(),
+      updateDateTime: DateTime.now().toString(),
+    );
+
+    await HistoryDao().insert(newHistory);
+  }
+
+  Future<List<HistoryModel>> getHistories() async {
+    return await HistoryDao().select();
   }
 
   clear() {
