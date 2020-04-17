@@ -15,7 +15,6 @@ class SimulationBloc extends ChangeNotifier {
   List<MappingIndicatorModel> mapIndicator;
   MappingRankedConvertModel resultConvert;
   String inputRank;
-  bool fromIndicator = false;
 
   Future mappingIndicator() async {
     mapIndicator =
@@ -81,8 +80,6 @@ class SimulationBloc extends ChangeNotifier {
         .then((value) {
       return resultConvert = value;
     });
-
-    fromIndicator = true;
 
     notifyListeners();
   }
