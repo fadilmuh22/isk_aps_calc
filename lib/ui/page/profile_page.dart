@@ -24,20 +24,22 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   Image imageProfile;
-  File imageFile;
   final _formKey = GlobalKey<FormState>();
   String name, institute;
 
   UserModel user = UserModel(
-      name: 'Username', email: 'User Email', institute: 'User Institute');
+    name: 'Username',
+    email: 'User Email',
+    institute: 'User Institute',
+  );
 
   @override
   void initState() {
     super.initState();
-    loadImageFromPreferences();
     AppStorage().read(key: 'user').then((data) => setState(() {
           user = UserModel.fromJson(jsonDecode(data));
           user.institute = user.institute ?? 'Nama Institute Anda';
+          loadImageFromPreferences();
         }));
   }
 
@@ -45,7 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
     File file;
     file = await ImagePicker.pickImage(source: source);
     setState(() {
-      imageFile = file;
       imageProfile = Image.file(
         file,
         width: 150.0,
@@ -53,18 +54,24 @@ class _ProfilePageState extends State<ProfilePage> {
         fit: BoxFit.fill,
       );
     });
-    bool success = await ImageUploadUtil.saveImageToPreferences(
-        ImageUploadUtil.base64String(file.readAsBytesSync()));
+    await ImageUploadUtil.saveImage(user.email, file);
   }
 
   loadImageFromPreferences() {
-    ImageUploadUtil.getImageFromPreferences().then((img) {
+    ImageUploadUtil.getImage(user.email).then((img) {
       if (null == img) {
         return;
       }
       setState(() {
-        imageProfile = ImageUploadUtil.imageFromBase64String(img);
+        imageProfile = img;
       });
+    });
+  }
+
+  deleteImage() async {
+    await ImageUploadUtil.deleteImage(user.email);
+    setState(() {
+      imageProfile = imagePlaceHolder();
     });
   }
 
@@ -201,6 +208,40 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Widget userImage() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          child: Stack(
+            children: <Widget>[
+              GestureDetector(
+                onLongPress: deleteImage,
+                onTap: loadImageFromPreferences,
+                child: ClipOval(
+                  child: imageProfile ?? imagePlaceHolder(),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 118.0, left: 100.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.photo_camera,
+                    color: Constants.accentColor,
+                    size: 30,
+                  ),
+                  onPressed: () async {
+                    await pickImageFromGallery(ImageSource.gallery);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget userDetailProfile() {
     return Center(
       child: Column(
@@ -268,37 +309,10 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget userImage() {
-    var row = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          child: Stack(
-            children: <Widget>[
-              GestureDetector(
-                onTap: loadImageFromPreferences,
-                child: ClipOval(
-                  child: imageProfile,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 118.0, left: 100.0),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.photo_camera,
-                    color: Constants.accentColor,
-                    size: 30,
-                  ),
-                  onPressed: () async {
-                    await pickImageFromGallery(ImageSource.gallery);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-    return row;
-  }
+  Image imagePlaceHolder() => Image.asset(
+        'assets/images/profile_placeholder.png',
+        width: 150.0,
+        height: 150.0,
+        fit: BoxFit.fill,
+      );
 }

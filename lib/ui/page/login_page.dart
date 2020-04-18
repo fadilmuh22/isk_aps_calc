@@ -21,7 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String email, password;
-  bool _pwIsHidden = false;
+  bool _pwIsHidden = true;
   bool isLoading = false;
 
   setIsLoading(bool status) {

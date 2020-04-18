@@ -100,9 +100,13 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
     setState(() {
       newSimulation.educationStage = educationStages[index]['id'];
       newSimulation.educationStageName = educationStages[index]['name'];
-      educationStagesActive = index;
-      Scrollable.ensureVisible(dataKey.currentContext,
-          duration: Duration(seconds: 2));
+      if (educationStagesActive == index) {
+        educationStagesActive = null;
+      } else {
+        educationStagesActive = index;
+        Scrollable.ensureVisible(dataKey.currentContext,
+            duration: Duration(seconds: 2));
+      }
     });
   }
 
@@ -131,33 +135,38 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   Widget build(context) {
     return Scaffold(
       appBar: CustomAppBar(newSimulation: true),
-      body: Container(
-        child: ListView(children: [
-          Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 10.0),
-                studyProgramNameContainer(),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: currentAccreditation(),
-                ),
-                SizedBox(height: 10.0),
-                educationStagesContainer(),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: jumlahLulusanContainer(),
-                ),
-                SizedBox(height: 10.0),
-                nextButton(),
-                SizedBox(height: 20.0),
-              ],
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Container(
+          child: ListView(children: [
+            Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 10.0),
+                  studyProgramNameContainer(),
+                  SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: currentAccreditation(),
+                  ),
+                  SizedBox(height: 10.0),
+                  educationStagesContainer(),
+                  SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: jumlahLulusanContainer(),
+                  ),
+                  SizedBox(height: 10.0),
+                  nextButton(),
+                  SizedBox(height: 20.0),
+                ],
+              ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }
@@ -463,7 +472,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         autofocus: false,
-                        validator: Validator.numberValidator,
+                        validator: Validator.number,
                         onSaved: onSaved,
                         decoration: InputDecoration(
                           contentPadding:

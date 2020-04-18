@@ -16,7 +16,6 @@ class AuhthenticationPage extends StatefulWidget {
 class _AuhthenticationPageState extends State<AuhthenticationPage> {
   Future<void> auth() async {
     final _storage = FlutterSecureStorage();
-    await _storage.delete(key: 'not_user_first_time');
     String userFirstTime = await _storage.read(key: 'not_user_first_time');
     bool seen = (userFirstTime != null ? true : false);
 

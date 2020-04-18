@@ -63,7 +63,6 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   _setActiveTabIndex() {
     _formKey.currentState.save();
-    print(map);
     setState(() {
       _activeTabIndex = _tabController.index;
     });
@@ -71,7 +70,7 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   handleTabNext() async {
     _formKey.currentState.save();
-    if (_tabController.index != null) {
+    if (_tabController.index != null && _formKey.currentState.validate()) {
       if (_activeTabIndex == (indicator.length - 1)) {
         await Provider.of<SimulationBloc>(context, listen: false)
             .accreditate(map, indicator);
@@ -100,7 +99,6 @@ class _IndicatorPageState extends State<IndicatorPage>
                         ),
                         new FlatButton(
                           onPressed: () {
-                            print('masuk4');
                             Navigator.of(context).pop(true);
                           },
                           child: new Text('Ya'),
@@ -122,6 +120,7 @@ class _IndicatorPageState extends State<IndicatorPage>
       onWillPop: handleBackButton,
       child: Scaffold(
         appBar: CustomAppBar(
+          onBackButton: handleBackButton,
           educationStageName: Provider.of<SimulationBloc>(context)
               .newSimulation
               .educationStageName,
@@ -129,15 +128,21 @@ class _IndicatorPageState extends State<IndicatorPage>
               .newSimulation
               .studyProgramName,
         ),
-        body: Container(
-          padding: EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: TabBarView(
-              controller: _tabController,
-              children: List.generate(indicator.length, (index) {
-                return indicatorContainer(indicator[index]);
-              }),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _tabController,
+                children: List.generate(indicator.length, (index) {
+                  return indicatorContainer(indicator[index]);
+                }),
+              ),
             ),
           ),
         ),
@@ -224,7 +229,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           child: TextFormField(
             keyboardType: TextInputType.number,
             autofocus: false,
-            validator: Validator.numberValidator,
+            validator: Validator.number,
             initialValue: map[indicator.variable] != null
                 ? map[indicator.variable].toString()
                 : '',
@@ -313,19 +318,16 @@ class _IndicatorPageState extends State<IndicatorPage>
                   child: TextFormField(
                     keyboardType: TextInputType.number,
                     autofocus: false,
-                    validator: Validator.numberValidator,
+                    validator: Validator.number,
                     initialValue: map['${indicator.variable}${index + 1}'] !=
                             null
                         ? map['${indicator.variable}${index + 1}'].toString()
                         : '',
                     onChanged: (value) {
-                      _formKey.currentState.save();
-                      print(map);
+                      map['${indicator.variable}${index + 1}'] = value;
                     },
                     onSaved: (value) {
-                      if (value != null || value.isNotEmpty) {
-                        map['${indicator.variable}${index + 1}'] = value;
-                      }
+                      map['${indicator.variable}${index + 1}'] = value;
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(

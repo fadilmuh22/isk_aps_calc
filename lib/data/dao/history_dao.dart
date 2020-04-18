@@ -18,7 +18,6 @@ class HistoryDao {
     var mapList = await AppDatabase().db.query(
           table,
         );
-    print(mapList);
     return mapList
         .map<HistoryModel>((history) => HistoryModel.fromJson(history))
         .toList();

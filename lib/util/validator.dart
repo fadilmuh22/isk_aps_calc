@@ -1,5 +1,5 @@
 class Validator {
-  static String numberValidator(String value) {
+  static String number(String value) {
     if (value == null || value.isEmpty) {
       return 'please provide value';
     }

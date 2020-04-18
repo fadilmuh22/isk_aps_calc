@@ -70,6 +70,7 @@ flutter:
     - assets/images/google_logo.png
     - assets/images/login_bg.png
     - assets/images/new_simulation_card_bg.png
+    - assets/images/profile_placeholder.png
 
     - assets/images/result_card_bg_1.png
     - assets/images/result_card_bg_2.png
