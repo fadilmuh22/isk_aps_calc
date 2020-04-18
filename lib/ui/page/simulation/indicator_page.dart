@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
 import 'package:isk_aps_calc/util/validator.dart';
 import 'package:provider/provider.dart';
 
@@ -219,11 +218,12 @@ class _IndicatorPageState extends State<IndicatorPage>
       case IndicatorField.number:
         return Theme(
           child: TextFormField(
-            key: ObjectKey(map[indicator.variable]),
             keyboardType: TextInputType.number,
             autofocus: false,
             validator: Validator.numberValidator,
-            initialValue: map[indicator.variable].toString(),
+            initialValue: map[indicator.variable] != null
+                ? map[indicator.variable].toString()
+                : '',
             onChanged: (value) {
               map[indicator.variable] = value;
             },
@@ -245,7 +245,6 @@ class _IndicatorPageState extends State<IndicatorPage>
       case IndicatorField.text:
         return Theme(
           child: TextFormField(
-            key: ObjectKey(map[indicator.variable]),
             keyboardType: TextInputType.text,
             autofocus: false,
             initialValue: map[indicator.variable],
@@ -288,7 +287,6 @@ class _IndicatorPageState extends State<IndicatorPage>
         break;
       case IndicatorField.checkbox:
         return CheckboxListTile(
-          key: UniqueKey(),
           title: Text(indicator.name),
           value: map[indicator.variable] == indicator.defaultValue,
           onChanged: (value) {
@@ -312,7 +310,10 @@ class _IndicatorPageState extends State<IndicatorPage>
                     keyboardType: TextInputType.number,
                     autofocus: false,
                     validator: Validator.numberValidator,
-                    initialValue: map['${indicator.variable}${index + 1}'],
+                    initialValue: map['${indicator.variable}${index + 1}'] !=
+                            null
+                        ? map['${indicator.variable}${index + 1}'].toString()
+                        : '',
                     onChanged: (value) {
                       map['${indicator.variable}${index + 1}'] = value;
                     },
@@ -323,7 +324,8 @@ class _IndicatorPageState extends State<IndicatorPage>
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      hintText: map['${indicator.variable}${index + 1}'],
+                      hintText:
+                          map['${indicator.variable}${index + 1}'].toString(),
                       labelText: defaultValue[index],
                       labelStyle: TextStyle(
                         fontSize: 8.0,
