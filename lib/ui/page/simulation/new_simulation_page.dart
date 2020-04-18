@@ -131,33 +131,38 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   Widget build(context) {
     return Scaffold(
       appBar: CustomAppBar(newSimulation: true),
-      body: Container(
-        child: ListView(children: [
-          Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 10.0),
-                studyProgramNameContainer(),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: currentAccreditation(),
-                ),
-                SizedBox(height: 10.0),
-                educationStagesContainer(),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: jumlahLulusanContainer(),
-                ),
-                SizedBox(height: 10.0),
-                nextButton(),
-                SizedBox(height: 20.0),
-              ],
+      body: new GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Container(
+          child: ListView(children: [
+            Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 10.0),
+                  studyProgramNameContainer(),
+                  SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: currentAccreditation(),
+                  ),
+                  SizedBox(height: 10.0),
+                  educationStagesContainer(),
+                  SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: jumlahLulusanContainer(),
+                  ),
+                  SizedBox(height: 10.0),
+                  nextButton(),
+                  SizedBox(height: 20.0),
+                ],
+              ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }

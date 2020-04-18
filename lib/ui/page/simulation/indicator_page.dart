@@ -129,15 +129,20 @@ class _IndicatorPageState extends State<IndicatorPage>
               .newSimulation
               .studyProgramName,
         ),
-        body: Container(
-          padding: EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: TabBarView(
-              controller: _tabController,
-              children: List.generate(indicator.length, (index) {
-                return indicatorContainer(indicator[index]);
-              }),
+        body: new GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: TabBarView(
+                controller: _tabController,
+                children: List.generate(indicator.length, (index) {
+                  return indicatorContainer(indicator[index]);
+                }),
+              ),
             ),
           ),
         ),
