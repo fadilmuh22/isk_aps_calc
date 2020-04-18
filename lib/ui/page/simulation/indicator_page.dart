@@ -70,12 +70,30 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   handleTabNext() async {
     _formKey.currentState.save();
-    if (_tabController.index != null && _formKey.currentState.validate()) {
+    if (_tabController.index != null) {
       if (_activeTabIndex == (indicator.length - 1)) {
-        await Provider.of<SimulationBloc>(context, listen: false)
-            .accreditate(map, indicator);
+        if (_formKey.currentState.validate()) {
+          await Provider.of<SimulationBloc>(context, listen: false)
+              .accreditate(map, indicator);
 
-        Navigator.of(context).pushNamed(ResultPage.tag);
+          Navigator.of(context).pushNamed(ResultPage.tag);
+        } else {
+          await showDialog(
+                  context: context,
+                  builder: (context) => new AlertDialog(
+                        title: new Text('Konfirmasi'),
+                        content: new Text('Ada indicator yang masih kosong'),
+                        actions: <Widget>[
+                          new FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: new Text('Ok'),
+                          ),
+                        ],
+                      )) ??
+              false;
+        }
       } else {
         _tabController.animateTo((_tabController.index + 1));
       }

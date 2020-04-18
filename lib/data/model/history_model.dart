@@ -42,7 +42,7 @@ class HistoryModel {
     result = response['result'];
     resultDetail = jsonDecode(response['result_detail']);
 
-    userId = json['user_id'];
+    userId = json['user_id'].toString();
     updateDateTime = json['update_dtm'];
   }
 
