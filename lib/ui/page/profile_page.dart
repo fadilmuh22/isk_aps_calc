@@ -21,7 +21,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Image image;
+  Image imageProfile;
+  File imageFile;
   final _formKey = GlobalKey<FormState>();
   String name, institute;
 
@@ -42,10 +43,12 @@ class _ProfilePageState extends State<ProfilePage> {
     File file;
     file = await ImagePicker.pickImage(source: source);
     setState(() {
-      image = Image.file(
+      imageFile = file;
+      imageProfile = Image.file(
         file,
         width: 150.0,
         height: 150.0,
+        fit: BoxFit.fill,
       );
     });
     bool success = await ImageUploadUtil.saveImageToPreferences(
@@ -58,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
         return;
       }
       setState(() {
-        image = ImageUploadUtil.imageFromBase64String(img);
+        imageProfile = ImageUploadUtil.imageFromBase64String(img);
       });
     });
   }
@@ -200,24 +203,26 @@ class _ProfilePageState extends State<ProfilePage> {
     return Center(
       child: Column(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                user.name,
-                style: Constants.titleStyle,
-              ),
-              SizedBox(width: 16.0),
-              IconButton(
-                icon: Icon(
-                  Icons.edit,
-                  color: Constants.accentColor,
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  user.name,
+                  style: Constants.titleStyle,
                 ),
-                onPressed: showModalForm,
-              ),
-            ],
+                IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Constants.accentColor,
+                  ),
+                  onPressed: showModalForm,
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 20.0),
+          // SizedBox(height: 20.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -262,28 +267,36 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget userImage() {
-    return Row(
+    var row = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        GestureDetector(
-          onTap: loadImageFromPreferences,
-          child: ClipOval(
-            child: image ?? Container(),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 100.0),
-          child: IconButton(
-            icon: Icon(
-              Icons.photo_camera,
-              color: Constants.accentColor,
-            ),
-            onPressed: () async {
-              await pickImageFromGallery(ImageSource.gallery);
-            },
+        Container(
+          child: Stack(
+            children: <Widget>[
+              GestureDetector(
+                onTap: loadImageFromPreferences,
+                child: ClipOval(
+                  child: imageProfile,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 118.0, left: 100.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.photo_camera,
+                    color: Constants.accentColor,
+                    size: 30,
+                  ),
+                  onPressed: () async {
+                    await pickImageFromGallery(ImageSource.gallery);
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ],
     );
+    return row;
   }
 }

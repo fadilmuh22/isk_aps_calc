@@ -22,6 +22,8 @@ class UserDao {
     if (mapList.isNotEmpty) {
       return UserModel.fromJson(mapList[0]);
     }
+
+    return null;
   }
 
   Future<int> insert(UserModel user) async {

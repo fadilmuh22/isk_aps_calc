@@ -112,6 +112,8 @@ class _IndicatorPageState extends State<IndicatorPage>
         _tabController.animateTo((_tabController.index - 1));
       }
     }
+
+    return null;
   }
 
   @override

@@ -34,6 +34,8 @@ class HistoryDao {
     if (mapList.isNotEmpty) {
       return HistoryModel.fromJson(mapList[0]);
     }
+
+    return null;
   }
 
   Future<int> update(HistoryModel history) async {
