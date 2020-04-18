@@ -83,8 +83,12 @@ class SimulationBloc extends ChangeNotifier {
     resultConvert = await RankedConvertDao()
         .mappingRankedConvert(mappingRankedConvertModel);
 
-    notifyListeners();
+    await createHistory(map, lmap);
 
+    notifyListeners();
+  }
+
+  Future createHistory(map, lmap) async {
     UserModel user =
         UserModel.fromJson(jsonDecode(await AppStorage().read(key: 'user')));
 

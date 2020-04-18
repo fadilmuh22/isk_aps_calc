@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
-import 'package:dbcrypt/dbcrypt.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:isk_aps_calc/data/dao/user_dao.dart';
 
@@ -35,7 +34,7 @@ class LoginBloc extends ChangeNotifier {
         id: data.id,
         name: data.displayName,
         email: data.email,
-        password: DBCrypt().hashpw(data.email, new DBCrypt().gensalt()),
+        password: data.email,
         status: '1',
         updateDateTime: DateTime.now().toString(),
       );
@@ -59,7 +58,7 @@ class LoginBloc extends ChangeNotifier {
   localLogin(LoginModel data) async {
     UserModel user = await UserDao().selectOne(data.email);
     if (user != null) {
-      bool isCorrect = DBCrypt().checkpw(data.password, user.password);
+      bool isCorrect = data.password == user.password;
       if (isCorrect) {
         await AppStorage().write(
           key: 'user',
