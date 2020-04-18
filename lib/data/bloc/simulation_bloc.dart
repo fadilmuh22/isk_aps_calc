@@ -35,7 +35,24 @@ class SimulationBloc extends ChangeNotifier {
   ) async {
     List<MappingRankedModel> results = [];
 
-    mapIndicator = Formula().accreditate(map, lmap);
+    var mapVariable = map;
+    mapVariable.forEach((k, v) {
+      if (v is int) {
+        mapVariable[k] = v.toDouble();
+      } else if (v is String) {
+        if (v.isEmpty) {
+          mapVariable[k] = 0.0;
+        } else {
+          mapVariable[k] = double.parse(v);
+        }
+      } else if (v is double) {
+        mapVariable[k] = v;
+      } else {
+        mapVariable[k] = 0.0;
+      }
+    });
+
+    mapIndicator = Formula().accreditate(mapVariable, lmap);
 
     mapIndicator.forEach((mapIndicator) {
       MappingRankedModel mappingRankedModel = MappingRankedModel(
@@ -83,7 +100,7 @@ class SimulationBloc extends ChangeNotifier {
     resultConvert = await RankedConvertDao()
         .mappingRankedConvert(mappingRankedConvertModel);
 
-    await createHistory(map, lmap);
+    await createHistory(mapVariable, lmap);
 
     notifyListeners();
   }

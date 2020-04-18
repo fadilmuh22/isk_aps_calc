@@ -21,27 +21,14 @@ class Formula extends _$FormulaSerializable {
     Map<String, dynamic> map,
     List<MappingIndicatorModel> lmap,
   ) {
-    this.mapVariable = map;
-    mapVariable.forEach((k, v) {
-      if (v is int) {
-        mapVariable[k] = v.toDouble();
-      } else if (v is String) {
-        if (v.isEmpty) {
-          mapVariable[k] = 0.0;
-        } else {
-          mapVariable[k] = double.parse(v);
-        }
-      } else {
-        mapVariable[k] = 0.0;
-      }
-    });
+    mapVariable = map;
 
     var newlmap = lmap;
     for (int i = 0; i < newlmap.length; i++) {
       newlmap[i].indicatorValue = mappingFormula(
             newlmap[i].formula,
           ) ??
-          0;
+          0.0;
     }
     mapVariable = {};
     return newlmap;

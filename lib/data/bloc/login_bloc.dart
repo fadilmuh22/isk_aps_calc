@@ -10,14 +10,14 @@ import 'package:isk_aps_calc/data/model/login_model.dart';
 import 'package:isk_aps_calc/data/model/user_model.dart';
 
 class LoginBloc extends ChangeNotifier {
-  GoogleSignIn _googleSignIn = new GoogleSignIn();
+  GoogleSignIn googleSignIn = new GoogleSignIn();
 
   Map<String, String> loginMessage;
 
   googleLogin() async {
     GoogleSignInAccount data;
     try {
-      data = await _googleSignIn.signIn();
+      data = await googleSignIn.signIn();
     } catch (e) {
       loginMessage = flash('Login Gagal', 'Coba beberapa saat lagi.');
       return false;
@@ -26,8 +26,13 @@ class LoginBloc extends ChangeNotifier {
     if (data != null) {
       var user = await UserDao().selectOne(data.email);
       if (user != null) {
-        loginMessage = flash('Login Gagal', 'Email anda sudah terdaftar');
-        return false;
+        await AppStorage().write(
+          key: 'user',
+          value: jsonEncode(user.toJson()),
+        );
+        loginMessage =
+            flash('Login Berhasil', 'Selamat datang kembali ${user.name}');
+        return true;
       }
 
       UserModel newUser = UserModel(
