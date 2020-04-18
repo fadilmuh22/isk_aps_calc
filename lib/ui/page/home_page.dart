@@ -59,9 +59,13 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushNamed(context, ResultPage.tag);
   }
 
+  bool isLoadingHistory = false;
+
   @override
   void initState() {
     super.initState();
+
+    isLoadingHistory = true;
     Provider.of<SimulationBloc>(context, listen: false)
         .getHistories()
         .then((data) {
@@ -69,6 +73,7 @@ class _HomePageState extends State<HomePage> {
         histories = data;
       });
     });
+    isLoadingHistory = false;
   }
 
   @override
@@ -174,16 +179,28 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(height: 10.0),
-            ...List.generate(histories.length, (index) {
-              return _simulationHistoryItem(
-                index: index,
-                title:
-                    '${histories[index].educationStageName} ${histories[index].studyProgram}',
-                description: 'Lorem Ipsum',
-              );
-            })
+            if (isLoadingHistory) ...[
+              loading(),
+            ] else
+              ...List.generate(histories.length, (index) {
+                return _simulationHistoryItem(
+                  index: index,
+                  title:
+                      '${histories[index].educationStageName} ${histories[index].studyProgram}',
+                  description: 'Lorem Ipsum',
+                );
+              })
           ],
         ),
+      ),
+    );
+  }
+
+  Widget loading() {
+    return Center(
+      child: CircularProgressIndicator(
+        backgroundColor: Color(0xffC82247),
+        valueColor: AlwaysStoppedAnimation<Color>(Color(0xffffffff)),
       ),
     );
   }
