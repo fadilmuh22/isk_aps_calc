@@ -144,36 +144,38 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   Widget indicatorContainer(MappingIndicatorModel mappingIndicator) {
-    return ListView(
-      children: [
-        Text(
-          mappingIndicator.indicatorCategoryName,
-          style: Constants.titleStyle,
-        ),
-        if (mappingIndicator.indicator[0].type == 3) ...[
+    return SingleChildScrollView(
+      child: Column(
+        children: [
           Text(
-            Constants.tipe3Subtitle,
+            mappingIndicator.indicatorCategoryName,
+            style: Constants.titleStyle,
           ),
-        ] else if (mappingIndicator.indicator[0].type == 4) ...[
-          Text(
-            Constants.tipe4Subtitle,
+          if (mappingIndicator.indicator[0].type == 3) ...[
+            Text(
+              Constants.tipe3Subtitle,
+            ),
+          ] else if (mappingIndicator.indicator[0].type == 4) ...[
+            Text(
+              Constants.tipe4Subtitle,
+            ),
+          ],
+          ...List.generate(mappingIndicator.indicator.length, (index) {
+            if (mappingIndicator.indicator[index].type == 3) {}
+            return _indicatorFieldContainer(mappingIndicator.indicator[index]);
+          }),
+          SizedBox(height: 36.0),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              nextButton(),
+              SizedBox(height: 24.0),
+              Text(
+                  '${_activeTabIndex == null ? 1 : _activeTabIndex + 1} dari ${this.indicator.length}'),
+            ],
           ),
         ],
-        ...List.generate(mappingIndicator.indicator.length, (index) {
-          if (mappingIndicator.indicator[index].type == 3) {}
-          return _indicatorFieldContainer(mappingIndicator.indicator[index]);
-        }),
-        SizedBox(height: 36.0),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            nextButton(),
-            SizedBox(height: 24.0),
-            Text(
-                '${_activeTabIndex == null ? 1 : _activeTabIndex + 1} dari ${this.indicator.length}'),
-          ],
-        ),
-      ],
+      ),
     );
   }
 
@@ -315,10 +317,13 @@ class _IndicatorPageState extends State<IndicatorPage>
                         ? map['${indicator.variable}${index + 1}'].toString()
                         : '',
                     onChanged: (value) {
-                      map['${indicator.variable}${index + 1}'] = value;
+                      _formKey.currentState.save();
+                      print(map);
                     },
                     onSaved: (value) {
-                      map['${indicator.variable}${index + 1}'] = value;
+                      if (value != null || value.isNotEmpty) {
+                        map['${indicator.variable}${index + 1}'] = value;
+                      }
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
