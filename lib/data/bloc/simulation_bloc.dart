@@ -54,19 +54,17 @@ class SimulationBloc extends ChangeNotifier {
 
     mapIndicator = Formula().accreditate(mapVariable, lmap);
 
-    mapIndicator.forEach((mapIndicator) {
+    for (int i = 0; i < mapIndicator.length; i++) {
       MappingRankedModel mappingRankedModel = MappingRankedModel(
-        educationStage: mapIndicator.educationStage,
-        indicatorCategory: mapIndicator.indicatorCategory,
-        indicatorSubcategory: mapIndicator.indicatorSubcategory,
-        indicatorValue: mapIndicator.indicatorValue.toDouble(),
+        educationStage: mapIndicator[i].educationStage,
+        indicatorCategory: mapIndicator[i].indicatorCategory,
+        indicatorSubcategory: mapIndicator[i].indicatorSubcategory,
+        indicatorValue: mapIndicator[i].indicatorValue.toDouble(),
       );
 
-      RankedDao().mappingRanked(mappingRankedModel).then((value) {
-        results.add(value);
-      });
-    });
-    // return null;
+      var rank = await RankedDao().mappingRanked(mappingRankedModel);
+      results.add(rank);
+    }
 
     int rank1 = results
         .where((mapRanked) => mapRanked.ranked == Constants.baik)
@@ -93,14 +91,15 @@ class SimulationBloc extends ChangeNotifier {
 
     MappingRankedConvertModel mappingRankedConvertModel =
         MappingRankedConvertModel(
-      currentAccreditation: newSimulation.currentAccreditation,
+      currentAccreditation:
+          newSimulation.currentAccreditation ?? 'Belum memenuhi syarat ',
       inputAccreditation: inputRank ?? 'BELUM MEMENUHI SYARAT AKREDITASI [2]',
     );
 
     resultConvert = await RankedConvertDao()
         .mappingRankedConvert(mappingRankedConvertModel);
 
-    await createHistory(mapVariable, lmap);
+    createHistory(mapVariable, lmap).whenComplete(() {});
 
     notifyListeners();
   }
@@ -134,6 +133,10 @@ class SimulationBloc extends ChangeNotifier {
 
   Future<List<HistoryModel>> getHistories() async {
     return await HistoryDao().select();
+  }
+
+  Future<int> deleteHistory(int id) async {
+    return await HistoryDao().delete(id);
   }
 
   clear() {

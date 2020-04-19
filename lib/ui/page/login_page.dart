@@ -260,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: handleLocalLogin,
             items: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 36.0),
+                padding: EdgeInsets.symmetric(horizontal: 36.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -283,8 +283,7 @@ class _LoginPageState extends State<LoginPage> {
         items: <Widget>[
           Container(
             margin: EdgeInsets.all(1.0),
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(

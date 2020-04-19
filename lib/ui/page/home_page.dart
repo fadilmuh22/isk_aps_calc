@@ -37,6 +37,16 @@ class _HomePageState extends State<HomePage> {
     ),
   ];
 
+  Future<Null> getHistories() {
+    return Provider.of<SimulationBloc>(context, listen: false)
+        .getHistories()
+        .then((data) {
+      setState(() {
+        histories = data;
+      });
+    });
+  }
+
   void onTapHistoryItem(int index) {
     NewSimulationModel historySimulation = NewSimulationModel(
       educationStage: histories[index].educationStage,
@@ -59,20 +69,52 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushNamed(context, ResultPage.tag);
   }
 
+  Future<int> deleteHistory(int index) async {
+    messageDialog(
+      title: 'Konfirmasi',
+      message:
+          '''Apakah anda yakin ingin menghapus [${histories[index].id}] ${histories[index].educationStageName} ${histories[index].studyProgram}
+      ''',
+      actions: [
+        FlatButton(
+          child: Text('Tidak'),
+          onPressed: () {
+            Navigator.of(context).pop();
+
+            getHistories();
+          },
+        ),
+        FlatButton(
+          child: Text('Ya'),
+          onPressed: () async {
+            Navigator.of(context).pop();
+            int count =
+                await Provider.of<SimulationBloc>(context, listen: false)
+                    .deleteHistory(histories[index].id);
+            if (count > 0) {
+              messageDialog(
+                  title: 'Sukses', message: 'History berhasil dihapus');
+            } else {
+              messageDialog(title: 'Gagal', message: 'History gagal dihapus');
+            }
+
+            getHistories();
+          },
+        ),
+      ],
+    );
+  }
+
   bool isLoadingHistory = false;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
     super.initState();
 
     isLoadingHistory = true;
-    Provider.of<SimulationBloc>(context, listen: false)
-        .getHistories()
-        .then((data) {
-      setState(() {
-        histories = data;
-      });
-    });
+    getHistories();
     isLoadingHistory = false;
   }
 
@@ -86,20 +128,21 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: CustomAppBar(),
       backgroundColor: Colors.white,
-      body: Container(
-        child: new Column(
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: getHistories,
+        child: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 0, left: 16, right: 16, top: 0),
+                padding:
+                    EdgeInsets.only(bottom: 0, left: 16, right: 16, top: 0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       newSimulationCard(),
                     ])),
             Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 0, left: 16, right: 16, top: 16),
+              padding: EdgeInsets.only(bottom: 0, left: 16, right: 16, top: 16),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -108,8 +151,7 @@ class _HomePageState extends State<HomePage> {
             ),
             new Expanded(
               child: new ListView(
-                padding:
-                    const EdgeInsets.only(bottom: 8, left: 8, right: 8, top: 0),
+                padding: EdgeInsets.only(bottom: 8, left: 8, right: 8, top: 0),
                 children: <Widget>[
                   cardSimulationHistoryContainer(),
                 ],
@@ -117,6 +159,34 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget loading() {
+    return Center(
+      child: CircularProgressIndicator(
+        backgroundColor: Color(0xffC82247),
+        valueColor: AlwaysStoppedAnimation<Color>(Color(0xffffffff)),
+      ),
+    );
+  }
+
+  messageDialog({String title, String message, List<Widget> actions}) async {
+    return await showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: actions ??
+            [
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
       ),
     );
   }
@@ -139,7 +209,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: EdgeInsets.only(right: 8),
                 child: CircleAvatar(
                   maxRadius: 16.0,
                   backgroundColor: Constants.primaryColor,
@@ -196,52 +266,52 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget loading() {
-    return Center(
-      child: CircularProgressIndicator(
-        backgroundColor: Color(0xffC82247),
-        valueColor: AlwaysStoppedAnimation<Color>(Color(0xffffffff)),
+  Widget _simulationHistoryTitle() {
+    return Container(
+      color: Colors.white,
+      child: Row(
+        children: <Widget>[
+          Flexible(
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    Constants.simulationHistory,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: Divider(
+                    thickness: 2,
+                    color: Constants.accentColor,
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
-
-  Widget _simulationHistoryTitle() => Container(
-        color: Colors.white,
-        child: Row(
-          children: <Widget>[
-            Flexible(
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Text(
-                      Constants.simulationHistory,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    child: Divider(
-                      thickness: 2,
-                      color: Constants.accentColor,
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      );
 
   Widget _simulationHistoryItem({
     int index,
     String title,
     String description,
-  }) =>
-      Container(
-        key: UniqueKey(),
+  }) {
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        color: Constants.accentColor,
+      ),
+      onDismissed: (direction) async {
+        await deleteHistory(index);
+      },
+      child: Container(
         margin: EdgeInsets.symmetric(vertical: 4.0),
         child: SizedBox(
           width: double.infinity,
@@ -261,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
+                          padding: EdgeInsets.only(right: 16.0),
                           child: Icon(
                             Icons.assignment,
                             color: Constants.accentColor,
@@ -303,5 +373,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-      );
+      ),
+    );
+  }
 }

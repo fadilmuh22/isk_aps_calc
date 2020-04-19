@@ -33,7 +33,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   );
 
   int educationStagesActive;
-  bool educationStagesInvalid = false;
 
   final currentAccreditations = ['A', 'B', 'C'];
 
@@ -113,7 +112,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   handleNextButton() async {
     if (_formKey.currentState.validate() &&
         newSimulation.educationStageName != null &&
-        newSimulation.educationStageName.isNotEmpty) {
+        newSimulation.currentAccreditation != null) {
       _formKey.currentState.save();
 
       Provider.of<SimulationBloc>(context, listen: false).newSimulation =
@@ -123,11 +122,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           .mappingIndicator();
 
       Navigator.pushNamed(context, IndicatorPage.tag);
-    } else if (newSimulation.educationStageName == null ||
-        newSimulation.educationStageName.isEmpty) {
-      setState(() {
-        educationStagesInvalid = true;
-      });
     }
   }
 
@@ -149,14 +143,14 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                   studyProgramNameContainer(),
                   SizedBox(height: 10.0),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: currentAccreditation(),
                   ),
                   SizedBox(height: 10.0),
                   educationStagesContainer(),
                   SizedBox(height: 10.0),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.0),
                     child: jumlahLulusanContainer(),
                   ),
                   SizedBox(height: 10.0),
@@ -215,7 +209,18 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             ),
           ],
         ),
+        if (newSimulation.currentAccreditation == null) textValidation(),
       ],
+    );
+  }
+
+  Widget textValidation() {
+    return Text(
+      'Please select one',
+      style: TextStyle(
+        color: Colors.red,
+        fontSize: 12,
+      ),
     );
   }
 
@@ -228,14 +233,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
               height: 16,
             ),
             _chooseStudyProgram(),
-            if (educationStagesInvalid)
-              Text(
-                'Please select one',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 10,
-                ),
-              )
+            if (newSimulation.educationStage == null) textValidation(),
           ],
         ),
       );
@@ -262,7 +260,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         ...List.generate(newSimulation.jumlahLulusan.length, (index) {
           if (isMagister(index)) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 36.0),
+              padding: EdgeInsets.only(bottom: 36.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -287,7 +285,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             );
           } else if (isNotMagister(index)) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 36.0),
+              padding: EdgeInsets.only(bottom: 36.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -404,7 +402,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           child: Row(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(right: 5),
+                padding: EdgeInsets.only(right: 5),
                 child: Text(
                   name,
                   style: TextStyle(
@@ -459,7 +457,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
               child: Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: EdgeInsets.only(right: 8.0),
                     child: Text(
                       fieldLabel,
                       style: TextStyle(

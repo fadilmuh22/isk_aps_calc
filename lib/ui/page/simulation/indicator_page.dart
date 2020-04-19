@@ -76,7 +76,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           await Provider.of<SimulationBloc>(context, listen: false)
               .accreditate(map, indicator);
 
-          Navigator.of(context).pushNamed(ResultPage.tag);
+          Navigator.of(context).pushReplacementNamed(ResultPage.tag);
         } else {
           await showDialog(
                   context: context,
@@ -105,25 +105,24 @@ class _IndicatorPageState extends State<IndicatorPage>
     if (_tabController.index != null) {
       if (_tabController.index == 0) {
         return showDialog(
-                context: context,
-                builder: (context) => new AlertDialog(
-                      title: new Text('Konfirmasi'),
-                      content: new Text(
-                          'Apakah Anda Yakin Ingin Keluar Dari Simulasi?'),
-                      actions: <Widget>[
-                        new FlatButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: new Text('Tidak'),
-                        ),
-                        new FlatButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(true);
-                          },
-                          child: new Text('Ya'),
-                        ),
-                      ],
-                    )) ??
-            false;
+            context: context,
+            builder: (context) => new AlertDialog(
+                  title: new Text('Konfirmasi'),
+                  content:
+                      new Text('Apakah Anda Yakin Ingin Keluar Dari Simulasi?'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: new Text('Tidak'),
+                    ),
+                    new FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: new Text('Ya'),
+                    ),
+                  ],
+                ));
       } else if (_tabController.index < indicator.length) {
         _tabController.animateTo((_tabController.index - 1));
       }

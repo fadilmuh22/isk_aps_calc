@@ -168,7 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: RaisedButton(
                       child: Text("Simpan"),
                       onPressed: onSaveForm,
@@ -247,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

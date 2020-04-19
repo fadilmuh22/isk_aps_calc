@@ -47,7 +47,7 @@ class HistoryDao {
     return count;
   }
 
-  Future<int> delete(String id) async {
+  Future<int> delete(int id) async {
     int count = await AppDatabase().db.delete(
       table,
       where: 'history_id=?',
