@@ -38,13 +38,17 @@ class _HomePageState extends State<HomePage> {
   ];
 
   Future<Null> getHistories() {
-    return Provider.of<SimulationBloc>(context, listen: false)
-        .getHistories()
-        .then((data) {
-      setState(() {
-        histories = data;
+    try {
+      return Provider.of<SimulationBloc>(context, listen: false)
+          .getHistories()
+          .then((data) {
+        setState(() {
+          histories = data;
+        });
       });
-    });
+    } catch (e) {
+      return null;
+    }
   }
 
   void onTapHistoryItem(int index) {
