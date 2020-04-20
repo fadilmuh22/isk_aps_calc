@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushNamed(context, ResultPage.tag);
   }
 
-  Future<int> deleteHistory(int index) async {
+  Future deleteHistory(int index) async {
     messageDialog(
       title: 'Konfirmasi',
       message:

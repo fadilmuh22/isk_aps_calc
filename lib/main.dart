@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:isk_aps_calc/data/repository/app_database.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 import 'package:isk_aps_calc/ui/page/auth_page.dart';
 import 'package:isk_aps_calc/ui/page/login_page.dart';
@@ -15,7 +14,6 @@ import 'package:isk_aps_calc/data/bloc/login_bloc.dart';
 
 void main() async {
   runApp(new MyApp());
-  AppDatabase().initDb();
 }
 
 final routes = {

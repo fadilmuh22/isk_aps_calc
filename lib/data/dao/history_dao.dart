@@ -1,5 +1,6 @@
 import 'package:isk_aps_calc/data/model/history_model.dart';
 import 'package:isk_aps_calc/data/repository/app_database.dart';
+import 'package:sqflite/sqflite.dart';
 
 class HistoryDao {
   String table = 'history';
@@ -7,29 +8,32 @@ class HistoryDao {
   Future<int> insert(
     HistoryModel history,
   ) async {
-    int count = await AppDatabase().db.insert(
-          table,
-          history.toJson(),
-        );
+    Database db = await AppDatabase().db;
+    int count = await db.insert(
+      table,
+      history.toJson(),
+    );
     return count;
   }
 
   Future<List<HistoryModel>> select() async {
-    var mapList = await AppDatabase().db.query(
-          table,
-        );
+    Database db = await AppDatabase().db;
+    var mapList = await db.query(
+      table,
+    );
     return mapList
         .map<HistoryModel>((history) => HistoryModel.fromJson(history))
         .toList();
   }
 
   Future<HistoryModel> selectOne(int id) async {
-    var mapList = await AppDatabase().db.query(
-          table,
-          where: 'history_id=?',
-          whereArgs: [id],
-          limit: 1,
-        );
+    Database db = await AppDatabase().db;
+    var mapList = await db.query(
+      table,
+      where: 'history_id=?',
+      whereArgs: [id],
+      limit: 1,
+    );
     if (mapList.isNotEmpty) {
       return HistoryModel.fromJson(mapList[0]);
     }
@@ -38,7 +42,8 @@ class HistoryDao {
   }
 
   Future<int> update(HistoryModel history) async {
-    int count = await AppDatabase().db.update(
+    Database db = await AppDatabase().db;
+    int count = await db.update(
       table,
       history.toJson(),
       where: 'history_id=?',
@@ -48,7 +53,8 @@ class HistoryDao {
   }
 
   Future<int> delete(int id) async {
-    int count = await AppDatabase().db.delete(
+    Database db = await AppDatabase().db;
+    int count = await db.delete(
       table,
       where: 'history_id=?',
       whereArgs: [id],

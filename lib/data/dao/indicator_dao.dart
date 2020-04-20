@@ -1,12 +1,14 @@
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/indicator_model.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 class IndicatorDao {
   Future<List<MappingIndicatorModel>> mappingIndicator(
     int educationStage,
   ) async {
-    var mapList = await AppDatabase().db.rawQuery('''
+    Database db = await AppDatabase().db;
+    var mapList = await db.rawQuery('''
       SELECT *
       FROM mapping_stage_indicator
       JOIN indicator_subcategory
@@ -40,7 +42,8 @@ class IndicatorDao {
     String indicatorCategory,
     String indicatorSubcategory,
   ) async {
-    var mapList = await AppDatabase().db.rawQuery(
+    Database db = await AppDatabase().db;
+    var mapList = await db.rawQuery(
       '''
       SELECT * FROM indicator
       WHERE indicator.indicator_category = ? AND indicator.indicator_subcategory = ?

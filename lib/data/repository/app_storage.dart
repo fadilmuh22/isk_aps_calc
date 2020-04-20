@@ -6,7 +6,11 @@ class AppStorage {
   final storage = FlutterSecureStorage();
 
   Future read({String key}) async {
-    return jsonDecode(await storage.read(key: key));
+    var data = await storage.read(key: key);
+    if (data != null) {
+      return jsonDecode(data);
+    }
+    return null;
   }
 
   Future write({String key, value}) async {

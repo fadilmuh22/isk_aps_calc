@@ -16,7 +16,10 @@ class AppDatabase {
 
   AppDatabase.internal();
 
-  Database get db {
+  Future<Database> get db async {
+    if (_db == null) {
+      _db = await initDb();
+    }
     return _db;
   }
 
@@ -41,7 +44,7 @@ class AppDatabase {
       await File(path).writeAsBytes(bytes, flush: true);
     }
 
-    _db = await openDatabase(
+    return await openDatabase(
       path,
       version: 1,
     );

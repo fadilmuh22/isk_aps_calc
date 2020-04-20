@@ -1,12 +1,14 @@
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
+import 'package:sqflite/sqflite.dart';
 
 class RankedConvertDao {
   Future<MappingRankedConvertModel> mappingRankedConvert(
     MappingRankedConvertModel mappingRankedConvertModel,
   ) async {
-    var result = await AppDatabase().db.rawQuery('''
+    Database db = await AppDatabase().db;
+    var result = await db.rawQuery('''
       SELECT count(accreditation_id)
             ,accreditation_id
             ,accreditation_name AS 'accreditation_achieved'

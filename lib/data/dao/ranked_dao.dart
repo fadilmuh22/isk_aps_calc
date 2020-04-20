@@ -1,12 +1,14 @@
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 
 import 'package:isk_aps_calc/data/model/mapping_ranked_model.dart';
+import 'package:sqflite/sqflite.dart';
 
 class RankedDao {
   Future<MappingRankedModel> mappingRanked(
     MappingRankedModel mappingRankedModel,
   ) async {
-    var result = await AppDatabase().db.rawQuery('''
+    Database db = await AppDatabase().db;
+    var result = await db.rawQuery('''
       select
       case
         when ? >= rank3 then 'UNGGUL'
