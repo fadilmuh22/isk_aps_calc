@@ -6,6 +6,7 @@ import 'package:isk_aps_calc/data/model/history_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
+import 'package:isk_aps_calc/data/repository/app_database.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
 import 'package:provider/provider.dart';
@@ -231,14 +232,10 @@ class _HomePageState extends State<HomePage> {
       );
 
   Widget cardSimulationHistoryContainer() {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      margin: EdgeInsets.only(
-        top: 8,
-      ),
-      child: Container(
+    Widget childTarget;
+
+    if (AppDatabase().db != null) {
+      childTarget = Container(
         padding: EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,7 +254,19 @@ class _HomePageState extends State<HomePage> {
               })
           ],
         ),
+      );
+    } else {
+      childTarget = Container();
+    }
+
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
       ),
+      margin: EdgeInsets.only(
+        top: 8,
+      ),
+      child: childTarget,
     );
   }
 

@@ -14,6 +14,7 @@ import 'package:isk_aps_calc/data/model/mapping_ranked_model.dart';
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
 import 'package:isk_aps_calc/data/model/user_model.dart';
+import 'package:isk_aps_calc/data/repository/app_database.dart';
 import 'package:isk_aps_calc/data/repository/app_storage.dart';
 
 class SimulationBloc extends ChangeNotifier {
@@ -132,7 +133,9 @@ class SimulationBloc extends ChangeNotifier {
   }
 
   Future<List<HistoryModel>> getHistories() async {
-    return await HistoryDao().select();
+    if (AppDatabase().db != null) {
+      return await HistoryDao().select();
+    }
   }
 
   Future<int> deleteHistory(int id) async {
