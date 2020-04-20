@@ -46,15 +46,17 @@ class _ProfilePageState extends State<ProfilePage> {
   pickImageFromGallery(ImageSource source) async {
     File file;
     file = await ImagePicker.pickImage(source: source);
-    setState(() {
-      imageProfile = Image.file(
-        file,
-        width: 150.0,
-        height: 150.0,
-        fit: BoxFit.fill,
-      );
-    });
-    await ImageUploadUtil.saveImage(user.email, file);
+    if (file != null) {
+      setState(() {
+        imageProfile = Image.file(
+          file,
+          width: 150.0,
+          height: 150.0,
+          fit: BoxFit.fill,
+        );
+      });
+      await ImageUploadUtil.saveImage(user.email, file);
+    }
   }
 
   loadImageFromPreferences() {

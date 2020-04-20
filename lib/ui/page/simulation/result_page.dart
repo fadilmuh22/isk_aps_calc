@@ -188,7 +188,7 @@ class _ResultPageState extends State<ResultPage> {
                 child: Container(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    '${indicatorValue ?? 0.0}',
+                    '${indicatorValue.toStringAsFixed(2) ?? 0.0}',
                     textAlign: TextAlign.end,
                   ),
                   decoration: BoxDecoration(

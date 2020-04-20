@@ -119,11 +119,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(context) {
     return Scaffold(
       appBar: CustomAppBar(),

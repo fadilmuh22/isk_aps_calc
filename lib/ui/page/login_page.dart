@@ -36,34 +36,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  loginDialog(bool succeed, String title, String message) => showDialog(
-        context: context,
-        child: AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                if (succeed) {
-                  Navigator.of(context).pushReplacementNamed(MainTabs.tag);
-                }
-              },
-            ),
-          ],
-        ),
-      ).then((data) {
-        if (succeed) {
-          Navigator.of(context).pushReplacementNamed(MainTabs.tag);
-        }
-      });
-
   void handleLocalLogin() async {
     await setIsLoading(true);
     if (_formKey.currentState.validate()) {
@@ -115,6 +87,29 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  loginDialog(bool succeed, String title, String message) => showDialog(
+        context: context,
+        child: AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                if (succeed) {
+                  Navigator.of(context).pushReplacementNamed(MainTabs.tag);
+                }
+              },
+            ),
+          ],
+        ),
+      ).then((data) {
+        if (succeed) {
+          Navigator.of(context).pushReplacementNamed(MainTabs.tag);
+        }
+      });
 
   Widget loading() {
     return Center(

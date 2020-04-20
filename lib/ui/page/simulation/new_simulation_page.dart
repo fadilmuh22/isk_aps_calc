@@ -90,11 +90,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
     },
   ];
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void toggleEducationStagesActive(int index) {
     setState(() {
       newSimulation.educationStage = educationStages[index]['id'];

@@ -56,11 +56,6 @@ class _MainTabsState extends State<MainTabs> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(context) {
     return WillPopScope(
       onWillPop: _onWillPop,
