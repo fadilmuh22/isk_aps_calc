@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
 import 'package:isk_aps_calc/ui/page/home_page.dart';
 import 'package:isk_aps_calc/ui/page/profile_page.dart';
