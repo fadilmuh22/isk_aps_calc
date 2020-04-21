@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -267,7 +266,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-          // SizedBox(height: 20.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
