@@ -95,9 +95,9 @@ class Formula extends _$FormulaSerializable {
             100);
     mapVariable['PGBLKL'] = newPGBLKL;
 
-    if (mapVariable['PGBLKL'] >= 70) {
+    if (mapVariable['PGBLKL'] >= (70 / 100)) {
       newScores = 4;
-    } else if (mapVariable['PGBLKL'] < 70) {
+    } else if (mapVariable['PGBLKL'] < (70 / 100)) {
       newScores = (2 + (20 * mapVariable['PGBLKL']));
     }
 
