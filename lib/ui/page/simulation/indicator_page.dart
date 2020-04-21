@@ -175,9 +175,9 @@ class _IndicatorPageState extends State<IndicatorPage>
             Text(
               Constants.tipe3Subtitle,
             ),
-          ] else if (mappingIndicator.indicator[0].type == 4) ...[
+          ] else if (mappingIndicator.indicator[0].type == 5) ...[
             Text(
-              Constants.tipe4Subtitle,
+              Constants.tipe5Subtitle,
             ),
           ],
           ...List.generate(mappingIndicator.indicator.length, (index) {

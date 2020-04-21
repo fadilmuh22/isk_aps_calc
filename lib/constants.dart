@@ -13,7 +13,7 @@ class Constants {
 
   static const String tipe3Subtitle =
       'Pilih salah satu yang sesuai dengan kondisi Program Studi Anda';
-  static const String tipe4Subtitle =
+  static const String tipe5Subtitle =
       'Isikan presentase setiap kriteria dengan kondisi Program Studi Anda';
 
   static const String lulusanNormal = '# Jumlah Lulusan Dalam 3 Tahun';
