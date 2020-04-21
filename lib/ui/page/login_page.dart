@@ -137,7 +137,6 @@ class _LoginPageState extends State<LoginPage> {
               height: 10.0,
             ),
             SizedBox(height: 200.0),
-
             Form(
               key: _formKey,
               child: Column(
@@ -148,7 +147,6 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-
             SizedBox(height: 36.0),
             Flex(
               direction: Axis.horizontal,
@@ -158,7 +156,6 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             SizedBox(height: 5.0),
-            // oauthButton(),
             Flex(
               direction: Axis.horizontal,
               mainAxisSize: MainAxisSize.min,

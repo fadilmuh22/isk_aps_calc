@@ -27,8 +27,6 @@ class AppDatabase {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = directory.path + 'isk_aps.db';
 
-    await deleteDatabase(path);
-
     var exists = await databaseExists(path);
 
     if (!exists) {

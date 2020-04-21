@@ -6,7 +6,6 @@ part 'formula.g.dart';
 
 @serializable
 class Formula extends _$FormulaSerializable {
-  // ? Create A Singleton
   static final Formula _formula = Formula._internal();
 
   factory Formula() {
@@ -130,7 +129,8 @@ class Formula extends _$FormulaSerializable {
           ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    mapVariable['WT'] = ((mapVariable['WT1'] + mapVariable['WT2'] + mapVariable['WT3']) / 3);
+    mapVariable['WT'] =
+        ((mapVariable['WT1'] + mapVariable['WT2'] + mapVariable['WT3']) / 3);
 
     if (mapVariable['WT'] < 3) {
       formula = 4;
@@ -167,7 +167,8 @@ class Formula extends _$FormulaSerializable {
           ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    mapVariable['WT'] = ((mapVariable['WT1'] + mapVariable['WT2'] + mapVariable['WT3']) / 3);
+    mapVariable['WT'] =
+        ((mapVariable['WT1'] + mapVariable['WT2'] + mapVariable['WT3']) / 3);
 
     if (mapVariable['WT'] < 6) {
       formula = 4;
@@ -204,7 +205,8 @@ class Formula extends _$FormulaSerializable {
           ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    mapVariable['PBS'] = ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3);
+    mapVariable['PBS'] =
+        ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3);
 
     if (mapVariable['PBS'] >= 60) {
       formula = 4;
@@ -676,8 +678,9 @@ class Formula extends _$FormulaSerializable {
           ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
     }
 
-    mapVariable['PBS'] = ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3);
-    
+    mapVariable['PBS'] =
+        ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3);
+
     if (mapVariable['PBS'] >= 80) {
       formula = 4;
     } else if (mapVariable['PBS'] < 80) {
@@ -760,8 +763,7 @@ class Formula extends _$FormulaSerializable {
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
     } else if (mapVariable['NLtotal'] < 300) {
-      newPrmin =
-          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100)));
+      newPrmin = ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100)));
     }
 
     newTKG = (((4 * mapVariable['G1']) +

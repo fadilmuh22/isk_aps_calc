@@ -266,7 +266,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-          // SizedBox(height: 20.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
