@@ -63,7 +63,6 @@ class _ResultPageState extends State<ResultPage> {
           padding: EdgeInsets.all(16.0),
           children: <Widget>[
             cardResult(resultConvert),
-            SizedBox(height: 48),
             Column(
               children: List.generate(keys.length, (index) {
                 return indicatorContainer(
@@ -77,14 +76,14 @@ class _ResultPageState extends State<ResultPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  width: 200.0,
+                  width: 140.0,
                   child: CustomRoundedButton(
                     items: <Widget>[
                       Text(
                         'Kembali',
                         style: TextStyle(color: Colors.white),
                       ),
-                      Icon(Icons.keyboard_arrow_right),
+                      Icon(Icons.keyboard_arrow_right, color: Colors.white),
                     ],
                     onPressed: () {
                       Navigator.of(context).popUntil((route) {
@@ -112,25 +111,30 @@ class _ResultPageState extends State<ResultPage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18.5),
             image: DecorationImage(
-              image: AssetImage('assets/images/result_card_bg_1.png'),
+              image: resultConvert.rankedConvert.length != 0 ? AssetImage('assets/images/result_card_bg_1.png') : AssetImage('assets/images/result_card_bg_2.png'),
               fit: BoxFit.cover,
             ),
           ),
           padding: EdgeInsets.all(16),
-          height: 160,
+          height: 90,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Flexible(
-                child: Text(
-                  resultConvert.rankedConvert ?? 'Akreditasi',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: Colors.white,
+                child: Center(
+                  child: Container(
+                    width: 200,
+                    child: Text(
+                      resultConvert.rankedConvert ?? 'Belum Memenuhi Syarat Akreditasi',
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               )
@@ -144,7 +148,7 @@ class _ResultPageState extends State<ResultPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(
-          height: 24.0,
+          height: 20.0,
         ),
         Text(
           category,
@@ -166,7 +170,7 @@ class _ResultPageState extends State<ResultPage> {
   Widget _indicatorField(
       String indicatorSubcategoryName, double indicatorValue) {
     return Container(
-      padding: EdgeInsets.only(bottom: 16.0),
+      padding: EdgeInsets.only(bottom: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -186,7 +190,7 @@ class _ResultPageState extends State<ResultPage> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(4.0),
                   child: Text(
                     '${indicatorValue.toStringAsFixed(2) ?? 0.0}',
                     textAlign: TextAlign.end,

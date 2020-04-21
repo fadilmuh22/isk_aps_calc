@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                   index: index,
                   title:
                       '${histories[index].educationStageName} ${histories[index].studyProgram}',
-                  description: 'Lorem Ipsum',
+                  description: '${histories[index].updateDateTime}',
                 );
               })
           ],
