@@ -16,10 +16,11 @@ class IndicatorDao {
       JOIN mapping_formula
         ON mapping_formula.indicator_category = mapping_stage_indicator.indicator_category
           AND mapping_formula.indicator_subcategory = mapping_stage_indicator.indicator_subcategory
-          AND mapping_formula.education_stage = ?
       JOIN indicator_category
         ON mapping_stage_indicator.indicator_category = indicator_category.indicator_category_id
       WHERE mapping_stage_indicator.education_stage = ?
+      AND mapping_formula.education_stage = ?
+      ORDER BY indicator_subcategory.seq;
     ''', [
       educationStage,
       educationStage,
@@ -47,7 +48,8 @@ class IndicatorDao {
       '''
       SELECT * FROM indicator
       WHERE indicator.indicator_category = ? AND indicator.indicator_subcategory = ?
-      GROUP BY indicator.indicator_name;
+      GROUP BY indicator.indicator_name
+      ORDER BY indicator.seq;
       ''',
       [
         indicatorCategory,

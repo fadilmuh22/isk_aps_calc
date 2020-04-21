@@ -704,6 +704,33 @@ class Formula extends _$FormulaSerializable {
     return newScores;
   }
 
+  double f32() {
+    double newScores;
+
+    newScores = (mapVariable['NL1'] + mapVariable['NL2'] + mapVariable['NL3']) / 3;
+    mapVariable['NLtotal'] = newScores;
+    
+    return newScores;
+  }
+
+  double f33() {
+    double newScores;
+
+    newScores = (mapVariable['NJ1'] + mapVariable['NJ2'] + mapVariable['NJ3']) / 3;
+    mapVariable['NJtotal'] = newScores;
+    
+    return newScores;
+  }
+
+  double f34() {
+    double newScores;
+
+    newScores = (mapVariable['NJI1'] + mapVariable['NJI2'] + mapVariable['NJI3']) / 3;
+    mapVariable['NJItotal'] = newScores;
+    
+    return newScores;
+  }
+
   String getAccreditation() {
     return 'TERAKREDITASI UNGGUL';
   }
