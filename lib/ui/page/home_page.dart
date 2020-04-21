@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
@@ -21,21 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<HistoryModel> histories = [
-    HistoryModel(
-      id: 0,
-      institute: 'user.institute',
-      studyProgram: 'studyProgramName',
-      educationStage: 1,
-      educationStageName: 'S1',
-      indicatorDetail: 'indicatorDetail',
-      variables: {'NDTPS': 1},
-      result: 'Rank',
-      resultDetail: 'jsonEncode(mapIndicator)',
-      userId: '0',
-      updateDateTime: DateTime.now().toString(),
-    ),
-  ];
+  List<HistoryModel> histories;
 
   Future<Null> getHistories() {
     try {
@@ -148,11 +135,13 @@ class _HomePageState extends State<HomePage> {
                     _simulationHistoryTitle(),
                   ]),
             ),
-            new Expanded(
-              child: new ListView(
+            Expanded(
+              child: ListView(
                 padding: EdgeInsets.only(bottom: 8, left: 8, right: 8, top: 0),
                 children: <Widget>[
-                  cardSimulationHistoryContainer(),
+                  histories == null || histories.isEmpty
+                      ? emptyHistory()
+                      : cardSimulationHistoryContainer(),
                 ],
               ),
             ),
@@ -261,6 +250,16 @@ class _HomePageState extends State<HomePage> {
               })
           ],
         ),
+      ),
+    );
+  }
+
+  Widget emptyHistory() {
+    return Container(
+      margin: EdgeInsets.only(top: 36.0),
+      alignment: Alignment.center,
+      child: SvgPicture.asset(
+        'assets/images/empty_history.svg',
       ),
     );
   }

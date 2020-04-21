@@ -22,7 +22,6 @@ class NewSimulationPage extends StatefulWidget {
 
 class _NewSimulationPageState extends State<NewSimulationPage> {
   final _formKey = GlobalKey<FormState>();
-  final dataKey = new GlobalKey();
 
   NewSimulationModel newSimulation = NewSimulationModel(
     jumlahLulusan: [
@@ -98,8 +97,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         educationStagesActive = null;
       } else {
         educationStagesActive = index;
-        Scrollable.ensureVisible(dataKey.currentContext,
-            duration: Duration(seconds: 2));
       }
     });
   }
@@ -143,14 +140,9 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                   ),
                   SizedBox(height: 10.0),
                   educationStagesContainer(),
-                  SizedBox(height: 10.0),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: jumlahLulusanContainer(),
-                  ),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 36.0),
                   nextButton(),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: 36.0),
                 ],
               ),
             ),
@@ -251,7 +243,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   Widget jumlahLulusanContainer() {
     return Column(
       children: <Widget>[
-        new Card(key: dataKey),
         ...List.generate(newSimulation.jumlahLulusan.length, (index) {
           if (isMagister(index)) {
             return Padding(

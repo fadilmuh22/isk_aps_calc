@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
 import 'package:isk_aps_calc/util/validator.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,6 @@ import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
-import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
 
 enum IndicatorField {
   number,
@@ -28,9 +28,7 @@ class IndicatorPage extends StatefulWidget {
 }
 
 class _IndicatorPageState extends State<IndicatorPage>
-    with
-        SingleTickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin<IndicatorPage> {
+    with SingleTickerProviderStateMixin {
   List<MappingIndicatorModel> indicator;
   final Map<String, dynamic> map = Map<String, dynamic>();
 
@@ -39,17 +37,11 @@ class _IndicatorPageState extends State<IndicatorPage>
   int _activeTabIndex;
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   void initState() {
     super.initState();
 
     indicator =
         Provider.of<SimulationBloc>(context, listen: false).mapIndicator;
-    map.addAll(Provider.of<SimulationBloc>(context, listen: false)
-        .newSimulation
-        .getJumlahLulusan());
 
     _tabController = TabController(vsync: this, length: indicator.length);
     _tabController.addListener((_setActiveTabIndex));
@@ -72,28 +64,10 @@ class _IndicatorPageState extends State<IndicatorPage>
     _formKey.currentState.save();
     if (_tabController.index != null) {
       if (_activeTabIndex == (indicator.length - 1)) {
-        if (_formKey.currentState.validate()) {
-          await Provider.of<SimulationBloc>(context, listen: false)
-              .accreditate(map, indicator);
+        await Provider.of<SimulationBloc>(context, listen: false)
+            .accreditate(map, indicator);
 
-          Navigator.of(context).pushReplacementNamed(ResultPage.tag);
-        } else {
-          await showDialog(
-                  context: context,
-                  builder: (context) => new AlertDialog(
-                        title: new Text('Konfirmasi'),
-                        content: new Text('Ada indicator yang masih kosong'),
-                        actions: <Widget>[
-                          new FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: new Text('Ok'),
-                          ),
-                        ],
-                      )) ??
-              false;
-        }
+        Navigator.of(context).pushReplacementNamed(ResultPage.tag);
       } else {
         _tabController.animateTo((_tabController.index + 1));
       }
@@ -101,29 +75,11 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   Future<bool> handleBackButton() {
-    _formKey.currentState.save();
     if (_tabController.index != null) {
       if (_tabController.index == 0) {
-        return showDialog(
-            context: context,
-            builder: (context) => new AlertDialog(
-                  title: new Text('Konfirmasi'),
-                  content:
-                      new Text('Apakah Anda Yakin Ingin Keluar Dari Simulasi?'),
-                  actions: <Widget>[
-                    new FlatButton(
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: new Text('Tidak'),
-                    ),
-                    new FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(true);
-                      },
-                      child: new Text('Ya'),
-                    ),
-                  ],
-                ));
+        exitDialog();
       } else if (_tabController.index < indicator.length) {
+        _formKey.currentState.save();
         _tabController.animateTo((_tabController.index - 1));
       }
     }
@@ -154,7 +110,6 @@ class _IndicatorPageState extends State<IndicatorPage>
             child: Form(
               key: _formKey,
               child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
                 controller: _tabController,
                 children: List.generate(indicator.length, (index) {
                   return indicatorContainer(indicator[index]);
@@ -165,6 +120,47 @@ class _IndicatorPageState extends State<IndicatorPage>
         ),
       ),
     );
+  }
+
+  exitDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+              title: new Text('Konfirmasi'),
+              content:
+                  new Text('Apakah Anda Yakin Ingin Keluar Dari Simulasi?'),
+              actions: <Widget>[
+                new FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('Tidak'),
+                ),
+                new FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                    Navigator.of(context).pop(true);
+                  },
+                  child: new Text('Ya'),
+                ),
+              ],
+            ));
+  }
+
+  validationDialog() async {
+    return await showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+                  title: new Text('Konfirmasi'),
+                  content: new Text('Ada indicator yang masih kosong'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: new Text('Ok'),
+                    ),
+                  ],
+                )) ??
+        false;
   }
 
   Widget indicatorContainer(MappingIndicatorModel mappingIndicator) {

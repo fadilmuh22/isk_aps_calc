@@ -38,6 +38,7 @@ dependencies:
 
   # UI Plugin
   intro_slider: ^2.2.9
+  flutter_svg: ^0.17.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -67,9 +68,11 @@ flutter:
     - assets/images/onboarding_2.png
     - assets/images/onboarding_3.png
 
+    - assets/images/new_simulation_card_bg.png
+    - assets/images/empty_history.svg
+
     - assets/images/google_logo.png
     - assets/images/login_bg.png
-    - assets/images/new_simulation_card_bg.png
     - assets/images/profile_placeholder.png
 
     - assets/images/result_card_bg_1.png

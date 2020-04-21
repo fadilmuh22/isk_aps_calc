@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
-import 'package:isk_aps_calc/ui/page/home_page.dart';
+import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
@@ -86,13 +86,8 @@ class _ResultPageState extends State<ResultPage> {
                       Icon(Icons.keyboard_arrow_right, color: Colors.white),
                     ],
                     onPressed: () {
-                      Navigator.of(context).popUntil((route) {
-                        if (route.settings.name == HomePage.tag) {
-                          return true;
-                        } else {
-                          return false;
-                        }
-                      });
+                      Navigator.of(context)
+                          .popUntil(ModalRoute.withName(MainTabs.tag));
                     },
                   ),
                 ),
