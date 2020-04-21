@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget emptyHistory() {
     return Container(
-      margin: EdgeInsets.only(top: 36.0),
+      margin: EdgeInsets.only(top: 72.0),
       alignment: Alignment.center,
       child: SvgPicture.asset(
         'assets/images/empty_history.svg',

@@ -761,7 +761,7 @@ class Formula extends _$FormulaSerializable {
       newPrmin = 30;
     } else if (mapVariable['NLtotal'] < 300) {
       newPrmin =
-          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
+          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100)));
     }
 
     newTKG = (((4 * mapVariable['G1']) +

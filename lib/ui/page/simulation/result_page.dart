@@ -65,10 +65,14 @@ class _ResultPageState extends State<ResultPage> {
             cardResult(resultConvert),
             Column(
               children: List.generate(keys.length, (index) {
-                return indicatorContainer(
-                  keys[index],
-                  accreditationFiltered[keys[index]],
-                );
+                if (keys[index].toLowerCase() != 'data lulusan') {
+                  return indicatorContainer(
+                    keys[index],
+                    accreditationFiltered[keys[index]],
+                  );
+                } else {
+                  return Container();
+                }
               }),
             ),
             SizedBox(height: 36.0),
