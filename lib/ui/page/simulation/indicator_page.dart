@@ -43,6 +43,12 @@ class _IndicatorPageState extends State<IndicatorPage>
     indicator =
         Provider.of<SimulationBloc>(context, listen: false).mapIndicator;
 
+    indicator.forEach((data) {
+      data.indicator.forEach((ind) {
+        return map[ind.variable] = null;
+      });
+    });
+
     _tabController = TabController(vsync: this, length: indicator.length);
     _tabController.addListener((_setActiveTabIndex));
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/indicator_model.dart';
@@ -16,10 +18,10 @@ class IndicatorDao {
       JOIN mapping_formula
         ON mapping_formula.indicator_category = mapping_stage_indicator.indicator_category
           AND mapping_formula.indicator_subcategory = mapping_stage_indicator.indicator_subcategory
+          AND mapping_formula.education_stage = ?
       JOIN indicator_category
         ON mapping_stage_indicator.indicator_category = indicator_category.indicator_category_id
       WHERE mapping_stage_indicator.education_stage = ?
-      AND mapping_formula.education_stage = ?
       ORDER BY indicator_subcategory.seq;
     ''', [
       educationStage,

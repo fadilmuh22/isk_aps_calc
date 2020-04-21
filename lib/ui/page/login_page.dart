@@ -297,11 +297,4 @@ class _LoginPageState extends State<LoginPage> {
           Container()
         ],
       );
-
-  // if (false) {
-  //   Center(
-  //     child: CircularProgressIndicator(),
-  //   )
-  // }
-
 }
