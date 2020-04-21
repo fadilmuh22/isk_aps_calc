@@ -80,7 +80,7 @@ class _ResultPageState extends State<ResultPage> {
                   child: CustomRoundedButton(
                     items: <Widget>[
                       Text(
-                        'Kembali',
+                        'Selesai',
                         style: TextStyle(color: Colors.white),
                       ),
                       Icon(Icons.keyboard_arrow_right, color: Colors.white),
@@ -111,7 +111,9 @@ class _ResultPageState extends State<ResultPage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18.5),
             image: DecorationImage(
-              image: resultConvert.rankedConvert.length != 0 ? AssetImage('assets/images/result_card_bg_1.png') : AssetImage('assets/images/result_card_bg_2.png'),
+              image: resultConvert.rankedConvert.length != 0
+                  ? AssetImage('assets/images/result_card_bg_1.png')
+                  : AssetImage('assets/images/result_card_bg_2.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -125,7 +127,8 @@ class _ResultPageState extends State<ResultPage> {
                   child: Container(
                     width: 200,
                     child: Text(
-                      resultConvert.rankedConvert ?? 'Belum Memenuhi Syarat Akreditasi',
+                      resultConvert.rankedConvert ??
+                          'Belum Memenuhi Syarat Akreditasi',
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
