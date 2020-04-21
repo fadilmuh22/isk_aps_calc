@@ -237,9 +237,7 @@ class Formula extends _$FormulaSerializable {
     double newTKL;
     double newTKM;
 
-    print(mapVariable);
-
-    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJItotal']) * 100);
+    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
 
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
@@ -740,6 +738,80 @@ class Formula extends _$FormulaSerializable {
     newScores =
         (mapVariable['NJI1'] + mapVariable['NJI2'] + mapVariable['NJI3']) / 3;
     mapVariable['NJItotal'] = newScores;
+
+    return newScores;
+  }
+
+  double f35() {
+    double newScores;
+    double newPJ;
+    double newPrmin;
+    double formula;
+    double newTKG;
+    double newTKH;
+    double newTKI;
+    double newTKJ;
+    double newTKK;
+    double newTKL;
+    double newTKM;
+
+    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJItotal']) * 100);
+
+    if ((mapVariable['NLtotal'] >= 300)) {
+      newPrmin = 30;
+    } else if (mapVariable['NLtotal'] < 300) {
+      newPrmin =
+          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
+    }
+
+    newTKG = (((4 * mapVariable['G1']) +
+        (3 * mapVariable['G2']) +
+        (2 * mapVariable['G3']) +
+        mapVariable['G4']));
+    newTKH = (((4 * mapVariable['H1']) +
+        (3 * mapVariable['H2']) +
+        (2 * mapVariable['H3']) +
+        mapVariable['H4']));
+    newTKI = (((4 * mapVariable['I1']) +
+        (3 * mapVariable['I2']) +
+        (2 * mapVariable['I3']) +
+        mapVariable['I4']));
+    newTKJ = (((4 * mapVariable['J1']) +
+        (3 * mapVariable['J2']) +
+        (2 * mapVariable['J3']) +
+        mapVariable['J4']));
+    newTKK = (((4 * mapVariable['K1']) +
+        (3 * mapVariable['K2']) +
+        (2 * mapVariable['K3']) +
+        mapVariable['K4']));
+    newTKL = (((4 * mapVariable['L1']) +
+        (3 * mapVariable['L2']) +
+        (2 * mapVariable['L3']) +
+        mapVariable['L4']));
+    newTKM = (((4 * mapVariable['M1']) +
+        (3 * mapVariable['M2']) +
+        (2 * mapVariable['M3']) +
+        mapVariable['M4']));
+
+    formula =
+        (newTKG + newTKH + newTKI + newTKJ + newTKK + newTKL + newTKM) / 7;
+
+    if (newPJ >= newPrmin) {
+      newScores = formula;
+    } else {
+      newScores = ((newPJ / newPrmin) * formula);
+    }
+
+    mapVariable['PJ'] = newPJ;
+    mapVariable['Prmin'] = newPrmin;
+    mapVariable['TKG'] = newTKG;
+    mapVariable['TKH'] = newTKH;
+    mapVariable['TKI'] = newTKI;
+    mapVariable['TKJ'] = newTKJ;
+    mapVariable['TKK'] = newTKK;
+    mapVariable['TKL'] = newTKL;
+    mapVariable['TKM'] = newTKM;
+    mapVariable['TKtotal'] = formula;
 
     return newScores;
   }

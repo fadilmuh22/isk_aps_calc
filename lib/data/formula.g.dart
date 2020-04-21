@@ -45,6 +45,7 @@ abstract class _$FormulaSerializable extends SerializableMap {
   double f32();
   double f33();
   double f34();
+  double f35();
   String getAccreditation();
 
   operator [](Object __key) {
@@ -121,6 +122,8 @@ abstract class _$FormulaSerializable extends SerializableMap {
         return f33;
       case 'f34':
         return f34;
+      case 'f35':
+        return f35;
       case 'getAccreditation':
         return getAccreditation;
     }
