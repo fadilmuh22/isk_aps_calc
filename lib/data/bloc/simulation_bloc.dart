@@ -135,7 +135,9 @@ class SimulationBloc extends ChangeNotifier {
   }
 
   Future<List<HistoryModel>> getHistories() async {
-    return await HistoryDao().select();
+    UserModel user =
+        UserModel.fromJson(jsonDecode(await AppStorage().read(key: 'user')));
+    return await HistoryDao().select(user.id);
   }
 
   Future<int> deleteHistory(int id) async {
