@@ -327,7 +327,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Nama Prodi:',
+            'Nama Prodi/Perguruan Tinggi:',
           )
         ],
       );
