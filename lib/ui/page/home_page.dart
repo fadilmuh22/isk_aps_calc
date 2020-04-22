@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
           .then((data) {
         setState(() {
           histories = data;
+          isLoadingHistory = false;
         });
       });
     } catch (e) {
@@ -106,7 +107,6 @@ class _HomePageState extends State<HomePage> {
 
     isLoadingHistory = true;
     getHistories();
-    isLoadingHistory = false;
   }
 
   @override

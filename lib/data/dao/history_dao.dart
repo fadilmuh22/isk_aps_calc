@@ -16,11 +16,10 @@ class HistoryDao {
     return count;
   }
 
-  Future<List<HistoryModel>> select() async {
+  Future<List<HistoryModel>> select(String userId) async {
     Database db = await AppDatabase().db;
-    var mapList = await db.query(
-      table,
-    );
+    var mapList =
+        await db.query(table, where: 'user_id=?', whereArgs: [userId]);
     return mapList
         .map<HistoryModel>((history) => HistoryModel.fromJson(history))
         .toList();
