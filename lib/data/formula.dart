@@ -238,7 +238,7 @@ class Formula extends _$FormulaSerializable {
     double newTKL;
     double newTKM;
 
-    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
+    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJItotal']) * 100);
 
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
