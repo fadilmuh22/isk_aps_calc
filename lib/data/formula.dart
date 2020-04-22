@@ -355,10 +355,10 @@ class Formula extends _$FormulaSerializable {
             100) / 100;
     mapVariable['PGBLK'] = newPGBLK;
 
-    if (mapVariable['PGBLK'] >= 70) {
+    if (mapVariable['PGBLK'] >= (70 / 100)) {
       newScores = 4;
-    } else if (mapVariable['PGBLK'] < 70) {
-      newScores = ((2 + (20 * mapVariable['PGBLK'])) / 7);
+    } else if (mapVariable['PGBLK'] < (70 / 100)) {
+      newScores = (2 + ((20 * mapVariable['PGBLK']) / 7));
     }
 
     return newScores;
