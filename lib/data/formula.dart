@@ -691,7 +691,7 @@ class Formula extends _$FormulaSerializable {
     }
 
     mapVariable['PBS'] =
-        ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3);
+        ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3) / 100;
 
     if (mapVariable['PBS'] >= (80 / 100)) {
       formula = 4;
