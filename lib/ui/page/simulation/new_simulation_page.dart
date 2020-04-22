@@ -43,22 +43,22 @@ final List<Map<String, dynamic>> educationStages = [
     'desc': 'Sarjana',
   },
   {
-    'id': 4,
+    'id': 5,
     'name': 'S2',
     'desc': 'Magister',
   },
   {
-    'id': 5,
+    'id': 4,
     'name': 'S2',
     'desc': 'Magister Terapan',
   },
   {
-    'id': 6,
+    'id': 7,
     'name': 'S3',
     'desc': 'Doktor',
   },
   {
-    'id': 7,
+    'id': 6,
     'name': 'S3',
     'desc': 'Doktor Terapan',
   },
