@@ -11,6 +11,49 @@ import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
 import 'package:provider/provider.dart';
 
+final List<Map<String, dynamic>> educationStages = [
+  {
+    'id': 1,
+    'name': 'D3',
+    'desc': 'Diploma 3',
+  },
+  {
+    'id': 2,
+    'name': 'D4',
+    'desc': 'Sarjana Terapan',
+  },
+  {
+    'id': 3,
+    'name': 'S1',
+    'desc': 'Sarjana',
+  },
+  {
+    'id': 4,
+    'name': 'S2',
+    'desc': 'Magister',
+  },
+  {
+    'id': 5,
+    'name': 'S2',
+    'desc': 'Magister Terapan',
+  },
+  {
+    'id': 6,
+    'name': 'S3',
+    'desc': 'Doktor',
+  },
+  {
+    'id': 7,
+    'name': 'S3',
+    'desc': 'Doktor Terapan',
+  },
+  {
+    'id': 8,
+    'name': 'PT',
+    'desc': 'Perguruan Tinggi',
+  },
+];
+
 class HomePage extends StatefulWidget {
   static String tag = '/home';
   final Function goToPage;
@@ -245,7 +288,8 @@ class _HomePageState extends State<HomePage> {
                   index: index,
                   title:
                       '${histories[index].educationStageName} ${histories[index].studyProgram}',
-                  description: '${histories[index].updateDateTime}',
+                  description:
+                      '(${educationStages[histories[index].educationStage - 1]['desc']}) ${histories[index].updateDateTime}',
                 );
               })
           ],

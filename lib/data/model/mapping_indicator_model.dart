@@ -34,7 +34,7 @@ class MappingIndicatorModel {
         'education_stage': educationStage,
         'indicator_category': indicatorCategory,
         'indicatory_category_name': indicatorCategoryName,
-        'indicatory_subcategory': indicatorSubcategory,
+        'indicator_subcategory': indicatorSubcategory,
         'indicator_subcategory_name': indicatorSubcategoryName,
         'fomula': formula,
         'indicator_value': indicatorValue.isNaN ? 0.0 : indicatorValue,

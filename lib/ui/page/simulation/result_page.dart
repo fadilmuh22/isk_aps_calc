@@ -32,19 +32,15 @@ class _ResultPageState extends State<ResultPage> {
     List<MappingIndicatorModel> accreditation =
         Provider.of<SimulationBloc>(context).mapIndicator;
 
-    Map<String, List<MappingIndicatorModel>> accreditationFiltered = new Map();
-    accreditation.forEach((data) {
-      accreditationFiltered[data.indicatorCategoryName] =
-          List<MappingIndicatorModel>();
-    });
+    Map<String, Map<String, MappingIndicatorModel>> accreditationFiltered =
+        Map();
 
-    accreditation.reduce((a, b) {
-      if (a.indicatorCategory == b.indicatorCategory) {
-        accreditationFiltered[a.indicatorCategoryName].addAll([a, b]);
-        return a;
+    accreditation.forEach((data) {
+      if (accreditationFiltered[data.indicatorCategoryName] == null) {
+        accreditationFiltered[data.indicatorCategoryName] = Map();
       }
-      accreditationFiltered[b.indicatorCategoryName].add(b);
-      return a;
+      accreditationFiltered[data.indicatorCategoryName]
+          .addAll({data.indicatorSubcategory: data});
     });
 
     var keys = accreditationFiltered.keys.toList();
@@ -68,7 +64,7 @@ class _ResultPageState extends State<ResultPage> {
                 if (keys[index].toLowerCase() != 'data lulusan') {
                   return indicatorContainer(
                     keys[index],
-                    accreditationFiltered[keys[index]],
+                    accreditationFiltered[keys[index]].values.toList(),
                   );
                 } else {
                   return Container();

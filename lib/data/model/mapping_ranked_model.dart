@@ -19,6 +19,6 @@ class MappingRankedModel {
   Map<String, dynamic> toJson() => {
         'education_stage': educationStage,
         'indicator_category': indicatorCategory,
-        'indicatory_subcategory': indicatorSubcategory,
+        'indicator_subcategory': indicatorSubcategory,
       };
 }

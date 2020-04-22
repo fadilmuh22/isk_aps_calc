@@ -13,6 +13,62 @@ import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 
 import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
 
+final currentAccreditations = ['A', 'B', 'C'];
+
+final List<Color> educationStagesColors = [
+  Color(0xff08CA1C),
+  Color(0xffED9818),
+  Color(0xff1D73C2),
+  Color(0xffDB1616),
+  Color(0xff971DC2),
+  Color(0xff90630C),
+  Color(0xffB99E67),
+  Color(0xffAD78F0),
+];
+
+final List<Map<String, dynamic>> educationStages = [
+  {
+    'id': 1,
+    'name': 'D3',
+    'desc': 'Diploma 3',
+  },
+  {
+    'id': 2,
+    'name': 'D4',
+    'desc': 'Sarjana Terapan',
+  },
+  {
+    'id': 3,
+    'name': 'S1',
+    'desc': 'Sarjana',
+  },
+  {
+    'id': 4,
+    'name': 'S2',
+    'desc': 'Magister',
+  },
+  {
+    'id': 5,
+    'name': 'S2',
+    'desc': 'Magister Terapan',
+  },
+  {
+    'id': 6,
+    'name': 'S3',
+    'desc': 'Doktor',
+  },
+  {
+    'id': 7,
+    'name': 'S3',
+    'desc': 'Doktor Terapan',
+  },
+  {
+    'id': 8,
+    'name': 'PT',
+    'desc': 'Perguruan Tinggi',
+  },
+];
+
 class NewSimulationPage extends StatefulWidget {
   static const String tag = '/simulatsi/create';
 
@@ -32,62 +88,6 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   );
 
   int educationStagesActive;
-
-  final currentAccreditations = ['A', 'B', 'C'];
-
-  final List<Color> educationStagesColors = [
-    Color(0xff08CA1C),
-    Color(0xffED9818),
-    Color(0xff1D73C2),
-    Color(0xffDB1616),
-    Color(0xff971DC2),
-    Color(0xff90630C),
-    Color(0xffB99E67),
-    Color(0xffAD78F0),
-  ];
-
-  final List<Map<String, dynamic>> educationStages = [
-    {
-      'id': 1,
-      'name': 'D3',
-      'desc': 'Diploma 3',
-    },
-    {
-      'id': 2,
-      'name': 'D4',
-      'desc': 'Sarjana Terapan',
-    },
-    {
-      'id': 3,
-      'name': 'S1',
-      'desc': 'Sarjana',
-    },
-    {
-      'id': 4,
-      'name': 'S2',
-      'desc': 'Magister',
-    },
-    {
-      'id': 5,
-      'name': 'S2',
-      'desc': 'Magister Terapan',
-    },
-    {
-      'id': 6,
-      'name': 'S3',
-      'desc': 'Doktor',
-    },
-    {
-      'id': 7,
-      'name': 'S3',
-      'desc': 'Doktor Terapan',
-    },
-    {
-      'id': 8,
-      'name': 'PT',
-      'desc': 'Perguruan Tinggi',
-    },
-  ];
 
   void toggleEducationStagesActive(int index) {
     setState(() {
