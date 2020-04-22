@@ -119,7 +119,7 @@ class Formula extends _$FormulaSerializable {
     double newPrmin;
     double formula;
 
-    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
+    newPJ = ((mapVariable['NJtotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
@@ -157,7 +157,7 @@ class Formula extends _$FormulaSerializable {
     double newPrmin;
     double formula;
 
-    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
+    newPJ = ((mapVariable['NJtotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
@@ -250,31 +250,31 @@ class Formula extends _$FormulaSerializable {
     newTKG = (((4 * mapVariable['G1']) +
         (3 * mapVariable['G2']) +
         (2 * mapVariable['G3']) +
-        mapVariable['G4']));
+        mapVariable['G4'])) / 100;
     newTKH = (((4 * mapVariable['H1']) +
         (3 * mapVariable['H2']) +
         (2 * mapVariable['H3']) +
-        mapVariable['H4']));
+        mapVariable['H4'])) / 100;
     newTKI = (((4 * mapVariable['I1']) +
         (3 * mapVariable['I2']) +
         (2 * mapVariable['I3']) +
-        mapVariable['I4']));
+        mapVariable['I4'])) / 100;
     newTKJ = (((4 * mapVariable['J1']) +
         (3 * mapVariable['J2']) +
         (2 * mapVariable['J3']) +
-        mapVariable['J4']));
+        mapVariable['J4'])) / 100;
     newTKK = (((4 * mapVariable['K1']) +
         (3 * mapVariable['K2']) +
         (2 * mapVariable['K3']) +
-        mapVariable['K4']));
+        mapVariable['K4'])) / 100;
     newTKL = (((4 * mapVariable['L1']) +
         (3 * mapVariable['L2']) +
         (2 * mapVariable['L3']) +
-        mapVariable['L4']));
+        mapVariable['L4'])) / 100;
     newTKM = (((4 * mapVariable['M1']) +
         (3 * mapVariable['M2']) +
         (2 * mapVariable['M3']) +
-        mapVariable['M4']));
+        mapVariable['M4'])) / 100;
 
     formula =
         (newTKG + newTKH + newTKI + newTKJ + newTKK + newTKL + newTKM) / 7;
@@ -768,31 +768,31 @@ class Formula extends _$FormulaSerializable {
     newTKG = (((4 * mapVariable['G1']) +
         (3 * mapVariable['G2']) +
         (2 * mapVariable['G3']) +
-        mapVariable['G4']));
+        mapVariable['G4'])) / 100;
     newTKH = (((4 * mapVariable['H1']) +
         (3 * mapVariable['H2']) +
         (2 * mapVariable['H3']) +
-        mapVariable['H4']));
+        mapVariable['H4'])) / 100;
     newTKI = (((4 * mapVariable['I1']) +
         (3 * mapVariable['I2']) +
         (2 * mapVariable['I3']) +
-        mapVariable['I4']));
+        mapVariable['I4'])) / 100;
     newTKJ = (((4 * mapVariable['J1']) +
         (3 * mapVariable['J2']) +
         (2 * mapVariable['J3']) +
-        mapVariable['J4']));
+        mapVariable['J4'])) / 100;
     newTKK = (((4 * mapVariable['K1']) +
         (3 * mapVariable['K2']) +
         (2 * mapVariable['K3']) +
-        mapVariable['K4']));
+        mapVariable['K4'])) / 100;
     newTKL = (((4 * mapVariable['L1']) +
         (3 * mapVariable['L2']) +
         (2 * mapVariable['L3']) +
-        mapVariable['L4']));
+        mapVariable['L4'])) / 100;
     newTKM = (((4 * mapVariable['M1']) +
         (3 * mapVariable['M2']) +
         (2 * mapVariable['M3']) +
-        mapVariable['M4']));
+        mapVariable['M4'])) / 100;
 
     formula =
         (newTKG + newTKH + newTKI + newTKJ + newTKK + newTKL + newTKM) / 7;
