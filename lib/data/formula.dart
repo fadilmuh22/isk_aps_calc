@@ -90,13 +90,13 @@ class Formula extends _$FormulaSerializable {
     newPGBLKL =
         (((mapVariable['NDGB'] + mapVariable['NDLK'] + mapVariable['NDL']) /
                 mapVariable['NDTPS']) *
-            100);
+            100) / 100;
     mapVariable['PGBLKL'] = newPGBLKL;
 
     if (mapVariable['PGBLKL'] >= 70) {
       newScores = 4;
     } else if (mapVariable['PGBLKL'] < 70) {
-      newScores = (2 + (20 * mapVariable['PGBLKL']));
+      newScores = (2 + ((20 * mapVariable['PGBLKL']) / 7));
     }
 
     return newScores;
@@ -238,7 +238,7 @@ class Formula extends _$FormulaSerializable {
     double newTKL;
     double newTKM;
 
-    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJItotal']) * 100);
+    newPJ = ((mapVariable['NJItotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
@@ -352,7 +352,7 @@ class Formula extends _$FormulaSerializable {
 
     newPGBLK =
         (((mapVariable['NDGB'] + mapVariable['NDLK']) / mapVariable['NDTPS']) *
-            100);
+            100) / 100;
     mapVariable['PGBLK'] = newPGBLK;
 
     if (mapVariable['PGBLK'] >= 70) {
@@ -370,7 +370,7 @@ class Formula extends _$FormulaSerializable {
 
     newPGBLK =
         (((mapVariable['NDGB'] + mapVariable['NDLK']) / mapVariable['NDTPS']) *
-            100);
+            100) / 100;
     mapVariable['PGBLK'] = newPGBLK;
 
     if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGBLK'] >= 70)) {
@@ -390,7 +390,7 @@ class Formula extends _$FormulaSerializable {
     double newScores;
     double newPGB;
 
-    newPGB = ((mapVariable['NDGB'] / mapVariable['NDTPS']) * 100);
+    newPGB = ((mapVariable['NDGB'] / mapVariable['NDTPS']) * 100) / 100;
     mapVariable['PGB'] = newPGB;
 
     if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGB'] >= 70)) {
@@ -738,7 +738,7 @@ class Formula extends _$FormulaSerializable {
     double newScores;
 
     newScores =
-        (mapVariable['NJI1'] + mapVariable['NJI2'] + mapVariable['NJI3']) / 3;
+        (mapVariable['NJI1'] + mapVariable['NJI2'] + mapVariable['NJI3']);
     mapVariable['NJItotal'] = newScores;
 
     return newScores;
@@ -757,7 +757,7 @@ class Formula extends _$FormulaSerializable {
     double newTKL;
     double newTKM;
 
-    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJItotal']) * 100);
+    newPJ = ((mapVariable['NJItotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
