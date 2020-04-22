@@ -71,12 +71,12 @@ class Formula extends _$FormulaSerializable {
     double newScores;
     double newPDS3;
 
-    newPDS3 = ((mapVariable['NDS3'] / mapVariable['NDTPS']) * 100 / 100);
+    newPDS3 = (((mapVariable['NDS3'] / mapVariable['NDTPS']) * 100) / 100);
     mapVariable['PDS3'] = newPDS3;
 
-    if (mapVariable['PDS3'] >= 50) {
+    if (mapVariable['PDS3'] >= (50 / 100)) {
       newScores = 4;
-    } else if (mapVariable['PDS3'] < 50) {
+    } else if (mapVariable['PDS3'] < (50 / 100)) {
       newScores = (2 + (4 * mapVariable['PDS3']));
     }
 
@@ -94,9 +94,9 @@ class Formula extends _$FormulaSerializable {
             100;
     mapVariable['PGBLKL'] = newPGBLKL;
 
-    if (mapVariable['PGBLKL'] >= 70) {
+    if (mapVariable['PGBLKL'] >= (70 / 100)) {
       newScores = 4;
-    } else if (mapVariable['PGBLKL'] < 70) {
+    } else if (mapVariable['PGBLKL'] < (70 / 100)) {
       newScores = (2 + ((20 * mapVariable['PGBLKL']) / 7));
     }
 
