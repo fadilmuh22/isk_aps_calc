@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
 import 'package:isk_aps_calc/ui/page/home_page.dart';
 import 'package:isk_aps_calc/ui/page/profile_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/new_simulation_page.dart';
 import 'package:isk_aps_calc/constants.dart';
+import 'package:provider/provider.dart';
 
 class MainTabs extends StatefulWidget {
   static String tag = '/main-tabs';
@@ -45,7 +48,10 @@ class _MainTabsState extends State<MainTabs> {
                 child: new Text('Tidak'),
               ),
               new FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
+                onPressed: () {
+                  SystemChannels.platform
+                      .invokeMethod<void>('SystemNavigator.pop');
+                },
                 child: new Text('Ya'),
               ),
             ],
@@ -56,6 +62,7 @@ class _MainTabsState extends State<MainTabs> {
 
   @override
   Widget build(context) {
+    Provider.of<SimulationBloc>(context).goToPage = goToPage;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
