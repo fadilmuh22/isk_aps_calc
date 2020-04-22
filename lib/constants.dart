@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constants {
   static const titleStyle =
-      TextStyle(fontSize: 10, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
 
   static const Color primaryColor = Color(0xffFFFFFF);
   static const Color accentColor = Color(0xffC82247);
@@ -14,7 +14,7 @@ class Constants {
   static const String tipe3Subtitle =
       'Pilih salah satu yang sesuai dengan kondisi Program Studi Anda';
   static const String tipe5Subtitle =
-      'Isikan presentase setiap kriteria dengan kondisi Program Studi Anda';
+      'Isikan presentase setiap kriteria dengan kondisi Program Studi Anda (%)';
 
   static const String lulusanNormal = '# Jumlah Lulusan Dalam 3 Tahun';
   static const String lulusanTerlacak =

@@ -180,10 +180,12 @@ class _IndicatorPageState extends State<IndicatorPage>
           if (mappingIndicator.indicator[0].type == 3) ...[
             Text(
               Constants.tipe3Subtitle,
+              style: TextStyle(fontSize: 10),
             ),
           ] else if (mappingIndicator.indicator[0].type == 5) ...[
             Text(
               Constants.tipe5Subtitle,
+              style: TextStyle(fontSize: 10),
             ),
           ],
           ...List.generate(mappingIndicator.indicator.length, (index) {

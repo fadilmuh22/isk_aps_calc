@@ -90,13 +90,12 @@ class Formula extends _$FormulaSerializable {
     newPGBLKL =
         (((mapVariable['NDGB'] + mapVariable['NDLK'] + mapVariable['NDL']) /
                 mapVariable['NDTPS']) *
-            100 /
             100);
     mapVariable['PGBLKL'] = newPGBLKL;
 
-    if (mapVariable['PGBLKL'] >= (70 / 100)) {
+    if (mapVariable['PGBLKL'] >= 70) {
       newScores = 4;
-    } else if (mapVariable['PGBLKL'] < (70 / 100)) {
+    } else if (mapVariable['PGBLKL'] < 70) {
       newScores = (2 + (20 * mapVariable['PGBLKL']));
     }
 
@@ -245,7 +244,7 @@ class Formula extends _$FormulaSerializable {
       newPrmin = 30;
     } else if (mapVariable['NLtotal'] < 300) {
       newPrmin =
-          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
+          (((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100) / 100;
     }
 
     newTKG = (((4 * mapVariable['G1']) +
@@ -353,12 +352,12 @@ class Formula extends _$FormulaSerializable {
 
     newPGBLK =
         (((mapVariable['NDGB'] + mapVariable['NDLK']) / mapVariable['NDTPS']) *
-            (100 / 100));
+            100);
     mapVariable['PGBLK'] = newPGBLK;
 
-    if (mapVariable['PGBLK'] >= (70 / 100)) {
+    if (mapVariable['PGBLK'] >= 70) {
       newScores = 4;
-    } else if (mapVariable['PGBLK'] < (70 / 100)) {
+    } else if (mapVariable['PGBLK'] < 70) {
       newScores = ((2 + (20 * mapVariable['PGBLK'])) / 7);
     }
 
@@ -371,13 +370,13 @@ class Formula extends _$FormulaSerializable {
 
     newPGBLK =
         (((mapVariable['NDGB'] + mapVariable['NDLK']) / mapVariable['NDTPS']) *
-            (100 / 100));
+            100);
     mapVariable['PGBLK'] = newPGBLK;
 
-    if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGBLK'] >= (70 / 100))) {
+    if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGBLK'] >= 70)) {
       newScores = 4;
     } else if ((mapVariable['NDGB'] >= 2) &&
-        (mapVariable['PGBLK'] < (70 / 100))) {
+        (mapVariable['PGBLK'] < 70)) {
       newScores = ((2 + (20 * mapVariable['PGBLK'])) / 7);
     } else {
       // NDGB < 2
@@ -391,13 +390,13 @@ class Formula extends _$FormulaSerializable {
     double newScores;
     double newPGB;
 
-    newPGB = ((mapVariable['NDGB'] / mapVariable['NDTPS']) * (100 / 100));
+    newPGB = ((mapVariable['NDGB'] / mapVariable['NDTPS']) * 100);
     mapVariable['PGB'] = newPGB;
 
-    if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGB'] >= (70 / 100))) {
+    if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGB'] >= 70)) {
       newScores = 4;
     } else if ((mapVariable['NDGB'] >= 2) &&
-        (mapVariable['PGB'] < (70 / 100))) {
+        (mapVariable['PGB'] < 70)) {
       newScores = ((2 + (20 * mapVariable['PGB'])) / 7);
     } else {
       // NDGB < 2
@@ -763,7 +762,7 @@ class Formula extends _$FormulaSerializable {
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30;
     } else if (mapVariable['NLtotal'] < 300) {
-      newPrmin = ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100)));
+      newPrmin = (((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100)))) / 100;
     }
 
     newTKG = (((4 * mapVariable['G1']) +
