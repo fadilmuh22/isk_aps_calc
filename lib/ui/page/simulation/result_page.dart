@@ -104,46 +104,51 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
-  Widget cardResult(MappingRankedConvertModel resultConvert) => GestureDetector(
-        onTap: () {},
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18.5),
-            image: DecorationImage(
-              image: resultConvert.rankedConvert.length != 0
-                  ? AssetImage('assets/images/result_card_bg_1.png')
-                  : AssetImage('assets/images/result_card_bg_2.png'),
-              fit: BoxFit.cover,
-            ),
+  Widget cardResult(MappingRankedConvertModel resultConvert) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(18.5),
+          image: DecorationImage(
+            image: resultConvert.rankedConvert.length != 0 &&
+                    !(resultConvert.rankedConvert
+                        .toLowerCase()
+                        .contains('belum'))
+                ? AssetImage('assets/images/result_card_bg_1.png')
+                : AssetImage('assets/images/result_card_bg_2.png'),
+            fit: BoxFit.cover,
           ),
-          padding: EdgeInsets.all(16),
-          height: 90,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Flexible(
-                child: Center(
-                  child: Container(
-                    width: 200,
-                    child: Text(
-                      resultConvert.rankedConvert ??
-                          'Belum Memenuhi Syarat Akreditasi',
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
+        ),
+        padding: EdgeInsets.all(16),
+        height: 90,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child: Center(
+                child: Container(
+                  width: 200,
+                  child: Text(
+                    resultConvert.rankedConvert ??
+                        'Belum Memenuhi Syarat Akreditasi',
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   Widget indicatorContainer(String category, List<MappingIndicatorModel> lmap) {
     return Column(
