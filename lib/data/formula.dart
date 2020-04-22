@@ -122,10 +122,10 @@ class Formula extends _$FormulaSerializable {
     newPJ = ((mapVariable['NJtotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
-      newPrmin = 30;
+      newPrmin = 30 / 100;
     } else if (mapVariable['NLtotal'] < 300) {
       newPrmin =
-          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
+          (((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100) / 100;
     }
 
     mapVariable['WT'] =
@@ -160,10 +160,10 @@ class Formula extends _$FormulaSerializable {
     newPJ = ((mapVariable['NJtotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
-      newPrmin = 30;
+      newPrmin = 30 / 100;
     } else if (mapVariable['NLtotal'] < 300) {
       newPrmin =
-          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
+          (((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100) / 100;
     }
 
     mapVariable['WT'] =
@@ -198,10 +198,10 @@ class Formula extends _$FormulaSerializable {
     newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
 
     if ((mapVariable['NLtotal'] >= 300)) {
-      newPrmin = 30;
+      newPrmin = 30 / 100;
     } else if (mapVariable['NLtotal'] < 300) {
       newPrmin =
-          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
+          (((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100) / 100;
     }
 
     mapVariable['PBS'] =
@@ -241,7 +241,7 @@ class Formula extends _$FormulaSerializable {
     newPJ = ((mapVariable['NJItotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
-      newPrmin = 30;
+      newPrmin = 30 / 100;
     } else if (mapVariable['NLtotal'] < 300) {
       newPrmin =
           (((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100) / 100;
@@ -671,10 +671,10 @@ class Formula extends _$FormulaSerializable {
     newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
 
     if ((mapVariable['NLtotal'] >= 300)) {
-      newPrmin = 30;
+      newPrmin = 30 / 100;
     } else if (mapVariable['NLtotal'] < 300) {
       newPrmin =
-          ((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100;
+          (((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100))) * 100) / 100;
     }
 
     mapVariable['PBS'] =
@@ -760,7 +760,7 @@ class Formula extends _$FormulaSerializable {
     newPJ = ((mapVariable['NJItotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
-      newPrmin = 30;
+      newPrmin = 30 / 100;
     } else if (mapVariable['NLtotal'] < 300) {
       newPrmin = (((50 / 100) - ((mapVariable['NLtotal'] / 300) * (20 / 100)))) / 100;
     }
