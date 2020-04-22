@@ -86,6 +86,8 @@ class _ResultPageState extends State<ResultPage> {
                       Icon(Icons.keyboard_arrow_right, color: Colors.white),
                     ],
                     onPressed: () {
+                      Provider.of<SimulationBloc>(context, listen: false)
+                          .goToPage(0);
                       Navigator.of(context)
                           .popUntil(ModalRoute.withName(MainTabs.tag));
                     },

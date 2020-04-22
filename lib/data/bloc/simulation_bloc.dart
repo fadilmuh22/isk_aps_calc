@@ -23,6 +23,8 @@ class SimulationBloc extends ChangeNotifier {
   MappingRankedConvertModel resultConvert;
   String inputRank;
 
+  Function goToPage;
+
   Future mappingIndicator() async {
     mapIndicator =
         await IndicatorDao().mappingIndicator(newSimulation.educationStage);

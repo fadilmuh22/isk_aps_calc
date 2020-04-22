@@ -27,7 +27,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   isProdiAndNameEmpty() =>
       (widget.educationStageName.isEmpty && widget.studyProgramName.isEmpty);
 
-  handleBackButton() {
+  handleBackButton() async {
     if (Navigator.of(context).canPop()) {
       Navigator.of(context).pop();
     } else {
