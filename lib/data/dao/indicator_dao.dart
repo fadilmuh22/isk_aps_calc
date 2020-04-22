@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/indicator_model.dart';

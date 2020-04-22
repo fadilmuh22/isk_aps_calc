@@ -274,6 +274,8 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: handleGoogleLogin,
         items: <Widget>[
           Container(
+            width: 50.0,
+            height: 50.0,
             margin: EdgeInsets.all(1.0),
             padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
