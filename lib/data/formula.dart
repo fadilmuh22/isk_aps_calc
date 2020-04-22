@@ -195,7 +195,7 @@ class Formula extends _$FormulaSerializable {
     double newPrmin;
     double formula;
 
-    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
+    newPJ = ((mapVariable['NJtotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30 / 100;
@@ -207,9 +207,9 @@ class Formula extends _$FormulaSerializable {
     mapVariable['PBS'] =
         ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3);
 
-    if (mapVariable['PBS'] >= 60) {
+    if (mapVariable['PBS'] >= (60 / 100)) {
       formula = 4;
-    } else if (mapVariable['PBS'] < 60) {
+    } else if (mapVariable['PBS'] < (60 / 100)) {
       formula = (20 * mapVariable['PBS']) / 3;
     }
 
@@ -668,7 +668,7 @@ class Formula extends _$FormulaSerializable {
     double newPrmin;
     double formula;
 
-    newPJ = ((mapVariable['NLtotal'] / mapVariable['NJtotal']) * 100);
+    newPJ = ((mapVariable['NJtotal'] / mapVariable['NLtotal']) * 100) / 100;
 
     if ((mapVariable['NLtotal'] >= 300)) {
       newPrmin = 30 / 100;
@@ -680,9 +680,9 @@ class Formula extends _$FormulaSerializable {
     mapVariable['PBS'] =
         ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3);
 
-    if (mapVariable['PBS'] >= 80) {
+    if (mapVariable['PBS'] >= (80 / 100)) {
       formula = 4;
-    } else if (mapVariable['PBS'] < 80) {
+    } else if (mapVariable['PBS'] < (80 / 100)) {
       formula = (5 * mapVariable['PBS']);
     }
 
