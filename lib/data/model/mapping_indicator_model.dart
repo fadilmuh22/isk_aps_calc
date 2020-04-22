@@ -22,7 +22,7 @@ class MappingIndicatorModel {
   MappingIndicatorModel.fromJson(Map<String, dynamic> json) {
     educationStage = json['education_stage'];
     indicatorCategory = json['indicator_category'];
-    indicatorCategoryName = json['indicatory_category_name'];
+    indicatorCategoryName = json['indicator_category_name'];
     indicatorSubcategory = json['indicator_subcategory'];
     indicatorSubcategoryName = json['indicator_subcategory_name'];
     formula = json['formula'];
@@ -33,7 +33,7 @@ class MappingIndicatorModel {
   Map<String, dynamic> toJson() => {
         'education_stage': educationStage,
         'indicator_category': indicatorCategory,
-        'indicatory_category_name': indicatorCategoryName,
+        'indicator_category_name': indicatorCategoryName,
         'indicator_subcategory': indicatorSubcategory,
         'indicator_subcategory_name': indicatorSubcategoryName,
         'fomula': formula,
