@@ -64,9 +64,9 @@ flutter:
   assets:
     - assets/data/isk_aps.db
 
-    - assets/images/onboarding_1.png
-    - assets/images/onboarding_2.png
-    - assets/images/onboarding_3.png
+    - assets/images/onboarding1.svg
+    - assets/images/onboarding2.svg
+    - assets/images/onboarding3.svg
 
     - assets/images/new_simulation_card_bg.png
     - assets/images/empty_history.svg

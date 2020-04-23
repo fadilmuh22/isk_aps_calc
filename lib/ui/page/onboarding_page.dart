@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
@@ -20,26 +21,32 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     super.initState();
     slides.add(
       new Slide(
-        pathImage: 'assets/images/onboarding_1.png',
+        centerWidget: SvgPicture.asset(
+          'assets/images/onboarding1.svg',
+          width: 320.0,
+          height: 352.0,
+        ),
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
-        widthImage: 320.0,
-        heightImage: 352.0,
       ),
     );
     slides.add(
       new Slide(
-        pathImage: 'assets/images/onboarding_2.png',
+        centerWidget: SvgPicture.asset(
+          'assets/images/onboarding2.svg',
+          width: 320.0,
+          height: 352.0,
+        ),
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
-        widthImage: 320.0,
-        heightImage: 352.0,
       ),
     );
     slides.add(
       new Slide(
-        pathImage: 'assets/images/onboarding_3.png',
+        centerWidget: SvgPicture.asset(
+          'assets/images/onboarding3.svg',
+          width: 320.0,
+          height: 352.0,
+        ),
         backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
-        widthImage: 320.0,
-        heightImage: 352.0,
       ),
     );
   }
