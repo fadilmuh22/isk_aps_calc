@@ -38,6 +38,6 @@ class RankedDao {
     }
 
     return mappingRanked ??
-        MappingRankedModel(ranked: 'BELUM MEMENUHI SYARAT AKREDITASI [1]');
+        MappingRankedModel(ranked: 'TIDAK ADA MAPPING');
   }
 }

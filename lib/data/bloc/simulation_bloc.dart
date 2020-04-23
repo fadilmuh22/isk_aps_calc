@@ -57,21 +57,18 @@ class SimulationBloc extends ChangeNotifier {
     mapIndicator = Formula().accreditate(mapVariable, lmap);
 
     for (int i = 0; i < mapIndicator.length; i++) {
-      if (mapIndicator[i].indicatorCategoryName.toLowerCase() !=
-          'data lulusan') {
-        MappingRankedModel mappingRankedModel = MappingRankedModel(
-          educationStage: mapIndicator[i].educationStage,
-          indicatorCategory: mapIndicator[i].indicatorCategory,
-          indicatorSubcategory: mapIndicator[i].indicatorSubcategory,
-          indicatorValue: mapIndicator[i].indicatorValue.isNaN ||
-                  mapIndicator[i].indicatorValue.isInfinite
-              ? 0.0
-              : mapIndicator[i].indicatorValue,
-        );
+      MappingRankedModel mappingRankedModel = MappingRankedModel(
+        educationStage: mapIndicator[i].educationStage,
+        indicatorCategory: mapIndicator[i].indicatorCategory,
+        indicatorSubcategory: mapIndicator[i].indicatorSubcategory,
+        indicatorValue: mapIndicator[i].indicatorValue.isNaN ||
+                mapIndicator[i].indicatorValue.isInfinite
+            ? 0.0
+            : mapIndicator[i].indicatorValue,
+      );
 
-        var rank = await RankedDao().mappingRanked(mappingRankedModel);
-        results.add(rank);
-      }
+      var rank = await RankedDao().mappingRanked(mappingRankedModel);
+      results.add(rank);
     }
 
     int rank0 = results
