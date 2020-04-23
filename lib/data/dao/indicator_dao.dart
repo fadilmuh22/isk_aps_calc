@@ -20,7 +20,7 @@ class IndicatorDao {
       JOIN indicator_category
         ON mapping_stage_indicator.indicator_category = indicator_category.indicator_category_id
       WHERE mapping_stage_indicator.education_stage = ?
-      ORDER BY indicator_subcategory.seq;
+      ORDER BY mapping_formula.seq asc;
     ''', [
       educationStage,
       educationStage,
