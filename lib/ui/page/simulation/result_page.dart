@@ -35,12 +35,21 @@ class _ResultPageState extends State<ResultPage> {
     Map<String, Map<String, MappingIndicatorModel>> accreditationFiltered =
         Map();
 
+    int kur = 0;
     accreditation.forEach((data) {
       if (accreditationFiltered[data.indicatorCategoryName] == null) {
         accreditationFiltered[data.indicatorCategoryName] = Map();
       }
-      accreditationFiltered[data.indicatorCategoryName]
-          .addAll({data.indicatorSubcategory: data});
+      if (data.indicatorCategory == 'ic2') {
+        kur++;
+        if (kur == 3) {
+          accreditationFiltered[data.indicatorCategoryName]
+              .addAll({data.indicatorSubcategory: data});
+        }
+      } else {
+        accreditationFiltered[data.indicatorCategoryName]
+            .addAll({data.indicatorSubcategory: data});
+      }
     });
 
     var keys = accreditationFiltered.keys.toList();
@@ -152,22 +161,59 @@ class _ResultPageState extends State<ResultPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(
-          height: 20.0,
-        ),
-        Text(
-          category,
-          style: Constants.titleStyle,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        ...List.generate(lmap.length, (index) {
-          return _indicatorField(
-            lmap[index].indicatorSubcategoryName,
-            lmap[index].indicatorValue,
-          );
-        }),
+        if (lmap[0].indicatorCategory == 'ic2') ...[
+          SizedBox(
+            height: 24.0,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                flex: 3,
+                child: Container(
+                  child: Text(
+                    category,
+                    style: Constants.titleStyle,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.all(4.0),
+                  child: Text(
+                    '${lmap[0].indicatorValue.toStringAsFixed(2) ?? 0.0}',
+                    textAlign: TextAlign.end,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xffC4C4C4),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 24.0,
+          ),
+        ] else ...[
+          SizedBox(
+            height: 20.0,
+          ),
+          Text(
+            category,
+            style: Constants.titleStyle,
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
+          ...List.generate(lmap.length, (index) {
+            return _indicatorField(
+              lmap[index].indicatorSubcategoryName,
+              lmap[index].indicatorValue,
+            );
+          }),
+        ]
       ],
     );
   }
