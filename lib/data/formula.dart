@@ -411,7 +411,7 @@ class Formula extends _$FormulaSerializable {
     if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGB'] >= (70 / 100))) {
       newScores = 4;
     } else if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGB'] < (70 / 100))) {
-      newScores = ((2 + (20 * mapVariable['PGB'])) / 7);
+      newScores = (2 + ((20 * mapVariable['PGB']) / 7));
     } else {
       // NDGB < 2
       newScores = 0;
