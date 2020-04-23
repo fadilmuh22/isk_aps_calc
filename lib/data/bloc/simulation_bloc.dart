@@ -71,6 +71,10 @@ class SimulationBloc extends ChangeNotifier {
       results.add(rank);
     }
 
+    int rank0 = results
+        .where((mapRanked) => mapRanked.ranked.toLowerCase().contains('belum'))
+        .toList()
+        .length;
     int rank1 = results
         .where((mapRanked) => mapRanked.ranked == Constants.baik)
         .toList()
@@ -92,6 +96,9 @@ class SimulationBloc extends ChangeNotifier {
     }
     if (rank1 > 0) {
       inputRank = Constants.baik;
+    }
+    if (rank0 > 0) {
+      inputRank = 'BELUM MEMENUHI SYARAT AKREDITASI [2]';
     }
 
     MappingRankedConvertModel mappingRankedConvertModel =
