@@ -30,7 +30,7 @@ class IndicatorPage extends StatefulWidget {
 class _IndicatorPageState extends State<IndicatorPage>
     with SingleTickerProviderStateMixin {
   List<MappingIndicatorModel> indicator;
-  final Map<String, dynamic> map = Map<String, dynamic>();
+  Map<String, dynamic> map = Map<String, dynamic>();
 
   final _formKey = GlobalKey<FormState>();
   TabController _tabController;
@@ -43,11 +43,16 @@ class _IndicatorPageState extends State<IndicatorPage>
     indicator =
         Provider.of<SimulationBloc>(context, listen: false).mapIndicator;
 
-    indicator.forEach((data) {
-      data.indicator.forEach((ind) {
-        return map[ind.variable] = null;
+    if (Provider.of<SimulationBloc>(context, listen: false).mapVariable !=
+        null) {
+      map = Provider.of<SimulationBloc>(context, listen: false).mapVariable;
+    } else {
+      indicator.forEach((data) {
+        data.indicator.forEach((ind) {
+          return map[ind.variable] = null;
+        });
       });
-    });
+    }
 
     _tabController = TabController(vsync: this, length: indicator.length);
     _tabController.addListener((_setActiveTabIndex));
@@ -142,6 +147,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                 ),
                 new FlatButton(
                   onPressed: () {
+                    Provider.of<SimulationBloc>(context, listen: false).clear();
                     Navigator.of(context).pop(true);
                     Navigator.of(context).pop(true);
                   },
@@ -304,10 +310,10 @@ class _IndicatorPageState extends State<IndicatorPage>
                   style: TextStyle(fontSize: 12.0),
                 ),
                 groupValue: map[indicator.variable],
-                value: indicator.defaultValue,
+                value: int.parse(indicator.defaultValue),
                 onChanged: (value) {
                   setState(() {
-                    map[indicator.variable] = indicator.defaultValue;
+                    map[indicator.variable] = int.parse(indicator.defaultValue);
                   });
                 },
               ),

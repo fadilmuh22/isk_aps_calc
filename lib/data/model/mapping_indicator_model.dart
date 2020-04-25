@@ -36,7 +36,7 @@ class MappingIndicatorModel {
         'indicator_category_name': indicatorCategoryName,
         'indicator_subcategory': indicatorSubcategory,
         'indicator_subcategory_name': indicatorSubcategoryName,
-        'fomula': formula,
+        'formula': formula,
         'indicator_value': indicatorValue.isNaN ? 0.0 : indicatorValue,
         'indicator': indicator,
       };

@@ -24,6 +24,7 @@ final List<Color> educationStagesColors = [
   Color(0xff90630C),
   Color(0xffB99E67),
   Color(0xffAD78F0),
+  Color(0xff0F6D5C),
 ];
 
 final List<Map<String, dynamic>> educationStages = [
@@ -67,6 +68,11 @@ final List<Map<String, dynamic>> educationStages = [
     'name': 'PT',
     'desc': 'Perguruan Tinggi',
   },
+  {
+    'id': 9,
+    'name': 'PT',
+    'desc': 'Perguruan Tinggi Vokasi',
+  },
 ];
 
 class NewSimulationPage extends StatefulWidget {
@@ -106,6 +112,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         newSimulation.educationStageName != null &&
         newSimulation.currentAccreditation != null) {
       _formKey.currentState.save();
+      Provider.of<SimulationBloc>(context, listen: false).clear();
 
       Provider.of<SimulationBloc>(context, listen: false).newSimulation =
           newSimulation;

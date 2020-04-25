@@ -18,12 +18,14 @@ import 'package:isk_aps_calc/data/repository/app_storage.dart';
 
 class SimulationBloc extends ChangeNotifier {
   NewSimulationModel newSimulation;
+  Map<String, dynamic> mapVariable;
   List<MappingIndicatorModel> mapIndicator;
 
   MappingRankedConvertModel resultConvert;
   String inputRank;
 
   Function goToPage;
+  int historyId;
 
   Future mappingIndicator() async {
     mapIndicator =
@@ -111,12 +113,18 @@ class SimulationBloc extends ChangeNotifier {
     resultConvert = await RankedConvertDao()
         .mappingRankedConvert(mappingRankedConvertModel);
 
-    createHistory(mapVariable, lmap).whenComplete(() {});
+    createHistory(mapVariable, lmap).then((data) async {
+      if (historyId != null) {
+        updateHistory(data);
+      } else {
+        storeHistory(data);
+      }
+    });
 
     notifyListeners();
   }
 
-  Future createHistory(map, lmap) async {
+  Future<HistoryModel> createHistory(map, lmap) async {
     UserModel user =
         UserModel.fromJson(jsonDecode(await AppStorage().read(key: 'user')));
 
@@ -127,11 +135,13 @@ class SimulationBloc extends ChangeNotifier {
       }
     });
 
-    HistoryModel newHistory = HistoryModel(
-      institute: user.institute,
+    HistoryModel history = HistoryModel(
+      id: historyId,
+      institute: user.institute ?? 'User\'s Institute',
       studyProgram: newSimulation.studyProgramName,
       educationStage: newSimulation.educationStage,
       educationStageName: newSimulation.educationStageName,
+      currentAccreditation: newSimulation.currentAccreditation,
       indicatorDetail: jsonEncode(lmap),
       variables: map,
       result: resultConvert.rankedConvert,
@@ -140,7 +150,11 @@ class SimulationBloc extends ChangeNotifier {
       updateDateTime: DateTime.now().toString(),
     );
 
-    await HistoryDao().insert(newHistory);
+    return history;
+  }
+
+  Future<int> storeHistory(HistoryModel history) async {
+    return await HistoryDao().insert(history);
   }
 
   Future<List<HistoryModel>> getHistories() async {
@@ -149,11 +163,19 @@ class SimulationBloc extends ChangeNotifier {
     return await HistoryDao().select(user.id);
   }
 
+  Future<int> updateHistory(HistoryModel history) async {
+    return await HistoryDao().update(history);
+  }
+
   Future<int> deleteHistory(int id) async {
     return await HistoryDao().delete(id);
   }
 
   clear() {
     newSimulation = null;
+    mapVariable = null;
+    resultConvert = null;
+    inputRank = null;
+    historyId = null;
   }
 }

@@ -7,6 +7,7 @@ class NewSimulationModel {
     this.educationStage,
     this.educationStageName,
     this.studyProgramName,
+    this.currentAccreditation,
     this.jumlahLulusan,
   });
 

@@ -30,6 +30,6 @@ class IndicatorModel {
         'indicator_name': name,
         'indicator_variable': variable,
         'indicator_type': type,
-        'indicator_default_value': defaultValue,
+        'default_value': defaultValue,
       };
 }
