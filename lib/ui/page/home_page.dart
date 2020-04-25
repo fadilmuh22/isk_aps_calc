@@ -4,10 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 import 'package:isk_aps_calc/data/model/history_model.dart';
+import 'package:isk_aps_calc/data/model/indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
+import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
 import 'package:provider/provider.dart';
 
@@ -52,6 +54,11 @@ final List<Map<String, dynamic>> educationStages = [
     'name': 'PT',
     'desc': 'Perguruan Tinggi',
   },
+  {
+    'id': 9,
+    'name': 'PT',
+    'desc': 'Perguruan Tinggi Vokasi',
+  },
 ];
 
 class HomePage extends StatefulWidget {
@@ -82,26 +89,50 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void onTapHistoryItem(int index) {
+  void bindDataHistory(int index) {
+    Provider.of<SimulationBloc>(context, listen: false).clear();
+    Provider.of<SimulationBloc>(context, listen: false).historyId =
+        histories[index].id;
     NewSimulationModel historySimulation = NewSimulationModel(
       educationStage: histories[index].educationStage,
       educationStageName: histories[index].educationStageName,
       studyProgramName: histories[index].studyProgram,
+      currentAccreditation: histories[index].currentAccreditation,
     );
     Provider.of<SimulationBloc>(context, listen: false).newSimulation =
         historySimulation;
 
+    Map<String, dynamic> mapVariable = histories[index]
+        .variables
+        .map((k, v) => MapEntry(k, double.parse('$v').toInt()));
+
+    Provider.of<SimulationBloc>(context, listen: false).mapVariable =
+        mapVariable;
+
     List<MappingIndicatorModel> mapIndicator = List();
     histories[index].resultDetail.forEach((data) {
-      mapIndicator.add(MappingIndicatorModel.fromJson(data));
+      var mapInd = MappingIndicatorModel.fromJson(data);
+      mapInd.indicator =
+          mapInd.indicator.map((ind) => IndicatorModel.fromJson(ind)).toList();
+      mapIndicator.add(mapInd);
     });
     Provider.of<SimulationBloc>(context, listen: false).mapIndicator =
         mapIndicator;
 
     Provider.of<SimulationBloc>(context, listen: false).resultConvert =
         MappingRankedConvertModel(rankedConvert: histories[index].result);
+  }
+
+  void onTapResultHistory(int index) {
+    bindDataHistory(index);
 
     Navigator.pushNamed(context, ResultPage.tag);
+  }
+
+  onTapEditHistory(int index) {
+    bindDataHistory(index);
+
+    Navigator.pushNamed(context, IndicatorPage.tag);
   }
 
   Future deleteHistory(int index) async {
@@ -360,7 +391,7 @@ class _HomePageState extends State<HomePage> {
           height: 65,
           child: OutlineButton(
             onPressed: () {
-              onTapHistoryItem(index);
+              onTapResultHistory(index);
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -410,7 +441,18 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Icon(Icons.keyboard_arrow_right)
+                IconButton(
+                  icon: Icon(Icons.mode_edit),
+                  onPressed: () {
+                    onTapEditHistory(index);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.receipt),
+                  onPressed: () {
+                    onTapResultHistory(index);
+                  },
+                ),
               ],
             ),
           ),

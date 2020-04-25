@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:isk_aps_calc/constants.dart';
 
+const normalHeight = 56.0;
+const extendedHeight = 72.0;
+
 class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
-  final double appBarHeight = 60.0;
+  double appBarHeight = normalHeight;
+
   @override
   get preferredSize => Size.fromHeight(appBarHeight);
 
@@ -17,7 +21,13 @@ class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
     this.studyProgramName = '',
     this.newSimulation = false,
     this.onBackButton,
-  });
+  }) {
+    if (studyProgramName.isNotEmpty) {
+      if (studyProgramName.trim().split(' ').length > 1) {
+        appBarHeight = extendedHeight;
+      }
+    }
+  }
 
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
@@ -89,9 +99,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
         child: Text(
           'Simulasi Baru',
           style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Constants.accentColor),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Constants.accentColor,
+          ),
         ),
       );
 
@@ -120,6 +131,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               Flexible(
                 child: Text(
                   widget.studyProgramName,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12.0,
