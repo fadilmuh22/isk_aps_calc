@@ -6,7 +6,10 @@ class MappingIndicatorModel {
       indicatorCategoryName,
       indicatorSubcategory,
       indicatorSubcategoryName,
-      formula;
+      formula,
+      ranked,
+      rankedTarget,
+      description;
   List<dynamic> indicator;
 
   MappingIndicatorModel({
@@ -17,6 +20,10 @@ class MappingIndicatorModel {
     this.indicatorSubcategory,
     this.indicatorSubcategoryName,
     this.indicator,
+    this.formula,
+    this.ranked,
+    this.rankedTarget,
+    this.description,
   });
 
   MappingIndicatorModel.fromJson(Map<String, dynamic> json) {
@@ -25,9 +32,12 @@ class MappingIndicatorModel {
     indicatorCategoryName = json['indicator_category_name'];
     indicatorSubcategory = json['indicator_subcategory'];
     indicatorSubcategoryName = json['indicator_subcategory_name'];
-    formula = json['formula'];
     indicatorValue = json['indicator_value'];
     indicator = json['indicator'];
+    formula = json['formula'];
+    ranked = json['ranked'];
+    rankedTarget = json['ranked_target'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -36,8 +46,11 @@ class MappingIndicatorModel {
         'indicator_category_name': indicatorCategoryName,
         'indicator_subcategory': indicatorSubcategory,
         'indicator_subcategory_name': indicatorSubcategoryName,
-        'formula': formula,
         'indicator_value': indicatorValue.isNaN ? 0.0 : indicatorValue,
         'indicator': indicator,
+        'formula': formula,
+        'ranked': ranked,
+        'ranked_target': rankedTarget,
+        'description': description,
       };
 }

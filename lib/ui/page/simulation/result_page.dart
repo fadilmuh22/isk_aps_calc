@@ -115,6 +115,31 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
+  void showDrafter(String description) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 16.0,
+        builder: (BuildContext bc) {
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: 48.0, horizontal: 20.0),
+            child: Wrap(
+              children: <Widget>[
+                Text(
+                  description,
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   Widget cardResult(MappingRankedConvertModel resultConvert) {
     return GestureDetector(
       onTap: () {},
@@ -178,7 +203,7 @@ class _ResultPageState extends State<ResultPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Container(
                   child: Text(
                     category,
@@ -186,17 +211,31 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.all(4.0),
-                  child: Text(
-                    '${lmap[0].indicatorValue.toStringAsFixed(2) ?? 0.0}',
-                    textAlign: TextAlign.end,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color(0xffC4C4C4),
-                  ),
+              Flexible(
+                flex: lmap[0].description != null ? 2 : 1,
+                child: Row(
+                  children: <Widget>[
+                    if (lmap[0].description != null)
+                      IconButton(
+                        icon: Icon(Icons.help_outline),
+                        onPressed: () {
+                          showDrafter(lmap[0].description);
+                        },
+                      ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+                      child: Text(
+                        '${lmap[0].indicatorValue.toStringAsFixed(2) ?? 0.0}',
+                        textAlign: TextAlign.end,
+                      ),
+                      decoration: BoxDecoration(
+                        color: lmap[0].ranked != lmap[0].rankedTarget
+                            ? Colors.orangeAccent
+                            : Color(0xffC4C4C4),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -217,8 +256,7 @@ class _ResultPageState extends State<ResultPage> {
           ),
           ...List.generate(lmap.length, (index) {
             return _indicatorField(
-              lmap[index].indicatorSubcategoryName,
-              lmap[index].indicatorValue,
+              lmap[index],
             );
           }),
         ]
@@ -226,8 +264,7 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
-  Widget _indicatorField(
-      String indicatorSubcategoryName, double indicatorValue) {
+  Widget _indicatorField(MappingIndicatorModel mapIndicator) {
     return Container(
       padding: EdgeInsets.only(bottom: 8.0),
       child: Column(
@@ -238,25 +275,39 @@ class _ResultPageState extends State<ResultPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Container(
                   margin: EdgeInsets.only(right: 24.0, left: 8.0),
                   child: Text(
-                    indicatorSubcategoryName,
+                    mapIndicator.indicatorSubcategoryName,
                   ),
                 ),
               ),
               Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.all(4.0),
-                  child: Text(
-                    '${indicatorValue.toStringAsFixed(2) ?? 0.0}',
-                    textAlign: TextAlign.end,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color(0xffC4C4C4),
-                  ),
+                flex: mapIndicator.description != null ? 2 : 1,
+                child: Row(
+                  children: <Widget>[
+                    if (mapIndicator.description != null)
+                      IconButton(
+                        icon: Icon(Icons.help_outline),
+                        onPressed: () {
+                          showDrafter(mapIndicator.description);
+                        },
+                      ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+                      child: Text(
+                        '${mapIndicator.indicatorValue.toStringAsFixed(2) ?? 0.0}',
+                        textAlign: TextAlign.end,
+                      ),
+                      decoration: BoxDecoration(
+                        color: mapIndicator.ranked != mapIndicator.rankedTarget
+                            ? Colors.orangeAccent
+                            : Color(0xffC4C4C4),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

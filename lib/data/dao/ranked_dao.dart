@@ -31,13 +31,13 @@ class RankedDao {
       and indicator_category = ?
       and indicator_subcategory = ?
     ''', [
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
       mappingRankedModel.currentAccreditation,
-      mappingRankedModel.indicatorValue,
-      mappingRankedModel.indicatorValue,
-      mappingRankedModel.indicatorValue,
-      mappingRankedModel.indicatorValue,
-      mappingRankedModel.indicatorValue,
-      mappingRankedModel.indicatorValue,
       mappingRankedModel.educationStage,
       mappingRankedModel.indicatorCategory,
       mappingRankedModel.indicatorSubcategory,
