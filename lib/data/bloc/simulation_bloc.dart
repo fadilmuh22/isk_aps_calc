@@ -63,6 +63,7 @@ class SimulationBloc extends ChangeNotifier {
 
     for (int i = 0; i < mapIndicator.length; i++) {
       MappingRankedModel mappingRankedModel = MappingRankedModel(
+        currentAccreditation: newSimulation.currentAccreditation,
         educationStage: mapIndicator[i].educationStage,
         indicatorCategory: mapIndicator[i].indicatorCategory,
         indicatorSubcategory: mapIndicator[i].indicatorSubcategory,

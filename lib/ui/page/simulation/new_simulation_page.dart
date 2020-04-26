@@ -65,7 +65,7 @@ final List<Map<String, dynamic>> educationStages = [
   {
     'id': 8,
     'name': 'PT',
-    'desc': 'Perguruan Tinggi',
+    'desc': 'Perguruan Tinggi Akademik',
   },
   {
     'id': 9,
@@ -402,6 +402,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                 child: Text(
                   desc,
                   overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
                   style: TextStyle(
                     color: educationStagesActive == key
                         ? Colors.white

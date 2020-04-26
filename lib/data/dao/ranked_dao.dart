@@ -16,12 +16,22 @@ class RankedDao {
         when ? >= rank2 and ? < rank3 then 'BAIK SEKALI'
         when ? >= rank1 and ? < rank3 and ? < rank2 then 'BAIK'
         else 'BELUM MEMENUHI SYARAT AKREDITASI [0]'
-      end "ranked"
+      end "ranked",
+      (
+        SELECT z.accreditation_name
+        FROM accreditation z
+        WHERE z.accreditation_id = (
+                                       SELECT x.accreditation_id
+                                       FROM accreditation x
+                                       WHERE x.accreditation_name = ?
+                                   ) + 1
+        ) "ranked_target"
       from accreditation_rank
       where education_stage = ?
       and indicator_category = ?
       and indicator_subcategory = ?
     ''', [
+      mappingRankedModel.currentAccreditation,
       mappingRankedModel.indicatorValue,
       mappingRankedModel.indicatorValue,
       mappingRankedModel.indicatorValue,

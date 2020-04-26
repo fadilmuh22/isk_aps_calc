@@ -341,8 +341,8 @@ class Formula extends _$FormulaSerializable {
     } else if ((mapVariable['RI'] < (2 / 100)) &&
         (mapVariable['RN'] >= (20 / 100))) {
       newScores = (3 + (mapVariable['RI'] / (2 / 100)));
-    } else if ((mapVariable['RI'] < 2 / 100 && mapVariable['RI'] > 0) &&
-        ((mapVariable['RN'] > 0) && (mapVariable['RN'] < (20 / 100)))) {
+    } else if ((mapVariable['RI'] < 2 / 100 && mapVariable['RI'] >= 0) &&
+        ((mapVariable['RN'] >= 0) && (mapVariable['RN'] < (20 / 100)))) {
       newScores = (2 +
           (2 * (mapVariable['RI'] / (2 / 100))) +
           (mapVariable['RN'] / (20 / 100)) -
@@ -496,8 +496,8 @@ class Formula extends _$FormulaSerializable {
     } else if ((mapVariable['RI'] < (3 / 100)) &&
         (mapVariable['RN'] >= (30 / 100))) {
       newScores = (3 + (mapVariable['RI'] / (3 / 100)));
-    } else if (((mapVariable['RI'] < (3 / 100)) && (mapVariable['RI'] > 0)) &&
-        ((mapVariable['RN'] > 0) && (mapVariable['RN'] < (30 / 100)))) {
+    } else if (((mapVariable['RI'] < (3 / 100)) && (mapVariable['RI'] >= 0)) &&
+        ((mapVariable['RN'] >= 0) && (mapVariable['RN'] < (30 / 100)))) {
       newScores = (2 +
           (2 * (mapVariable['RI'] / (3 / 100))) +
           (mapVariable['RN'] / (30 / 100)) -
@@ -570,8 +570,8 @@ class Formula extends _$FormulaSerializable {
       newScores = 4;
     } else if ((mapVariable['RI'] < 0.1) && (mapVariable['RN'] >= 1)) {
       newScores = (3 + (mapVariable['RI'] + 0.1));
-    } else if ((mapVariable['RI'] > 0 && mapVariable['RI'] < 0.1) &&
-        (mapVariable['RN'] > 0 && mapVariable['RN'] < 1)) {
+    } else if ((mapVariable['RI'] >= 0 && mapVariable['RI'] < 0.1) &&
+        (mapVariable['RN'] >= 0 && mapVariable['RN'] < 1)) {
       newScores = (2 +
           (2 * (mapVariable['RI'] / 0.1)) +
           (mapVariable['RN'] / 1) -
@@ -607,8 +607,8 @@ class Formula extends _$FormulaSerializable {
       newScores = 4;
     } else if ((mapVariable['RI'] < 0.05) && (mapVariable['RN'] >= 0.5)) {
       newScores = (3 + (mapVariable['RI'] + 0.05));
-    } else if ((mapVariable['RI'] > 0 && mapVariable['RI'] < 0.05) &&
-        (mapVariable['RN'] > 0 && mapVariable['RN'] < 0.5)) {
+    } else if ((mapVariable['RI'] >= 0 && mapVariable['RI'] < 0.05) &&
+        (mapVariable['RN'] >= 0 && mapVariable['RN'] < 0.5)) {
       newScores = (2 +
           (2 * (mapVariable['RI'] / 0.05)) +
           (mapVariable['RN'] / 0.5) -

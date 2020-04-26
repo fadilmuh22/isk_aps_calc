@@ -57,7 +57,12 @@ final List<Map<String, dynamic>> educationStages = [
   {
     'id': 8,
     'name': 'PT',
-    'desc': 'Perguruan Tinggi',
+    'desc': 'Perguruan Tinggi Akademik',
+  },
+  {
+    'id': 9,
+    'name': 'PT',
+    'desc': 'Perguruan Tinggi Vokasi',
   },
   {
     'id': 9,
@@ -320,13 +325,15 @@ class _HomePageState extends State<HomePage> {
               loading(),
             ] else
               ...List.generate(histories.length, (index) {
-                return _simulationHistoryItem(
-                  index: index,
-                  title:
-                      '${histories[index].educationStageName} ${histories[index].studyProgram}',
-                  description:
-                      '(${educationStages[histories[index].educationStage - 1]['desc']}) ${histories[index].updateDateTime}',
-                );
+                if (histories.length > 0) {
+                  return _simulationHistoryItem(
+                    index: index,
+                    title:
+                        '${histories[index].educationStageName} ${histories[index].studyProgram}',
+                    description:
+                        '(${educationStages[histories[index].educationStage - 1]['desc']}) ${histories[index].updateDateTime}',
+                  );
+                }
               })
           ],
         ),

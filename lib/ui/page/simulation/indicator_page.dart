@@ -37,6 +37,8 @@ class _IndicatorPageState extends State<IndicatorPage>
   final _formKey = GlobalKey<FormState>();
   TabController _tabController;
   int _activeTabIndex;
+  int _counter = 0;
+  String _lastCategory;
 
   @override
   void initState() {
@@ -178,17 +180,34 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   Widget indicatorContainer(MappingIndicatorModel mappingIndicator) {
+    if (_lastCategory != mappingIndicator.indicatorCategoryName) {
+      _counter = 0;
+    }
+
+    _counter = _counter + 1;
+    _lastCategory = mappingIndicator.indicatorCategoryName;
+
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text(
-            mappingIndicator.indicatorCategoryName,
-            style: Constants.titleStyle,
+          Center(
+            child: RichText(
+              text: TextSpan(
+                text: mappingIndicator.indicatorCategoryName,
+                style: Constants.titleStyle,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: ' (' + _counter.toString() + ')',
+                    style: Constants.counterStyle,
+                  ),
+                ],
+              ),
+            ),
           ),
           if (mappingIndicator.indicator[0].type == 3) ...[
             Text(
               Constants.tipe3Subtitle,
-              style: TextStyle(fontSize: 10),
+              style: Constants.guidenceStyle,
             ),
           ] else if (mappingIndicator.indicator[0].type == 5) ...[
             Text(

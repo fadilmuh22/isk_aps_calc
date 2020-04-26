@@ -1,3 +1,4 @@
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -139,16 +140,20 @@ class _ResultPageState extends State<ResultPage> {
               child: Center(
                 child: Container(
                   width: 200,
-                  child: Text(
-                    resultConvert.rankedConvert ??
-                        'Belum Memenuhi Syarat Akreditasi',
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Colors.white,
+                  child: BorderedText(
+                    strokeWidth: 1.0,
+                    strokeColor: Colors.blueAccent,
+                    child: Text(
+                      resultConvert.rankedConvert ??
+                          'Belum Memenuhi Syarat Akreditasi',
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
