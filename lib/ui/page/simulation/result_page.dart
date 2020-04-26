@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
-import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
-import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
-import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
-import 'package:provider/provider.dart';
 
-import 'package:isk_aps_calc/constants.dart';
+import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
+import 'package:isk_aps_calc/constants.dart';
+
+import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
+import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
+
+import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
+
+import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
 
 class ResultPage extends StatefulWidget {
   static const String tag = '/simulasi/result';

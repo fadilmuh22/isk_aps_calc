@@ -1,7 +1,8 @@
+import 'package:sqflite/sqflite.dart';
+
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 
 import 'package:isk_aps_calc/data/model/mapping_ranked_model.dart';
-import 'package:sqflite/sqflite.dart';
 
 class RankedDao {
   Future<MappingRankedModel> mappingRanked(
@@ -37,7 +38,6 @@ class RankedDao {
       mappingRanked = MappingRankedModel.fromJson(result[0]);
     }
 
-    return mappingRanked ??
-        MappingRankedModel(ranked: 'TIDAK ADA MAPPING');
+    return mappingRanked ?? MappingRankedModel(ranked: 'TIDAK ADA MAPPING');
   }
 }

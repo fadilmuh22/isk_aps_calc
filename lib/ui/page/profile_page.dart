@@ -2,19 +2,24 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:isk_aps_calc/constants.dart';
-import 'package:isk_aps_calc/data/bloc/login_bloc.dart';
-import 'package:isk_aps_calc/data/dao/user_dao.dart';
 import 'package:isk_aps_calc/data/repository/app_storage.dart';
 
+import 'package:isk_aps_calc/data/bloc/login_bloc.dart';
+
+import 'package:isk_aps_calc/constants.dart';
+import 'package:isk_aps_calc/util/image_upload_util.dart';
+
+import 'package:isk_aps_calc/data/dao/user_dao.dart';
+
 import 'package:isk_aps_calc/data/model/user_model.dart';
+
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
+
 import 'package:isk_aps_calc/ui/page/login_page.dart';
-import 'package:isk_aps_calc/util/image_upload_util.dart';
-import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

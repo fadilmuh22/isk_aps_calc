@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:isk_aps_calc/data/dao/user_dao.dart';
 
 import 'package:isk_aps_calc/data/repository/app_storage.dart';
+import 'package:isk_aps_calc/data/dao/user_dao.dart';
 
 import 'package:isk_aps_calc/data/model/login_model.dart';
 import 'package:isk_aps_calc/data/model/user_model.dart';
@@ -40,7 +40,7 @@ class LoginBloc extends ChangeNotifier {
         name: data.displayName,
         email: data.email,
         password: data.email,
-        status: '1',
+        status: 1,
         updateDateTime: DateTime.now().toString(),
       );
       await UserDao().insert(newUser);

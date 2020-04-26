@@ -3,7 +3,6 @@ import 'package:isk_aps_calc/util/validator.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
-import 'package:isk_aps_calc/data/model/jumlah_lulusan_model.dart';
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
@@ -85,13 +84,7 @@ class NewSimulationPage extends StatefulWidget {
 class _NewSimulationPageState extends State<NewSimulationPage> {
   final _formKey = GlobalKey<FormState>();
 
-  NewSimulationModel newSimulation = NewSimulationModel(
-    jumlahLulusan: [
-      JumlahLulusanModel(type: Constants.lulusanNormal, variable: 'NLtotal'),
-      JumlahLulusanModel(type: Constants.lulusanTerlacak, variable: 'NJtotal'),
-      JumlahLulusanModel(type: Constants.lulusanTanggap, variable: 'NJItotal'),
-    ],
-  );
+  NewSimulationModel newSimulation = NewSimulationModel();
 
   int educationStagesActive;
 

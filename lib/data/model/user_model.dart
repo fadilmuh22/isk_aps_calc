@@ -1,5 +1,6 @@
 class UserModel {
-  String id, name, email, password, institute, status, updateDateTime;
+  String id, name, email, password, institute, updateDateTime;
+  int status;
 
   UserModel({
     this.id,
@@ -17,7 +18,7 @@ class UserModel {
     email = map['user_email'];
     password = map['user_password'];
     institute = map['institute'];
-    status = '${map['status']}';
+    status = map['status'];
     updateDateTime = map['update_dtm'];
   }
 

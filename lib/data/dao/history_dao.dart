@@ -1,6 +1,8 @@
-import 'package:isk_aps_calc/data/model/history_model.dart';
-import 'package:isk_aps_calc/data/repository/app_database.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'package:isk_aps_calc/data/repository/app_database.dart';
+
+import 'package:isk_aps_calc/data/model/history_model.dart';
 
 class HistoryDao {
   String table = 'history';

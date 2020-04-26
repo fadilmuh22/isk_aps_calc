@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
+
+import 'package:isk_aps_calc/data/bloc/login_bloc.dart';
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
+
+import 'package:isk_aps_calc/constants.dart';
+
 import 'package:isk_aps_calc/ui/page/auth_page.dart';
 import 'package:isk_aps_calc/ui/page/login_page.dart';
 import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
 import 'package:isk_aps_calc/ui/page/onboarding_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
-
-import 'package:provider/provider.dart';
-
-import 'package:isk_aps_calc/constants.dart';
-import 'package:isk_aps_calc/data/bloc/login_bloc.dart';
 
 void main() async {
   runApp(new MyApp());

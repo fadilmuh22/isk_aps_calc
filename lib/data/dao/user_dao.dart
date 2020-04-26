@@ -1,6 +1,8 @@
-import 'package:isk_aps_calc/data/repository/app_database.dart';
-import 'package:isk_aps_calc/data/model/user_model.dart';
 import 'package:sqflite/sqlite_api.dart';
+
+import 'package:isk_aps_calc/data/repository/app_database.dart';
+
+import 'package:isk_aps_calc/data/model/user_model.dart';
 
 class UserDao {
   String table = 'users';

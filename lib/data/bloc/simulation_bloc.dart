@@ -1,20 +1,23 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+
 import 'package:isk_aps_calc/constants.dart';
+
+import 'package:isk_aps_calc/data/formula.dart';
+import 'package:isk_aps_calc/data/repository/app_storage.dart';
+
 import 'package:isk_aps_calc/data/dao/history_dao.dart';
 import 'package:isk_aps_calc/data/dao/indicator_dao.dart';
 import 'package:isk_aps_calc/data/dao/ranked_dao.dart';
 import 'package:isk_aps_calc/data/dao/ranked_convert_dao.dart';
 
-import 'package:isk_aps_calc/data/formula.dart';
 import 'package:isk_aps_calc/data/model/history_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_model.dart';
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
 import 'package:isk_aps_calc/data/model/user_model.dart';
-import 'package:isk_aps_calc/data/repository/app_storage.dart';
 
 class SimulationBloc extends ChangeNotifier {
   NewSimulationModel newSimulation;

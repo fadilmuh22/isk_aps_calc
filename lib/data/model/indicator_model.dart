@@ -1,6 +1,6 @@
 class IndicatorModel {
   int id, type;
-  String category, subcategory, subcategoryName, name, variable;
+  String category, subcategory, name, variable;
   dynamic defaultValue;
 
   IndicatorModel({

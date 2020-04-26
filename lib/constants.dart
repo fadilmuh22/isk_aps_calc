@@ -7,7 +7,7 @@ class Constants {
   static const Color primaryColor = Color(0xffFFFFFF);
   static const Color accentColor = Color(0xffC82247);
 
-  static const String appName = 'KALKULATOR ISK APS';
+  static const String appName = 'KALKULATOR ISK';
   static const String newSimulation = 'Simulasi Baru';
   static const String simulationHistory = 'Riwayat Simulasi';
 

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:provider/provider.dart';
+
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
+
+import 'package:isk_aps_calc/constants.dart';
 
 import 'package:isk_aps_calc/ui/page/home_page.dart';
 import 'package:isk_aps_calc/ui/page/profile_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/new_simulation_page.dart';
-import 'package:isk_aps_calc/constants.dart';
-import 'package:provider/provider.dart';
 
 class MainTabs extends StatefulWidget {
   static String tag = '/main-tabs';
@@ -99,7 +102,7 @@ class _MainTabsState extends State<MainTabs> {
             Icons.add,
           ),
           title: Text(
-            'New',
+            'Simulai Baru',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),

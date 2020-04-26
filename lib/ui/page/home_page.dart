@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/constants.dart';
+
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
+
 import 'package:isk_aps_calc/data/model/history_model.dart';
 import 'package:isk_aps_calc/data/model/indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_indicator_model.dart';
 import 'package:isk_aps_calc/data/model/mapping_ranked_convert_model.dart';
 import 'package:isk_aps_calc/data/model/new_simulation_model.dart';
+
 import 'package:isk_aps_calc/ui/component/custom_appbar.dart';
+
 import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
 import 'package:isk_aps_calc/ui/page/simulation/result_page.dart';
-import 'package:provider/provider.dart';
 
 final List<Map<String, dynamic>> educationStages = [
   {
