@@ -99,7 +99,7 @@ class _MainTabsState extends State<MainTabs> {
             Icons.add,
           ),
           title: Text(
-            'New',
+            'Simulai Baru',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
