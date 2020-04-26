@@ -196,6 +196,12 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget indicatorContainer(String category, List<MappingIndicatorModel> lmap) {
+    String formattedLmapValue = '0.0';
+    if (!lmap[0].indicatorValue.isNaN) {
+      formattedLmapValue =
+          '${lmap[0].indicatorValue.toStringAsFixed(2) ?? 0.0}';
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -234,7 +240,7 @@ class _ResultPageState extends State<ResultPage> {
                       padding:
                           EdgeInsets.symmetric(vertical: 4.0, horizontal: 14.0),
                       child: Text(
-                        '${lmap[0].indicatorValue.toStringAsFixed(2) ?? 0.0}',
+                        formattedLmapValue,
                         textAlign: TextAlign.end,
                       ),
                       decoration: BoxDecoration(
@@ -273,6 +279,12 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget _indicatorField(MappingIndicatorModel mapIndicator) {
+    String formattedIndicatorValue = '0.0';
+    if (!mapIndicator.indicatorValue.isNaN) {
+      formattedIndicatorValue =
+          '${mapIndicator.indicatorValue.toStringAsFixed(2) ?? 0.0}';
+    }
+
     return Container(
       padding: EdgeInsets.only(bottom: 8.0),
       child: Column(
@@ -302,14 +314,15 @@ class _ResultPageState extends State<ResultPage> {
                           color: Color(0xffC4C4C4),
                         ),
                         onPressed: () {
-                          showDrafter(mapIndicator.description, mapIndicator.indicatorCategoryName);
+                          showDrafter(mapIndicator.description,
+                              mapIndicator.indicatorCategoryName);
                         },
                       ),
                     Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 4.0, horizontal: 14.0),
                       child: Text(
-                        '${mapIndicator.indicatorValue.toStringAsFixed(2) ?? 0.0}',
+                        formattedIndicatorValue,
                         textAlign: TextAlign.end,
                       ),
                       decoration: BoxDecoration(
