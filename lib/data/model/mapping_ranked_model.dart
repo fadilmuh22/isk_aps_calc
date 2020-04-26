@@ -3,7 +3,9 @@ class MappingRankedModel {
   String indicatorCategory;
   String indicatorSubcategory;
   double indicatorValue;
+  String currentAccreditation;
   String ranked;
+  String ranked_target;
 
   MappingRankedModel({
     this.educationStage,
@@ -11,10 +13,14 @@ class MappingRankedModel {
     this.indicatorSubcategory,
     this.indicatorValue,
     this.ranked,
+    this.ranked_target,
+    String currentAccreditation,
   });
 
-  MappingRankedModel.fromJson(Map<String, dynamic> json)
-      : ranked = json['ranked'];
+  MappingRankedModel.fromJson(Map<String, dynamic> json) {
+    ranked = json['ranked'];
+    ranked_target = json['ranked_target'];
+  }
 
   Map<String, dynamic> toJson() => {
         'education_stage': educationStage,

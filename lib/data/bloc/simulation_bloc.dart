@@ -67,6 +67,7 @@ class SimulationBloc extends ChangeNotifier {
                 mapIndicator[i].indicatorValue.isInfinite
             ? 0.0
             : mapIndicator[i].indicatorValue,
+        currentAccreditation: newSimulation.currentAccreditation,
       );
 
       var rank = await RankedDao().mappingRanked(mappingRankedModel);
