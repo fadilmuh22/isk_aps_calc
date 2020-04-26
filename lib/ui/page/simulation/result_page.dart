@@ -136,6 +136,7 @@ class _ResultPageState extends State<ResultPage> {
                   title,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
+                Padding(padding: EdgeInsets.only(bottom: 32.0),),
                 Text(
                   description,
                 ),
