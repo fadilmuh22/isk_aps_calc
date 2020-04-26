@@ -1,4 +1,5 @@
 import 'package:bordered_text/bordered_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -115,7 +116,7 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
-  void showDrafter(String description) {
+  void showDrafter(String description, String title) {
     showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
@@ -131,6 +132,10 @@ class _ResultPageState extends State<ResultPage> {
             padding: EdgeInsets.symmetric(vertical: 48.0, horizontal: 20.0),
             child: Wrap(
               children: <Widget>[
+                Text(
+                  title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 Text(
                   description,
                 ),
@@ -217,14 +222,17 @@ class _ResultPageState extends State<ResultPage> {
                   children: <Widget>[
                     if (lmap[0].description != null)
                       IconButton(
-                        icon: Icon(Icons.help_outline),
+                        icon: Icon(
+                          Icons.help_outline,
+                          color: Color(0xffC4C4C4),
+                        ),
                         onPressed: () {
-                          showDrafter(lmap[0].description);
+                          showDrafter(lmap[0].description, category);
                         },
                       ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 14.0),
                       child: Text(
                         '${lmap[0].indicatorValue.toStringAsFixed(2) ?? 0.0}',
                         textAlign: TextAlign.end,
@@ -252,7 +260,7 @@ class _ResultPageState extends State<ResultPage> {
             style: Constants.titleStyle,
           ),
           SizedBox(
-            height: 16.0,
+            height: 10.0,
           ),
           ...List.generate(lmap.length, (index) {
             return _indicatorField(
@@ -271,7 +279,7 @@ class _ResultPageState extends State<ResultPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
@@ -289,14 +297,17 @@ class _ResultPageState extends State<ResultPage> {
                   children: <Widget>[
                     if (mapIndicator.description != null)
                       IconButton(
-                        icon: Icon(Icons.help_outline),
+                        icon: Icon(
+                          Icons.help_outline,
+                          color: Color(0xffC4C4C4),
+                        ),
                         onPressed: () {
-                          showDrafter(mapIndicator.description);
+                          showDrafter(mapIndicator.description, mapIndicator.indicatorCategoryName);
                         },
                       ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 14.0),
                       child: Text(
                         '${mapIndicator.indicatorValue.toStringAsFixed(2) ?? 0.0}',
                         textAlign: TextAlign.end,

@@ -18,7 +18,7 @@ class NewSimulationModel {
 
   Map<String, dynamic> toJson() => {
         'study_program_name': studyProgramName,
-        'current_accreditaion': currentAccreditation,
+        'current_accreditation': currentAccreditation,
         'education_stage_name': educationStageName,
       };
 }
