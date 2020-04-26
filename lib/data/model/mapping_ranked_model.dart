@@ -14,7 +14,7 @@ class MappingRankedModel {
     this.indicatorValue,
     this.ranked,
     this.ranked_target,
-    String currentAccreditation,
+    this.currentAccreditation,
   });
 
   MappingRankedModel.fromJson(Map<String, dynamic> json) {

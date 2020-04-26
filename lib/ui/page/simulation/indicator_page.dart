@@ -212,6 +212,11 @@ class _IndicatorPageState extends State<IndicatorPage>
               Constants.tipe5Subtitle,
               style: TextStyle(fontSize: 10),
             ),
+          ] else if (mappingIndicator.indicatorCategoryName.toLowerCase().contains('publikasi ilmiah')) ...[
+            Text(
+              'Isikan dengan data Publikasi ilmiah mahasiswa yang dihasilkan secara mandiri atau bersama DTPS, dengan judul yang relevan dengan bidang program studi dalam 3 tahun terakhir.',
+              style: TextStyle(fontSize: 10),
+            ),
           ],
           ...List.generate(mappingIndicator.indicator.length, (index) {
             if (mappingIndicator.indicator[index].type == 3) {}
