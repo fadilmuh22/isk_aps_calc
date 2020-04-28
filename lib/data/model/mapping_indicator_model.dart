@@ -1,5 +1,5 @@
 class MappingIndicatorModel {
-  int educationStage;
+  int educationStage, rankedCurrentId, rankedTargetId;
   double indicatorValue;
   String educationStageName,
       indicatorCategory,
@@ -9,8 +9,7 @@ class MappingIndicatorModel {
       formula,
       ranked,
       rankedTarget,
-      rankedCurrentId,
-      rankedTargetId,
+      flag,
       description;
   List<dynamic> indicator;
 
@@ -27,6 +26,7 @@ class MappingIndicatorModel {
     this.rankedTarget,
     this.rankedCurrentId,
     this.rankedTargetId,
+    this.flag,
     this.description,
   });
 
@@ -43,6 +43,7 @@ class MappingIndicatorModel {
     rankedTarget = json['ranked_target'];
     rankedCurrentId = json['ranked_current_id'];
     rankedTargetId = json['ranked_target_id'];
+    flag = json['flag'];
     description = json['description'];
   }
 
@@ -59,6 +60,7 @@ class MappingIndicatorModel {
         'ranked_target': rankedTarget,
         'ranked_current_id': rankedCurrentId,
         'ranked_target_id': rankedTargetId,
+        'flag': flag,
         'description': description,
       };
 }

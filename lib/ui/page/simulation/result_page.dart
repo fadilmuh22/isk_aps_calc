@@ -1,5 +1,4 @@
 import 'package:bordered_text/bordered_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -40,14 +39,12 @@ class _ResultPageState extends State<ResultPage> {
     Map<String, Map<String, MappingIndicatorModel>> accreditationFiltered =
         Map();
 
-    int kur = 0;
     accreditation.forEach((data) {
       if (accreditationFiltered[data.indicatorCategoryName] == null) {
         accreditationFiltered[data.indicatorCategoryName] = Map();
       }
-      if (data.indicatorCategory == 'ic2') {
-        kur++;
-        if (kur == 3) {
+      if (data.flag != null) {
+        if (data.flag == data.indicatorSubcategory) {
           accreditationFiltered[data.indicatorCategoryName]
               .addAll({data.indicatorSubcategory: data});
         }
@@ -208,7 +205,7 @@ class _ResultPageState extends State<ResultPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        if (lmap[0].indicatorCategory == 'ic2') ...[
+        if (lmap[0].flag != null) ...[
           SizedBox(
             height: 24.0,
           ),

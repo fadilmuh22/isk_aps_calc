@@ -6,8 +6,8 @@ class MappingRankedModel {
   String currentAccreditation;
   String ranked;
   String rankedTarget;
-  String rankedCurrentId;
-  String rankedTargetId;
+  int rankedCurrentId;
+  int rankedTargetId;
 
   MappingRankedModel({
     this.educationStage,
