@@ -245,7 +245,7 @@ class _ResultPageState extends State<ResultPage> {
                       ),
                       decoration: BoxDecoration(
                         color: lmap[0].ranked != lmap[0].rankedTarget &&
-                                (lmap[0].rankedCurrentId <
+                                (lmap[0].rankedCurrentId >=
                                     lmap[0].rankedTargetId)
                             ? Colors.orangeAccent
                             : Color(0xffC4C4C4),
@@ -330,7 +330,7 @@ class _ResultPageState extends State<ResultPage> {
                       decoration: BoxDecoration(
                         color:
                             mapIndicator.ranked != mapIndicator.rankedTarget &&
-                                    (mapIndicator.rankedCurrentId <
+                                    (mapIndicator.rankedCurrentId >=
                                         mapIndicator.rankedTargetId)
                                 ? Colors.orangeAccent
                                 : Color(0xffC4C4C4),
