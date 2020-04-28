@@ -203,10 +203,11 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
 
   Widget textValidation() {
     return Text(
-      'Please select one',
+      'Pilih salah satu',
       style: TextStyle(
         color: Colors.red,
         fontSize: 12,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

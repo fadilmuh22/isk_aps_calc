@@ -184,7 +184,7 @@ class _ResultPageState extends State<ResultPage> {
                       maxLines: 2,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 24,
                         color: Colors.white,
                       ),
                     ),
