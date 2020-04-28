@@ -9,6 +9,8 @@ class MappingIndicatorModel {
       formula,
       ranked,
       rankedTarget,
+      rankedCurrentId,
+      rankedTargetId,
       description;
   List<dynamic> indicator;
 
@@ -23,6 +25,8 @@ class MappingIndicatorModel {
     this.formula,
     this.ranked,
     this.rankedTarget,
+    this.rankedCurrentId,
+    this.rankedTargetId,
     this.description,
   });
 
@@ -37,6 +41,8 @@ class MappingIndicatorModel {
     formula = json['formula'];
     ranked = json['ranked'];
     rankedTarget = json['ranked_target'];
+    rankedCurrentId = json['ranked_current_id'];
+    rankedTargetId = json['ranked_target_id'];
     description = json['description'];
   }
 
@@ -51,6 +57,8 @@ class MappingIndicatorModel {
         'formula': formula,
         'ranked': ranked,
         'ranked_target': rankedTarget,
+        'ranked_current_id': rankedCurrentId,
+        'ranked_target_id': rankedTargetId,
         'description': description,
       };
 }

@@ -25,11 +25,26 @@ class RankedDao {
                                        FROM accreditation x
                                        WHERE x.accreditation_name = ?
                                    ) + 1
-        ) "ranked_target"
-      from accreditation_rank
-      where education_stage = ?
-      and indicator_category = ?
-      and indicator_subcategory = ?
+        ) "ranked_target",
+    (
+        SELECT z.accreditation_id
+        FROM accreditation z
+        WHERE z.accreditation_id = (
+                                       SELECT x.accreditation_id
+                                       FROM accreditation x
+                                       WHERE x.accreditation_name = ?
+                                   ) + 1
+    ) "ranked_current_id",
+    case
+        when ? >= rank3 then 6
+        when ? >= rank2 and ? < rank3 then 4
+        when ? >= rank1 and ? < rank3 and ? < rank2 then 2
+        else 0
+    end "ranked_target_id"
+    from accreditation_rank
+    where education_stage = ?
+    and indicator_category = ?
+    and indicator_subcategory = ?
     ''', [
       mappingRankedModel.indicatorValue,
       mappingRankedModel.indicatorValue,
@@ -38,6 +53,13 @@ class RankedDao {
       mappingRankedModel.indicatorValue,
       mappingRankedModel.indicatorValue,
       mappingRankedModel.currentAccreditation,
+      mappingRankedModel.currentAccreditation,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
+      mappingRankedModel.indicatorValue,
       mappingRankedModel.educationStage,
       mappingRankedModel.indicatorCategory,
       mappingRankedModel.indicatorSubcategory,

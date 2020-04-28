@@ -6,6 +6,8 @@ class MappingRankedModel {
   String currentAccreditation;
   String ranked;
   String rankedTarget;
+  String rankedCurrentId;
+  String rankedTargetId;
 
   MappingRankedModel({
     this.educationStage,
@@ -15,11 +17,15 @@ class MappingRankedModel {
     this.ranked,
     this.rankedTarget,
     this.currentAccreditation,
+    this.rankedCurrentId,
+    this.rankedTargetId,
   });
 
   MappingRankedModel.fromJson(Map<String, dynamic> json) {
     ranked = json['ranked'];
     rankedTarget = json['ranked_target'];
+    rankedCurrentId = json['ranked_current_id'];
+    rankedTargetId = json['ranked_target_id'];
   }
 
   Map<String, dynamic> toJson() => {

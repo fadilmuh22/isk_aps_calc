@@ -136,7 +136,9 @@ class _ResultPageState extends State<ResultPage> {
                   title,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 32.0),),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 32.0),
+                ),
                 Text(
                   description,
                 ),
@@ -245,7 +247,9 @@ class _ResultPageState extends State<ResultPage> {
                         textAlign: TextAlign.end,
                       ),
                       decoration: BoxDecoration(
-                        color: lmap[0].ranked != lmap[0].rankedTarget
+                        color: lmap[0].ranked != lmap[0].rankedTarget &&
+                                (int.parse(lmap[0].rankedCurrentId) >=
+                                    int.parse(lmap[0].rankedTargetId))
                             ? Colors.orangeAccent
                             : Color(0xffC4C4C4),
                       ),
