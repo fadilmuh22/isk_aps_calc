@@ -101,6 +101,7 @@ class _HomePageState extends State<HomePage> {
 
   void bindDataHistory(int index) {
     Provider.of<SimulationBloc>(context, listen: false).clear();
+
     Provider.of<SimulationBloc>(context, listen: false).historyId =
         histories[index].id;
     NewSimulationModel historySimulation = NewSimulationModel(
@@ -112,13 +113,13 @@ class _HomePageState extends State<HomePage> {
     Provider.of<SimulationBloc>(context, listen: false).newSimulation =
         historySimulation;
 
-    Map<String, dynamic> mapVariable = histories[index]
-        .variables
-        .map((k, v) => MapEntry(k, double.parse('$v').toInt()));
+    // ? Map Variables For User's Inputed Value
+    Map<String, dynamic> mapVariable = histories[index].variables;
 
     Provider.of<SimulationBloc>(context, listen: false).mapVariable =
         mapVariable;
 
+    // ? Map Indicator Binding
     List<MappingIndicatorModel> mapIndicator = List();
     histories[index].resultDetail.forEach((data) {
       var mapInd = MappingIndicatorModel.fromJson(data);
