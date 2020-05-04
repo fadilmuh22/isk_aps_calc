@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:isk_aps_calc/constants.dart';
 
 import 'package:isk_aps_calc/data/formula.dart';
+import 'package:isk_aps_calc/data/model/indicator_model.dart';
 import 'package:isk_aps_calc/data/repository/app_storage.dart';
 
 import 'package:isk_aps_calc/data/dao/history_dao.dart';
@@ -37,27 +38,10 @@ class SimulationBloc extends ChangeNotifier {
   }
 
   Future accreditate(
-    Map<String, dynamic> map,
+    Map<String, dynamic> mapVariable,
     List<MappingIndicatorModel> lmap,
   ) async {
     List<MappingRankedModel> results = [];
-
-    var mapVariable = map;
-    mapVariable.forEach((k, v) {
-      if (v is int) {
-        mapVariable[k] = v.toDouble();
-      } else if (v is String) {
-        if (v.isEmpty) {
-          mapVariable[k] = 0.0;
-        } else {
-          mapVariable[k] = double.parse(v);
-        }
-      } else if (v is double) {
-        mapVariable[k] = v;
-      } else {
-        mapVariable[k] = 0.0;
-      }
-    });
 
     mapIndicator = Formula().accreditate(mapVariable, lmap);
 
@@ -159,6 +143,37 @@ class SimulationBloc extends ChangeNotifier {
     );
 
     return history;
+  }
+
+  void bindDataHistory(HistoryModel history) {
+    this.clear();
+
+    this.historyId = history.id;
+    NewSimulationModel historySimulation = NewSimulationModel(
+      educationStage: history.educationStage,
+      educationStageName: history.educationStageName,
+      studyProgramName: history.studyProgram,
+      currentAccreditation: history.currentAccreditation,
+    );
+    this.newSimulation = historySimulation;
+
+    // ? Map Variables For User's Inputed Value
+    Map<String, dynamic> mapVariable = history.variables;
+
+    this.mapVariable = mapVariable;
+
+    // ? Map Indicator Binding
+    List<MappingIndicatorModel> mapIndicator = List();
+    history.resultDetail.forEach((data) {
+      var mapInd = MappingIndicatorModel.fromJson(data);
+      mapInd.indicator =
+          mapInd.indicator.map((ind) => IndicatorModel.fromJson(ind)).toList();
+      mapIndicator.add(mapInd);
+    });
+    this.mapIndicator = mapIndicator;
+
+    this.resultConvert =
+        MappingRankedConvertModel(rankedConvert: history.result);
   }
 
   Future<int> storeHistory(HistoryModel history) async {

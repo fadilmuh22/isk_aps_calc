@@ -32,7 +32,7 @@ class IndicatorPage extends StatefulWidget {
 class _IndicatorPageState extends State<IndicatorPage>
     with SingleTickerProviderStateMixin {
   List<MappingIndicatorModel> indicator;
-  Map<String, dynamic> map = Map<String, dynamic>();
+  Map<String, dynamic> mapVariable = Map<String, dynamic>();
 
   final _formKey = GlobalKey<FormState>();
   TabController _tabController;
@@ -49,11 +49,12 @@ class _IndicatorPageState extends State<IndicatorPage>
 
     if (Provider.of<SimulationBloc>(context, listen: false).mapVariable !=
         null) {
-      map = Provider.of<SimulationBloc>(context, listen: false).mapVariable;
+      mapVariable =
+          Provider.of<SimulationBloc>(context, listen: false).mapVariable;
     } else {
       indicator.forEach((data) {
         data.indicator.forEach((ind) {
-          return map[ind.variable] = null;
+          return mapVariable[ind.variable] = null;
         });
       });
     }
@@ -70,6 +71,7 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   _setActiveTabIndex() {
     _formKey.currentState.save();
+    _formKey.currentState.validate();
     setState(() {
       _activeTabIndex = _tabController.index;
     });
@@ -77,10 +79,11 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   handleTabNext() async {
     _formKey.currentState.save();
+    _formKey.currentState.validate();
     if (_tabController.index != null) {
       if (_activeTabIndex == (indicator.length - 1)) {
         await Provider.of<SimulationBloc>(context, listen: false)
-            .accreditate(map, indicator);
+            .accreditate(mapVariable, indicator);
 
         Navigator.of(context).pushReplacementNamed(ResultPage.tag);
       } else {
@@ -285,14 +288,14 @@ class _IndicatorPageState extends State<IndicatorPage>
             keyboardType: TextInputType.number,
             autofocus: false,
             validator: Validator.number,
-            initialValue: map[indicator.variable] != null
-                ? map[indicator.variable].toString()
+            initialValue: mapVariable[indicator.variable] != null
+                ? mapVariable[indicator.variable].toString()
                 : '',
             onChanged: (value) {
-              map[indicator.variable] = value;
+              mapVariable[indicator.variable] = value;
             },
             onSaved: (value) {
-              map[indicator.variable] = value;
+              mapVariable[indicator.variable] = value;
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 16.0),
@@ -311,9 +314,9 @@ class _IndicatorPageState extends State<IndicatorPage>
           child: TextFormField(
             keyboardType: TextInputType.text,
             autofocus: false,
-            initialValue: map[indicator.variable],
+            initialValue: mapVariable[indicator.variable],
             onSaved: (value) {
-              map[indicator.variable] = value;
+              mapVariable[indicator.variable] = value;
             },
             decoration: InputDecoration(
               suffixIcon: Icon(Icons.edit),
@@ -337,11 +340,12 @@ class _IndicatorPageState extends State<IndicatorPage>
                   indicator.name,
                   style: TextStyle(fontSize: 12.0),
                 ),
-                groupValue: map[indicator.variable],
+                groupValue: mapVariable[indicator.variable],
                 value: int.parse(indicator.defaultValue),
                 onChanged: (value) {
                   setState(() {
-                    map[indicator.variable] = int.parse(indicator.defaultValue);
+                    mapVariable[indicator.variable] =
+                        int.parse(indicator.defaultValue);
                   });
                 },
               ),
@@ -352,11 +356,11 @@ class _IndicatorPageState extends State<IndicatorPage>
       case IndicatorField.checkbox:
         return CheckboxListTile(
           title: Text(indicator.name),
-          value: map[indicator.variable] == indicator.defaultValue,
+          value: mapVariable[indicator.variable] == indicator.defaultValue,
           onChanged: (value) {
             setState(() {
-              map[indicator.variable] =
-                  map[indicator.variable] == indicator.defaultValue
+              mapVariable[indicator.variable] =
+                  mapVariable[indicator.variable] == indicator.defaultValue
                       ? ''
                       : indicator.defaultValue;
             });
@@ -374,22 +378,23 @@ class _IndicatorPageState extends State<IndicatorPage>
                     keyboardType: TextInputType.number,
                     autofocus: false,
                     validator: Validator.number,
-                    initialValue: map['${indicator.variable}${index + 1}'] !=
-                            null
-                        ? map['${indicator.variable}${index + 1}'].toString()
-                        : '',
+                    initialValue:
+                        mapVariable['${indicator.variable}${index + 1}'] != null
+                            ? mapVariable['${indicator.variable}${index + 1}']
+                                .toString()
+                            : '',
                     onChanged: (value) {
-                      map['${indicator.variable}${index + 1}'] = value;
+                      mapVariable['${indicator.variable}${index + 1}'] = value;
                     },
                     onSaved: (value) {
-                      map['${indicator.variable}${index + 1}'] = value;
+                      mapVariable['${indicator.variable}${index + 1}'] = value;
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      hintText:
-                          map['${indicator.variable}${index + 1}'].toString(),
+                      hintText: mapVariable['${indicator.variable}${index + 1}']
+                          .toString(),
                       labelText: defaultValue[index],
                       labelStyle: TextStyle(
                         fontSize: 8.0,

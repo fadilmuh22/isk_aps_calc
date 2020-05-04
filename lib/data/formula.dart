@@ -7,20 +7,38 @@ part 'formula.g.dart';
 @serializable
 class Formula extends _$FormulaSerializable {
   static final Formula _formula = Formula._internal();
-
   factory Formula() {
     return _formula;
   }
-
   Formula._internal();
 
   Map<String, dynamic> mapVariable = {};
 
   List<MappingIndicatorModel> accreditate(
-    Map<String, dynamic> map,
+    Map<String, dynamic> mapVariable,
     List<MappingIndicatorModel> lmap,
   ) {
-    mapVariable = map;
+    mapVariable.forEach((k, v) {
+      if (v is int) {
+        mapVariable[k] = v.toDouble();
+      } else if (v is String) {
+        if (v.isEmpty) {
+          mapVariable[k] = 0.0;
+        } else {
+          if (num.tryParse(v) != null) {
+            mapVariable[k] = double.parse(v);
+          } else {
+            mapVariable[k] = 0.0;
+          }
+        }
+      } else if (v is double) {
+        mapVariable[k] = v;
+      } else {
+        mapVariable[k] = 0.0;
+      }
+    });
+
+    this.mapVariable = mapVariable;
 
     var newlmap = lmap;
     for (int i = 0; i < newlmap.length; i++) {
@@ -29,7 +47,7 @@ class Formula extends _$FormulaSerializable {
           ) ??
           0.0;
     }
-    mapVariable = {};
+    this.mapVariable = {};
     return newlmap;
   }
 
@@ -391,7 +409,8 @@ class Formula extends _$FormulaSerializable {
 
     if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGBLK'] >= (70 / 100))) {
       newScores = 4;
-    } else if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGBLK'] < (70 / 100))) {
+    } else if ((mapVariable['NDGB'] >= 2) &&
+        (mapVariable['PGBLK'] < (70 / 100))) {
       newScores = ((2 + (20 * mapVariable['PGBLK'])) / 7);
     } else {
       // NDGB < 2
@@ -410,7 +429,8 @@ class Formula extends _$FormulaSerializable {
 
     if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGB'] >= (70 / 100))) {
       newScores = 4;
-    } else if ((mapVariable['NDGB'] >= 2) && (mapVariable['PGB'] < (70 / 100))) {
+    } else if ((mapVariable['NDGB'] >= 2) &&
+        (mapVariable['PGB'] < (70 / 100))) {
       newScores = (2 + ((20 * mapVariable['PGB']) / 7));
     } else {
       // NDGB < 2
@@ -443,7 +463,10 @@ class Formula extends _$FormulaSerializable {
     double newScores;
     double newPDTT;
 
-    newPDTT = (((mapVariable['NDTT'] / (mapVariable['NDTT'] + mapVariable['NDT']))) * 100) / 100;
+    newPDTT =
+        (((mapVariable['NDTT'] / (mapVariable['NDTT'] + mapVariable['NDT']))) *
+                100) /
+            100;
     mapVariable['PDTT'] = newPDTT;
 
     if (mapVariable['PDTT'] <= (10 / 100)) {
@@ -691,7 +714,9 @@ class Formula extends _$FormulaSerializable {
     }
 
     mapVariable['PBS'] =
-        ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) / 3) / 100;
+        ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) /
+                3) /
+            100;
 
     if (mapVariable['PBS'] >= (80 / 100)) {
       formula = 4;
@@ -730,8 +755,7 @@ class Formula extends _$FormulaSerializable {
   double f32() {
     double newScores;
 
-    newScores =
-        (mapVariable['NL1'] + mapVariable['NL2'] + mapVariable['NL3']);
+    newScores = (mapVariable['NL1'] + mapVariable['NL2'] + mapVariable['NL3']);
     mapVariable['NLtotal'] = newScores;
 
     return newScores;
@@ -740,8 +764,7 @@ class Formula extends _$FormulaSerializable {
   double f33() {
     double newScores;
 
-    newScores =
-        (mapVariable['NJ1'] + mapVariable['NJ2'] + mapVariable['NJ3']);
+    newScores = (mapVariable['NJ1'] + mapVariable['NJ2'] + mapVariable['NJ3']);
     mapVariable['NJtotal'] = newScores;
 
     return newScores;

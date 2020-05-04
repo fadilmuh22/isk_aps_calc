@@ -99,49 +99,16 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void bindDataHistory(int index) {
-    Provider.of<SimulationBloc>(context, listen: false).clear();
-
-    Provider.of<SimulationBloc>(context, listen: false).historyId =
-        histories[index].id;
-    NewSimulationModel historySimulation = NewSimulationModel(
-      educationStage: histories[index].educationStage,
-      educationStageName: histories[index].educationStageName,
-      studyProgramName: histories[index].studyProgram,
-      currentAccreditation: histories[index].currentAccreditation,
-    );
-    Provider.of<SimulationBloc>(context, listen: false).newSimulation =
-        historySimulation;
-
-    // ? Map Variables For User's Inputed Value
-    Map<String, dynamic> mapVariable = histories[index].variables;
-
-    Provider.of<SimulationBloc>(context, listen: false).mapVariable =
-        mapVariable;
-
-    // ? Map Indicator Binding
-    List<MappingIndicatorModel> mapIndicator = List();
-    histories[index].resultDetail.forEach((data) {
-      var mapInd = MappingIndicatorModel.fromJson(data);
-      mapInd.indicator =
-          mapInd.indicator.map((ind) => IndicatorModel.fromJson(ind)).toList();
-      mapIndicator.add(mapInd);
-    });
-    Provider.of<SimulationBloc>(context, listen: false).mapIndicator =
-        mapIndicator;
-
-    Provider.of<SimulationBloc>(context, listen: false).resultConvert =
-        MappingRankedConvertModel(rankedConvert: histories[index].result);
-  }
-
   void onTapResultHistory(int index) {
-    bindDataHistory(index);
+    Provider.of<SimulationBloc>(context, listen: false)
+        .bindDataHistory(histories[index]);
 
     Navigator.pushNamed(context, ResultPage.tag);
   }
 
-  onTapEditHistory(int index) {
-    bindDataHistory(index);
+  void onTapEditHistory(int index) {
+    Provider.of<SimulationBloc>(context, listen: false)
+        .bindDataHistory(histories[index]);
 
     Navigator.pushNamed(context, IndicatorPage.tag);
   }
