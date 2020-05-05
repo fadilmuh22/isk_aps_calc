@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
@@ -225,6 +226,12 @@ class _IndicatorPageState extends State<IndicatorPage>
               style: TextStyle(fontSize: 10),
             ),
           ],
+          Text(
+            mappingIndicator.indicatorSubcategoryDescription != null
+                ? mappingIndicator.indicatorSubcategoryDescription
+                : '',
+            style: Constants.guidenceStyle,
+          ),
           ...List.generate(mappingIndicator.indicator.length, (index) {
             if (mappingIndicator.indicator[index].type == 3) {}
             return _indicatorFieldContainer(mappingIndicator.indicator[index]);
@@ -286,6 +293,9 @@ class _IndicatorPageState extends State<IndicatorPage>
         return Theme(
           child: TextFormField(
             keyboardType: TextInputType.number,
+            inputFormatters: [
+              WhitelistingTextInputFormatter(RegExp(r'\d+([\.]{1})?')),
+            ],
             autofocus: false,
             validator: Validator.number,
             initialValue: mapVariable[indicator.variable] != null
@@ -376,6 +386,9 @@ class _IndicatorPageState extends State<IndicatorPage>
                 child: Theme(
                   child: TextFormField(
                     keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      WhitelistingTextInputFormatter(RegExp(r'\d+([\.]{1})?')),
+                    ],
                     autofocus: false,
                     validator: Validator.number,
                     initialValue:

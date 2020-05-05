@@ -138,6 +138,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: currentAccreditation(),
                   ),
+                  currentAccreditationDesc(),
                   SizedBox(height: 10.0),
                   educationStagesContainer(),
                   SizedBox(height: 36.0),
@@ -339,7 +340,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           autofocus: false,
           validator: (value) {
             if (value.isEmpty) {
-              return 'Please provide value';
+              return 'Silakan isi dengan nilai yang sesuai';
             }
             return null;
           },
@@ -481,5 +482,24 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             )
           ],
         ),
+      );
+
+  Widget currentAccreditationDesc() => Container(
+        padding: EdgeInsets.only(top: 8.0, left: 16.0),
+        child: Column(
+          children: <Widget>[
+            _currentAccreditationDesc(),
+          ],
+        ),
+      );
+
+  Widget _currentAccreditationDesc() => Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            Constants.desc2,
+            style: Constants.desc2Style,
+          ),
+        ],
       );
 }

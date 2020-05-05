@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
 
       bool succeed = await Provider.of<LoginBloc>(context, listen: false)
           .localLogin(LoginModel(
-              email: email, password: email != 'admin' ? email : password));
+              email: email, password: email != 'admin' ? password : password));
 
       setIsLoading(false);
 
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 10.0,
             ),
-            SizedBox(height: 200.0),
+            SizedBox(height: 60.0),
             Form(
               key: _formKey,
               child: Column(
@@ -150,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            SizedBox(height: 36.0),
+            SizedBox(height: 24.0),
             Flex(
               direction: Axis.horizontal,
               mainAxisSize: MainAxisSize.min,
@@ -158,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                 loginButton(),
               ],
             ),
-            SizedBox(height: 5.0),
+            SizedBox(height: 1.0),
             Flex(
               direction: Axis.horizontal,
               mainAxisSize: MainAxisSize.min,
