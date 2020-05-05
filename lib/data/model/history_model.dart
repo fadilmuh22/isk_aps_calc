@@ -6,6 +6,7 @@ class HistoryModel {
       studyProgram,
       educationStageName,
       currentAccreditation,
+      academicYear,
       result,
       userId,
       updateDateTime;
@@ -22,6 +23,7 @@ class HistoryModel {
     this.educationStage,
     this.educationStageName,
     this.currentAccreditation,
+    this.academicYear,
     this.indicatorDetail,
     this.variables,
     this.result,
@@ -37,6 +39,7 @@ class HistoryModel {
     educationStage = request['education_stage'];
     educationStageName = request['education_stage_name'];
     currentAccreditation = request['current_accreditation'];
+    academicYear = request['academic_year'];
     studyProgram = request['study_program'];
     variables = request['variables'];
     indicatorDetail = jsonDecode(request['request_detail']);
@@ -55,6 +58,7 @@ class HistoryModel {
       'education_stage': educationStage,
       'education_stage_name': educationStageName,
       'current_accreditation': currentAccreditation,
+      'academic_year': academicYear,
       'study_program': studyProgram,
       'variables': variables,
       'request_detail': indicatorDetail,

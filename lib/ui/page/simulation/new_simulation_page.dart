@@ -14,6 +14,8 @@ import 'package:isk_aps_calc/ui/page/simulation/indicator_page.dart';
 
 final currentAccreditations = ['A', 'B', 'C'];
 
+final academicYears = ['2020/2021', '2019/2020', '2018/2019', '2017/2018'];
+
 final List<Color> educationStagesColors = [
   Color(0xff08CA1C),
   Color(0xffED9818),
@@ -131,16 +133,23 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 10.0),
-                  studyProgramNameContainer(),
-                  SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: studyProgramNameContainer(),
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: currentAccreditation(),
                   ),
-                  SizedBox(height: 10.0),
-                  educationStagesContainer(),
                   SizedBox(height: 36.0),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: academicYear(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 36.0),
+                    child: educationStagesContainer(),
+                  ),
                   nextButton(),
                   SizedBox(height: 36.0),
                 ],
@@ -197,6 +206,44 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           ],
         ),
         if (newSimulation.currentAccreditation == null) textValidation(),
+      ],
+    );
+  }
+
+  Widget academicYear() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('TS (Tahun akademik penuh terakhir saat pengisian ISK) :'),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: DropdownButton(
+                  isExpanded: true,
+                  value: newSimulation.academicYear,
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Constants.accentColor,
+                  ),
+                  onChanged: (newValue) {
+                    setState(() {
+                      newSimulation.academicYear = newValue;
+                    });
+                  },
+                  items: academicYears.map((value) {
+                    return DropdownMenuItem(
+                      child: new Text(value),
+                      value: value,
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (newSimulation.academicYear == null) textValidation(),
       ],
     );
   }

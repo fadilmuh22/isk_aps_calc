@@ -31,7 +31,7 @@ class IndicatorPage extends StatefulWidget {
 
 class _IndicatorPageState extends State<IndicatorPage>
     with SingleTickerProviderStateMixin {
-  List<MappingIndicatorModel> indicator;
+  List<MappingIndicatorModel> mapIndicator;
   Map<String, dynamic> mapVariable = Map<String, dynamic>();
 
   final _formKey = GlobalKey<FormState>();
@@ -40,34 +40,7 @@ class _IndicatorPageState extends State<IndicatorPage>
   int _counter = 0;
   String _lastCategory;
 
-  @override
-  void initState() {
-    super.initState();
-
-    indicator =
-        Provider.of<SimulationBloc>(context, listen: false).mapIndicator;
-
-    if (Provider.of<SimulationBloc>(context, listen: false).mapVariable !=
-        null) {
-      mapVariable =
-          Provider.of<SimulationBloc>(context, listen: false).mapVariable;
-    } else {
-      indicator.forEach((data) {
-        data.indicator.forEach((ind) {
-          return mapVariable[ind.variable] = null;
-        });
-      });
-    }
-
-    _tabController = TabController(vsync: this, length: indicator.length);
-    _tabController.addListener((_setActiveTabIndex));
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  List<Map<String, dynamic>> indicatorValidations = List();
 
   _setActiveTabIndex() {
     _formKey.currentState.save();
@@ -77,13 +50,17 @@ class _IndicatorPageState extends State<IndicatorPage>
     });
   }
 
-  handleTabNext() async {
+  handleTabNext(int page) async {
     _formKey.currentState.save();
     _formKey.currentState.validate();
-    if (_tabController.index != null) {
-      if (_activeTabIndex == (indicator.length - 1)) {
+    if (false &&
+        indicatorValidations[page] != null &&
+        !indicatorValidations[page]['valid']) {
+      validationDialog();
+    } else if (_tabController.index != null) {
+      if (_activeTabIndex == (mapIndicator.length - 1)) {
         await Provider.of<SimulationBloc>(context, listen: false)
-            .accreditate(mapVariable, indicator);
+            .accreditate(mapVariable, mapIndicator);
 
         Navigator.of(context).pushReplacementNamed(ResultPage.tag);
       } else {
@@ -96,13 +73,54 @@ class _IndicatorPageState extends State<IndicatorPage>
     if (_tabController.index != null) {
       if (_tabController.index == 0) {
         exitDialog();
-      } else if (_tabController.index < indicator.length) {
+      } else if (_tabController.index < mapIndicator.length) {
         _formKey.currentState.save();
         _tabController.animateTo((_tabController.index - 1));
       }
     }
 
     return null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    mapIndicator =
+        Provider.of<SimulationBloc>(context, listen: false).mapIndicator;
+
+    mapIndicator.forEach((data) {
+      indicatorValidations.add({'valid': false, 'msg': ''});
+    });
+
+    if (Provider.of<SimulationBloc>(context, listen: false).mapVariable !=
+        null) {
+      mapVariable =
+          Provider.of<SimulationBloc>(context, listen: false).mapVariable;
+      mapIndicator.forEach((data) {
+        setState(() {
+          indicatorValidations = indicatorValidations.map((data) {
+            data['valid'] = true;
+            return data;
+          }).toList();
+        });
+      });
+    } else {
+      mapIndicator.forEach((data) {
+        data.indicator.forEach((ind) {
+          return mapVariable[ind.variable] = null;
+        });
+      });
+    }
+
+    _tabController = TabController(vsync: this, length: mapIndicator.length);
+    _tabController.addListener((_setActiveTabIndex));
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -128,9 +146,13 @@ class _IndicatorPageState extends State<IndicatorPage>
             child: Form(
               key: _formKey,
               child: TabBarView(
+                physics: indicatorValidations[_tabController.index] != null &&
+                        !indicatorValidations[_tabController.index]['valid']
+                    ? NeverScrollableScrollPhysics()
+                    : null,
                 controller: _tabController,
-                children: List.generate(indicator.length, (index) {
-                  return indicatorContainer(indicator[index]);
+                children: List.generate(mapIndicator.length, (index) {
+                  return indicatorContainer(index, mapIndicator[index]);
                 }),
               ),
             ),
@@ -169,7 +191,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             context: context,
             builder: (context) => new AlertDialog(
                   title: new Text('Konfirmasi'),
-                  content: new Text('Ada indicator yang masih kosong'),
+                  content: new Text('Ada indicator yang masih tidak valid'),
                   actions: <Widget>[
                     new FlatButton(
                       onPressed: () {
@@ -182,7 +204,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         false;
   }
 
-  Widget indicatorContainer(MappingIndicatorModel mappingIndicator) {
+  Widget indicatorContainer(int page, MappingIndicatorModel mappingIndicator) {
     if (_lastCategory != mappingIndicator.indicatorCategoryName) {
       _counter = 0;
     }
@@ -227,24 +249,39 @@ class _IndicatorPageState extends State<IndicatorPage>
           ],
           ...List.generate(mappingIndicator.indicator.length, (index) {
             if (mappingIndicator.indicator[index].type == 3) {}
-            return _indicatorFieldContainer(mappingIndicator.indicator[index]);
+            return _indicatorFieldContainer(
+                page, mappingIndicator.indicator[index]);
           }),
           SizedBox(height: 36.0),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              nextButton(),
+              _nextButton(page),
               SizedBox(height: 24.0),
               Text(
-                  '${_activeTabIndex == null ? 1 : _activeTabIndex + 1} dari ${this.indicator.length}'),
+                  '${_activeTabIndex == null ? 1 : _activeTabIndex + 1} dari ${this.mapIndicator.length}'),
             ],
           ),
+          if (mappingIndicator.indicator[0].type == 3 &&
+              mapVariable[mappingIndicator.indicator[0].variable] == null)
+            textValidation()
         ],
       ),
     );
   }
 
-  Widget _indicatorFieldContainer(IndicatorModel indicator) {
+  Widget _indicatorFieldContainer(int page, IndicatorModel indicator) {
+    String tsTitle = null;
+    if (indicator.name.contains('TS-')) {
+      String academicYearStr =
+          Provider.of<SimulationBloc>(context, listen: false)
+              .newSimulation
+              .academicYear;
+      int academicYearInt = int.parse(academicYearStr.split('/')[0]);
+      int nts = int.parse(indicator.name[indicator.name.indexOf('TS-') + 3]);
+      tsTitle =
+          '${indicator.name} (Tahun ${academicYearInt - nts}/${academicYearInt - (nts - 1)})';
+    }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24.0),
       child: Column(
@@ -252,21 +289,21 @@ class _IndicatorPageState extends State<IndicatorPage>
         children: <Widget>[
           if (indicator.type != 3 && indicator.type != 4) ...[
             Text(
-              indicator.name,
+              tsTitle != null ? tsTitle : indicator.name,
             ),
           ],
-          _indicatorField(indicator),
+          _indicatorField(page, indicator),
         ],
       ),
     );
   }
 
-  Widget nextButton() => SizedBox(
+  Widget _nextButton(int page) => SizedBox(
         width: 140.0,
         child: CustomRoundedButton(
           items: <Widget>[
             Text(
-              _activeTabIndex == (indicator.length - 1)
+              _activeTabIndex == (mapIndicator.length - 1)
                   ? 'Selesai'
                   : 'Lanjutkan',
               style: TextStyle(color: Colors.white, fontSize: 16),
@@ -276,23 +313,39 @@ class _IndicatorPageState extends State<IndicatorPage>
               color: Colors.white,
             )
           ],
-          onPressed: handleTabNext,
+          onPressed: () {
+            handleTabNext(page);
+          },
         ),
       );
 
-  Widget _indicatorField(IndicatorModel indicator) {
+  Widget _indicatorField(int page, IndicatorModel indicator) {
     switch (IndicatorField.values[indicator.type - 1]) {
       case IndicatorField.number:
         return Theme(
           child: TextFormField(
             keyboardType: TextInputType.number,
             autofocus: false,
-            validator: Validator.number,
+            validator: (value) {
+              String msg = Validator.number(value);
+              if (indicatorValidations[page] != null) {
+                setState(() {
+                  indicatorValidations[page]['valid'] = (msg == null);
+                });
+              }
+              return msg;
+            },
             initialValue: mapVariable[indicator.variable] != null
                 ? mapVariable[indicator.variable].toString()
                 : '',
             onChanged: (value) {
               mapVariable[indicator.variable] = value;
+              String msg = Validator.number(value);
+              if (indicatorValidations[page] != null) {
+                setState(() {
+                  indicatorValidations[page]['valid'] = (msg == null);
+                });
+              }
             },
             onSaved: (value) {
               mapVariable[indicator.variable] = value;
@@ -341,11 +394,13 @@ class _IndicatorPageState extends State<IndicatorPage>
                   style: TextStyle(fontSize: 12.0),
                 ),
                 groupValue: mapVariable[indicator.variable],
-                value: int.parse(indicator.defaultValue),
+                value: double.parse(indicator.defaultValue),
                 onChanged: (value) {
                   setState(() {
                     mapVariable[indicator.variable] =
-                        int.parse(indicator.defaultValue);
+                        double.parse(indicator.defaultValue);
+
+                    indicatorValidations[page]['valid'] = true;
                   });
                 },
               ),
@@ -377,7 +432,15 @@ class _IndicatorPageState extends State<IndicatorPage>
                   child: TextFormField(
                     keyboardType: TextInputType.number,
                     autofocus: false,
-                    validator: Validator.number,
+                    validator: (value) {
+                      String msg = Validator.number(value);
+                      if (indicatorValidations[page] != null) {
+                        setState(() {
+                          indicatorValidations[page]['valid'] = (msg == null);
+                        });
+                      }
+                      return msg;
+                    },
                     initialValue:
                         mapVariable['${indicator.variable}${index + 1}'] != null
                             ? mapVariable['${indicator.variable}${index + 1}']
@@ -385,6 +448,12 @@ class _IndicatorPageState extends State<IndicatorPage>
                             : '',
                     onChanged: (value) {
                       mapVariable['${indicator.variable}${index + 1}'] = value;
+                      String msg = Validator.number(value);
+                      if (indicatorValidations[page] != null) {
+                        setState(() {
+                          indicatorValidations[page]['valid'] = (msg == null);
+                        });
+                      }
                     },
                     onSaved: (value) {
                       mapVariable['${indicator.variable}${index + 1}'] = value;
@@ -393,8 +462,6 @@ class _IndicatorPageState extends State<IndicatorPage>
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      hintText: mapVariable['${indicator.variable}${index + 1}']
-                          .toString(),
                       labelText: defaultValue[index],
                       labelStyle: TextStyle(
                         fontSize: 8.0,
@@ -413,5 +480,16 @@ class _IndicatorPageState extends State<IndicatorPage>
       default:
         return Container();
     }
+  }
+
+  Widget textValidation() {
+    return Text(
+      'Pilih salah satu',
+      style: TextStyle(
+        color: Colors.red,
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+      ),
+    );
   }
 }

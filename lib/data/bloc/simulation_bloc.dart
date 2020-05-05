@@ -134,6 +134,7 @@ class SimulationBloc extends ChangeNotifier {
       educationStage: newSimulation.educationStage,
       educationStageName: newSimulation.educationStageName,
       currentAccreditation: newSimulation.currentAccreditation,
+      academicYear: newSimulation.academicYear,
       indicatorDetail: jsonEncode(lmap),
       variables: map,
       result: resultConvert.rankedConvert,
@@ -154,6 +155,7 @@ class SimulationBloc extends ChangeNotifier {
       educationStageName: history.educationStageName,
       studyProgramName: history.studyProgram,
       currentAccreditation: history.currentAccreditation,
+      academicYear: history.academicYear,
     );
     this.newSimulation = historySimulation;
 
