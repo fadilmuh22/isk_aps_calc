@@ -83,6 +83,7 @@ class NewSimulationPage extends StatefulWidget {
 
 class _NewSimulationPageState extends State<NewSimulationPage> {
   final _formKey = GlobalKey<FormState>();
+  final dataKey = new GlobalKey();
 
   NewSimulationModel newSimulation = NewSimulationModel();
 
@@ -114,6 +115,11 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           .mappingIndicator();
 
       Navigator.pushNamed(context, IndicatorPage.tag);
+    } else {
+      Scrollable.ensureVisible(
+        dataKey.currentContext,
+        duration: Duration(seconds: 1),
+      );
     }
   }
 
@@ -330,6 +336,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         children: <Widget>[
           Text(
             'Nama Prodi/Perguruan Tinggi:',
+            key: dataKey,
           )
         ],
       );
