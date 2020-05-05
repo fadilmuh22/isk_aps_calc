@@ -11,6 +11,7 @@ import 'package:isk_aps_calc/data/model/user_model.dart';
 
 class LoginBloc extends ChangeNotifier {
   GoogleSignIn googleSignIn = new GoogleSignIn();
+  String genPass = "1234567";
 
   Map<String, String> loginMessage;
 
@@ -39,7 +40,7 @@ class LoginBloc extends ChangeNotifier {
         id: data.id,
         name: data.displayName,
         email: data.email,
-        password: data.email,
+        password: genPass,
         status: 1,
         updateDateTime: DateTime.now().toString(),
       );
@@ -51,7 +52,7 @@ class LoginBloc extends ChangeNotifier {
 
       loginMessage = flash(
         'Login Berhasil',
-        '\nBerhasil login dengan Akun Google Anda.\n\nMulai saat ini Email Anda sudah terdaftar dan dapat menggunakan nya untuk login dengan mengisikan username dan password menggunakan Email Anda.',
+        '\nBerhasil login dengan Akun Google Anda.\n\nMulai saat ini Email Anda sudah terdaftar dan dapat menggunakan nya untuk login dengan mengisikan Email sebagai username dan password "${genPass}".',
       );
       return true;
     }

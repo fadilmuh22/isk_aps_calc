@@ -85,6 +85,7 @@ class NewSimulationPage extends StatefulWidget {
 
 class _NewSimulationPageState extends State<NewSimulationPage> {
   final _formKey = GlobalKey<FormState>();
+  final dataKey = new GlobalKey();
 
   NewSimulationModel newSimulation = NewSimulationModel();
 
@@ -116,6 +117,11 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           .mappingIndicator();
 
       Navigator.pushNamed(context, IndicatorPage.tag);
+    } else {
+      Scrollable.ensureVisible(
+        dataKey.currentContext,
+        duration: Duration(seconds: 1),
+      );
     }
   }
 
@@ -141,6 +147,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: currentAccreditation(),
                   ),
+                  currentAccreditationDesc(),
                   SizedBox(height: 36.0),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -376,6 +383,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         children: <Widget>[
           Text(
             'Nama Prodi/Perguruan Tinggi:',
+            key: dataKey,
           )
         ],
       );
@@ -386,7 +394,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           autofocus: false,
           validator: (value) {
             if (value.isEmpty) {
-              return 'Please provide value';
+              return 'Silakan isi dengan nilai yang sesuai';
             }
             return null;
           },
@@ -528,5 +536,24 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
             )
           ],
         ),
+      );
+
+  Widget currentAccreditationDesc() => Container(
+        padding: EdgeInsets.only(top: 8.0, left: 16.0),
+        child: Column(
+          children: <Widget>[
+            _currentAccreditationDesc(),
+          ],
+        ),
+      );
+
+  Widget _currentAccreditationDesc() => Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            Constants.desc2,
+            style: Constants.desc2Style,
+          ),
+        ],
       );
 }

@@ -70,6 +70,14 @@ class _ResultPageState extends State<ResultPage> {
           padding: EdgeInsets.all(16.0),
           children: <Widget>[
             cardResult(resultConvert),
+            SizedBox(height: 4.0),
+            Center(
+              child: Text(
+                Constants.desc1,
+                style: Constants.desc1Style,
+              ),
+            ),
+            SizedBox(height: 4.0),
             Column(
               children: List.generate(keys.length, (index) {
                 if (keys[index].toLowerCase() != 'data lulusan') {

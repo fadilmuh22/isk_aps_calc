@@ -373,6 +373,18 @@ class Formula extends _$FormulaSerializable {
         (mapVariable['RN'] == 0) &&
         (mapVariable['RL'] < (70 / 100))) {
       newScores = ((2 * mapVariable['RL']) / (70 / 100));
+    } else if ((mapVariable['RI'] < (2 / 100)) &&
+        (mapVariable['RN'] > 0 && mapVariable['RN'] < (20 / 100))) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] < (2 / 100))) +
+          (mapVariable['RN'] / (20 / 100)) -
+          ((mapVariable['RI'] * mapVariable['RN']) / ((2 / 100) * (20 / 100))));
+    } else if ((mapVariable['RI'] > 0 && mapVariable['RI'] < (2 / 100)) &&
+        (mapVariable['RN'] < (20 / 100))) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] < (2 / 100))) +
+          (mapVariable['RN'] / (20 / 100)) -
+          ((mapVariable['RI'] * mapVariable['RN']) / ((2 / 100) * (20 / 100))));
     }
 
     return newScores;
@@ -533,6 +545,18 @@ class Formula extends _$FormulaSerializable {
         (mapVariable['RN'] == 0) &&
         (mapVariable['RL'] < (90 / 100))) {
       newScores = ((2 * mapVariable['RL']) / (90 / 100));
+    } else if ((mapVariable['RI'] < (3 / 100)) &&
+        (mapVariable['RN'] > 0 && mapVariable['RN'] < (30 / 100))) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] < (3 / 100))) +
+          (mapVariable['RN'] / (30 / 100)) -
+          ((mapVariable['RI'] * mapVariable['RN']) / ((3 / 100) * (30 / 100))));
+    } else if ((mapVariable['RI'] > 0 && mapVariable['RI'] < (3 / 100)) &&
+        (mapVariable['RN'] < (30 / 100))) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] < (3 / 100))) +
+          (mapVariable['RN'] / (30 / 100)) -
+          ((mapVariable['RI'] * mapVariable['RN']) / ((3 / 100) * (30 / 100))));
     }
 
     return newScores;
@@ -607,6 +631,18 @@ class Formula extends _$FormulaSerializable {
         (mapVariable['RN'] == 0) &&
         (mapVariable['RL'] < 2)) {
       newScores = ((2 * mapVariable['RL']) / 2);
+    } else if ((mapVariable['RI'] < 0.1) &&
+        (mapVariable['RN'] > 0 && mapVariable['RN'] < 1)) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] < 0.1)) +
+          (mapVariable['RN'] / 1) -
+          ((mapVariable['RI'] * mapVariable['RN']) / (0.1 * 1)));
+    } else if ((mapVariable['RI'] > 0 && mapVariable['RI'] < 0.1) &&
+        (mapVariable['RN'] < 1)) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] < 0.1)) +
+          (mapVariable['RN'] / 1) -
+          ((mapVariable['RI'] * mapVariable['RN']) / (0.1 * 1)));
     }
 
     return newScores;
@@ -644,6 +680,18 @@ class Formula extends _$FormulaSerializable {
         (mapVariable['RN'] == 0) &&
         (mapVariable['RL'] < 2)) {
       newScores = ((2 * mapVariable['RL']) / 2);
+    } else if ((mapVariable['RI'] < 0.05) &&
+        (mapVariable['RN'] > 0 && mapVariable['RN'] < 0.5)) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] < 0.05)) +
+          (mapVariable['RN'] / 0.5) -
+          ((mapVariable['RI'] * mapVariable['RN']) / (0.05 * 0.5)));
+    } else if ((mapVariable['RI'] > 0 && mapVariable['RI'] < 0.05) &&
+        (mapVariable['RN'] < 0.5)) {
+      newScores = (2 +
+          (2 * (mapVariable['RI'] < 0.05)) +
+          (mapVariable['RN'] / 0.5) -
+          ((mapVariable['RI'] * mapVariable['RN']) / (0.05 * 0.5)));
     }
 
     return newScores;

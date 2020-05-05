@@ -10,7 +10,8 @@ class MappingIndicatorModel {
       ranked,
       rankedTarget,
       flag,
-      description;
+      description,
+      indicatorSubcategoryDescription;
   List<dynamic> indicator;
 
   MappingIndicatorModel({
@@ -28,6 +29,7 @@ class MappingIndicatorModel {
     this.rankedTargetId,
     this.flag,
     this.description,
+    this.indicatorSubcategoryDescription,
   });
 
   MappingIndicatorModel.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class MappingIndicatorModel {
     rankedTargetId = json['ranked_target_id'];
     flag = json['flag'];
     description = json['description'];
+    indicatorSubcategoryDescription = json['indicator_subcategory_description'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -62,5 +65,6 @@ class MappingIndicatorModel {
         'ranked_target_id': rankedTargetId,
         'flag': flag,
         'description': description,
+        'indicator_subcategory_description': indicatorSubcategoryDescription,
       };
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
@@ -53,8 +54,7 @@ class _IndicatorPageState extends State<IndicatorPage>
   handleTabNext(int page) async {
     _formKey.currentState.save();
     _formKey.currentState.validate();
-    if (false &&
-        indicatorValidations[page] != null &&
+    if (indicatorValidations[page] != null &&
         !indicatorValidations[page]['valid']) {
       validationDialog();
     } else if (_tabController.index != null) {
@@ -247,6 +247,12 @@ class _IndicatorPageState extends State<IndicatorPage>
               style: TextStyle(fontSize: 10),
             ),
           ],
+          Text(
+            mappingIndicator.indicatorSubcategoryDescription != null
+                ? mappingIndicator.indicatorSubcategoryDescription
+                : '',
+            style: Constants.guidenceStyle,
+          ),
           ...List.generate(mappingIndicator.indicator.length, (index) {
             if (mappingIndicator.indicator[index].type == 3) {}
             return _indicatorFieldContainer(
@@ -325,6 +331,9 @@ class _IndicatorPageState extends State<IndicatorPage>
         return Theme(
           child: TextFormField(
             keyboardType: TextInputType.number,
+            inputFormatters: [
+              WhitelistingTextInputFormatter(RegExp(r'\d+([\.]{1})?')),
+            ],
             autofocus: false,
             validator: (value) {
               String msg = Validator.number(value);
@@ -431,6 +440,9 @@ class _IndicatorPageState extends State<IndicatorPage>
                 child: Theme(
                   child: TextFormField(
                     keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      WhitelistingTextInputFormatter(RegExp(r'\d+([\.]{1})?')),
+                    ],
                     autofocus: false,
                     validator: (value) {
                       String msg = Validator.number(value);
