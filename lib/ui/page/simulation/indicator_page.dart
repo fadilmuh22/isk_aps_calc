@@ -54,9 +54,14 @@ class _IndicatorPageState extends State<IndicatorPage>
   handleTabNext(int page) async {
     _formKey.currentState.save();
     _formKey.currentState.validate();
-    if (indicatorValidations[page] != null &&
-        !indicatorValidations[page]['valid']) {
-      validationDialog();
+    bool ic1Valid = true;
+    if (mapIndicator[page].indicatorCategory == 'ic1') {
+      ic1Valid = dtpsValidation(page);
+    }
+    if ((indicatorValidations[page] != null &&
+            !indicatorValidations[page]['valid']) ||
+        !ic1Valid) {
+      validationDialog(page);
     } else if (_tabController.index != null) {
       if (_activeTabIndex == (mapIndicator.length - 1)) {
         await Provider.of<SimulationBloc>(context, listen: false)
@@ -82,6 +87,30 @@ class _IndicatorPageState extends State<IndicatorPage>
     return null;
   }
 
+  dtpsValidation(int page) {
+    double ndtps = double.tryParse(mapVariable['NDTPS'] ?? '0.0') ?? 0.0;
+    double nds3 = double.tryParse(mapVariable['NDS3'] ?? '0.0') ?? 0.0;
+    double ndgb = double.tryParse(mapVariable['NDGB'] ?? '0.0') ?? 0.0;
+    double ndlk = double.tryParse(mapVariable['NDLK'] ?? '0.0') ?? 0.0;
+    double ndl = double.tryParse(mapVariable['NDL'] ?? '0.0') ?? 0.0;
+
+    double sumD = nds3 + ndgb + ndlk + ndl;
+
+    if (sumD > ndtps) {
+      if (mapIndicator[page + 1].indicatorCategory != 'ic1') {
+        setState(() {
+          indicatorValidations[page]['valid'] = false;
+          indicatorValidations[page]['msg'] = 'Jumlah dosen tidak valid';
+        });
+      }
+      return false;
+    }
+    setState(() {
+      indicatorValidations[page]['valid'] = true;
+    });
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -90,7 +119,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         Provider.of<SimulationBloc>(context, listen: false).mapIndicator;
 
     mapIndicator.forEach((data) {
-      indicatorValidations.add({'valid': false, 'msg': ''});
+      indicatorValidations.add({'valid': false, 'msg': null});
     });
 
     if (Provider.of<SimulationBloc>(context, listen: false).mapVariable !=
@@ -186,12 +215,13 @@ class _IndicatorPageState extends State<IndicatorPage>
             ));
   }
 
-  validationDialog() async {
+  validationDialog(int page) async {
     return await showDialog(
             context: context,
             builder: (context) => new AlertDialog(
                   title: new Text('Konfirmasi'),
-                  content: new Text('Ada indicator yang masih tidak valid'),
+                  content: new Text(indicatorValidations[page]['msg'] ??
+                      'Ada indicator yang masih tidak valid'),
                   actions: <Widget>[
                     new FlatButton(
                       onPressed: () {
@@ -258,6 +288,12 @@ class _IndicatorPageState extends State<IndicatorPage>
             return _indicatorFieldContainer(
                 page, mappingIndicator.indicator[index]);
           }),
+          SizedBox(
+            height: 10,
+          ),
+          if (mappingIndicator.indicator[0].type == 3 &&
+              mapVariable[mappingIndicator.indicator[0].variable] == null)
+            textValidation(),
           SizedBox(height: 36.0),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -268,9 +304,6 @@ class _IndicatorPageState extends State<IndicatorPage>
                   '${_activeTabIndex == null ? 1 : _activeTabIndex + 1} dari ${this.mapIndicator.length}'),
             ],
           ),
-          if (mappingIndicator.indicator[0].type == 3 &&
-              mapVariable[mappingIndicator.indicator[0].variable] == null)
-            textValidation()
         ],
       ),
     );
@@ -342,6 +375,15 @@ class _IndicatorPageState extends State<IndicatorPage>
                   indicatorValidations[page]['valid'] = (msg == null);
                 });
               }
+              if (indicator.category == 'ic1') {
+                dtpsValidation(page);
+                double ndtps = double.tryParse(mapVariable['NDTPS']) ?? 0.0;
+                double current =
+                    double.tryParse(mapVariable[indicator.variable]) ?? 0.0;
+                if (current > ndtps) {
+                  return 'Input ${indicator.variable} melebihi jumlah';
+                }
+              }
               return msg;
             },
             initialValue: mapVariable[indicator.variable] != null
@@ -349,12 +391,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                 : '',
             onChanged: (value) {
               mapVariable[indicator.variable] = value;
-              String msg = Validator.number(value);
-              if (indicatorValidations[page] != null) {
-                setState(() {
-                  indicatorValidations[page]['valid'] = (msg == null);
-                });
-              }
+              _formKey.currentState.validate();
             },
             onSaved: (value) {
               mapVariable[indicator.variable] = value;
@@ -460,12 +497,8 @@ class _IndicatorPageState extends State<IndicatorPage>
                             : '',
                     onChanged: (value) {
                       mapVariable['${indicator.variable}${index + 1}'] = value;
-                      String msg = Validator.number(value);
-                      if (indicatorValidations[page] != null) {
-                        setState(() {
-                          indicatorValidations[page]['valid'] = (msg == null);
-                        });
-                      }
+
+                      _formKey.currentState.validate();
                     },
                     onSaved: (value) {
                       mapVariable['${indicator.variable}${index + 1}'] = value;
@@ -494,7 +527,7 @@ class _IndicatorPageState extends State<IndicatorPage>
     }
   }
 
-  Widget textValidation() {
+  Widget textValidation({String msg}) {
     return Text(
       'Pilih salah satu',
       style: TextStyle(
