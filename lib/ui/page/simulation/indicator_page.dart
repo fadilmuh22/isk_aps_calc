@@ -539,7 +539,8 @@ class _IndicatorPageState extends State<IndicatorPage>
                 }
               }
               if (indicator.category == 'ic18') {
-                totalGraduatesValidation(page, indicator.name, indicator.subcategory);
+                totalGraduatesValidation(
+                    page, indicator.name, indicator.subcategory);
               }
               return msg;
             },
