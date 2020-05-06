@@ -159,7 +159,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -203,7 +203,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -249,7 +249,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -293,7 +293,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -339,7 +339,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -383,7 +383,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -875,6 +875,8 @@ class _IndicatorPageState extends State<IndicatorPage>
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
+                      errorStyle: TextStyle(fontSize: 12.0),
+                      errorMaxLines: 3,
                       labelText: defaultValue[index],
                       labelStyle: TextStyle(
                         fontSize: 8.0,
