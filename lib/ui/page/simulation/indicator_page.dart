@@ -40,7 +40,9 @@ class _IndicatorPageState extends State<IndicatorPage>
   int _activeTabIndex;
   int _counter = 0;
   String _lastCategory;
+
   String multiNumberInvalid;
+  String totalGraduatesInvalid;
   bool errorStatus = false;
   String errorMsg;
 
@@ -133,16 +135,16 @@ class _IndicatorPageState extends State<IndicatorPage>
     String whichTs3 = 'TS-3';
     String whichTs2 = 'TS-2';
 
-    errorStatus = false;
-    errorMsg = '';
-
     if (indicatorName.toUpperCase().contains(whichTs4)) {
+      setState(() {
+        errorMsg =
+            "Jumlah Lulusan $whichTs4 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs4.";
+      });
       if (subCategory == "is25") {
         if (nj1 > nl1) {
           setState(() {
+            totalGraduatesInvalid = indicatorName;
             errorStatus = true;
-            errorMsg =
-                "Jumlah Lulusan $whichTs4 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs4.";
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] = errorMsg;
           });
@@ -150,22 +152,39 @@ class _IndicatorPageState extends State<IndicatorPage>
           return errorMsg;
         } else {
           setState(() {
-            errorStatus = false;
-            errorMsg = '';
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return true;
+          if (totalGraduatesInvalid != null) {
+            if (totalGraduatesInvalid == indicatorName) {
+              setState(() {
+                totalGraduatesInvalid = null;
+                errorStatus = false;
+                errorMsg = '';
+              });
+            } else {
+              setState(() {
+                indicatorValidations[page]['valid'] = false;
+                indicatorValidations[page]['msg'] = errorMsg;
+              });
+
+              return null;
+            }
+          }
+
+          return null;
         }
       }
       if (subCategory == 'is26') {
-        if (nji1 > nj1) {
-          errorStatus = true;
+        setState(() {
           errorMsg =
               "Jumlah Lulusan $whichTs4 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs4 yang terlacak.";
-
+        });
+        if (nji1 > nj1) {
           setState(() {
+            errorStatus = true;
+            totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] = errorMsg;
           });
@@ -173,24 +192,41 @@ class _IndicatorPageState extends State<IndicatorPage>
           return errorMsg;
         } else {
           setState(() {
-            errorStatus = false;
-            errorMsg = '';
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return true;
+          if (totalGraduatesInvalid != null) {
+            if (totalGraduatesInvalid == indicatorName) {
+              setState(() {
+                totalGraduatesInvalid = null;
+                errorStatus = false;
+                errorMsg = '';
+              });
+            } else {
+              setState(() {
+                indicatorValidations[page]['valid'] = false;
+                indicatorValidations[page]['msg'] = errorMsg;
+              });
+
+              return null;
+            }
+          }
+
+          return null;
         }
       }
     }
     if (indicatorName.toUpperCase().contains(whichTs3)) {
+      setState(() {
+        errorMsg =
+            "Jumlah Lulusan $whichTs3 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs3.";
+      });
       if (subCategory == "is25") {
         if (nj2 > nl2) {
-          errorStatus = true;
-          errorMsg =
-              "Jumlah Lulusan $whichTs3 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs3.";
-
           setState(() {
+            errorStatus = true;
+            totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] = errorMsg;
           });
@@ -198,22 +234,39 @@ class _IndicatorPageState extends State<IndicatorPage>
           return errorMsg;
         } else {
           setState(() {
-            errorStatus = false;
-            errorMsg = '';
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return true;
+          if (totalGraduatesInvalid != null) {
+            if (totalGraduatesInvalid == indicatorName) {
+              setState(() {
+                totalGraduatesInvalid = null;
+                errorStatus = false;
+                errorMsg = '';
+              });
+            } else {
+              setState(() {
+                indicatorValidations[page]['valid'] = false;
+                indicatorValidations[page]['msg'] = errorMsg;
+              });
+
+              return null;
+            }
+          }
+
+          return null;
         }
       }
       if (subCategory == "is26") {
-        if (nji2 > nj2) {
-          errorStatus = true;
+        setState(() {
           errorMsg =
               "Jumlah Lulusan $whichTs3 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs3 yang terlacak.";
-
+        });
+        if (nji2 > nj2) {
           setState(() {
+            errorStatus = true;
+            totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] = errorMsg;
           });
@@ -221,24 +274,41 @@ class _IndicatorPageState extends State<IndicatorPage>
           return errorMsg;
         } else {
           setState(() {
-            errorStatus = false;
-            errorMsg = '';
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return true;
+          if (totalGraduatesInvalid != null) {
+            if (totalGraduatesInvalid == indicatorName) {
+              setState(() {
+                totalGraduatesInvalid = null;
+                errorStatus = false;
+                errorMsg = '';
+              });
+            } else {
+              setState(() {
+                indicatorValidations[page]['valid'] = false;
+                indicatorValidations[page]['msg'] = errorMsg;
+              });
+
+              return null;
+            }
+          }
+
+          return null;
         }
       }
     }
     if (indicatorName.toUpperCase().contains(whichTs2)) {
       if (subCategory == "is25") {
-        if (nj3 > nl3) {
-          errorStatus = true;
+        setState(() {
           errorMsg =
               "Jumlah Lulusan $whichTs2 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs2.";
-
+        });
+        if (nj3 > nl3) {
           setState(() {
+            errorStatus = true;
+            totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] = errorMsg;
           });
@@ -246,22 +316,39 @@ class _IndicatorPageState extends State<IndicatorPage>
           return errorMsg;
         } else {
           setState(() {
-            errorStatus = false;
-            errorMsg = '';
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return true;
+          if (totalGraduatesInvalid != null) {
+            if (totalGraduatesInvalid == indicatorName) {
+              setState(() {
+                totalGraduatesInvalid = null;
+                errorStatus = false;
+                errorMsg = '';
+              });
+            } else {
+              setState(() {
+                indicatorValidations[page]['valid'] = false;
+                indicatorValidations[page]['msg'] = errorMsg;
+              });
+
+              return null;
+            }
+          }
+
+          return null;
         }
       }
       if (subCategory == "is26") {
-        if (nji3 > nj3) {
-          errorStatus = true;
+        setState(() {
           errorMsg =
               "Jumlah Lulusan $whichTs2 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs2 yang terlacak.";
-
+        });
+        if (nji3 > nj3) {
           setState(() {
+            totalGraduatesInvalid = indicatorName;
+            errorStatus = true;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] = errorMsg;
           });
@@ -269,13 +356,28 @@ class _IndicatorPageState extends State<IndicatorPage>
           return errorMsg;
         } else {
           setState(() {
-            errorStatus = false;
-            errorMsg = '';
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return true;
+          if (totalGraduatesInvalid != null) {
+            if (totalGraduatesInvalid == indicatorName) {
+              setState(() {
+                totalGraduatesInvalid = null;
+                errorStatus = false;
+                errorMsg = '';
+              });
+            } else {
+              setState(() {
+                indicatorValidations[page]['valid'] = false;
+                indicatorValidations[page]['msg'] = errorMsg;
+              });
+
+              return null;
+            }
+          }
+
+          return null;
         }
       }
     }
@@ -284,7 +386,7 @@ class _IndicatorPageState extends State<IndicatorPage>
       indicatorValidations[page]['valid'] = true;
     });
 
-    return true;
+    return null;
   }
 
   multiNumberValidation(int page, var indicator) {
@@ -600,11 +702,9 @@ class _IndicatorPageState extends State<IndicatorPage>
             autofocus: false,
             validator: (value) {
               String msg = Validator.number(value);
-              if (indicatorValidations[page] != null) {
-                setState(() {
-                  indicatorValidations[page]['valid'] = (msg == null);
-                });
-              }
+              setState(() {
+                indicatorValidations[page]['valid'] = (msg == null);
+              });
               if (indicator.category == 'ic1') {
                 dtpsValidation(page);
                 double ndtps = double.tryParse(mapVariable['NDTPS']) ?? 0.0;
@@ -616,10 +716,13 @@ class _IndicatorPageState extends State<IndicatorPage>
               } else if (indicator.category == 'ic18' &&
                   (indicator.subcategory == 'is25' ||
                       indicator.subcategory == 'is26')) {
-                totalGraduatesValidation(
-                    page, indicator.name, indicator.subcategory);
+                String errorMsg = '${totalGraduatesValidation(
+                  page,
+                  indicator.name,
+                  indicator.subcategory,
+                )}';
 
-                if (errorStatus) {
+                if (errorMsg is String && errorMsg != 'null') {
                   return errorMsg;
                 }
               }
