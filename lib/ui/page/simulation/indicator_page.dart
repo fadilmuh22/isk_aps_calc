@@ -134,9 +134,6 @@ class _IndicatorPageState extends State<IndicatorPage>
     String whichTs4 = 'TS-4';
     String whichTs3 = 'TS-3';
     String whichTs2 = 'TS-2';
-    print(page);
-    print(indicatorName);
-    print(subCategory);
 
     if (indicatorName.toUpperCase().contains(whichTs4)) {
       setState(() {
