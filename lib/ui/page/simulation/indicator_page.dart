@@ -134,6 +134,9 @@ class _IndicatorPageState extends State<IndicatorPage>
     String whichTs4 = 'TS-4';
     String whichTs3 = 'TS-3';
     String whichTs2 = 'TS-2';
+    print(page);
+    print(indicatorName);
+    print(subCategory);
 
     if (indicatorName.toUpperCase().contains(whichTs4)) {
       setState(() {
@@ -146,14 +149,17 @@ class _IndicatorPageState extends State<IndicatorPage>
             totalGraduatesInvalid = indicatorName;
             errorStatus = true;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                "Terdapat indicator yang masih tidak valid/kosong.";
+            // "Jumlah Lulusan $whichTs4 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs4.";
           });
 
           return errorMsg;
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -166,7 +172,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] = errorMsg;
+                indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
               });
 
               return null;
@@ -186,14 +193,17 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                "Terdapat indicator yang masih tidak valid/kosong.";
+            // "Jumlah Lulusan $whichTs4 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs4 yang terlacak.";
           });
 
           return errorMsg;
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -206,7 +216,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] = errorMsg;
+                indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
               });
 
               return null;
@@ -228,14 +239,17 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                "Terdapat indicator yang masih tidak valid/kosong.";
+            // "Jumlah Lulusan $whichTs3 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs3.";
           });
 
           return errorMsg;
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -248,7 +262,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] = errorMsg;
+                indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
               });
 
               return null;
@@ -268,14 +283,17 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                "Terdapat indicator yang masih tidak valid/kosong.";
+            // "Jumlah Lulusan $whichTs3 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs3 yang terlacak.";
           });
 
           return errorMsg;
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -288,7 +306,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] = errorMsg;
+                indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
               });
 
               return null;
@@ -303,21 +322,24 @@ class _IndicatorPageState extends State<IndicatorPage>
       if (subCategory == "is25") {
         setState(() {
           errorMsg =
-              "Jumlah Lulusan $whichTs2 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs2.";
+              "Jumlah Lulusan $whichTs2 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs2.,";
         });
         if (nj3 > nl3) {
           setState(() {
             errorStatus = true;
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                "Terdapat indicator yang masih tidak valid/kosong.";
+            // "Jumlah Lulusan $whichTs2 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs2..";
           });
 
           return errorMsg;
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -330,7 +352,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] = errorMsg;
+                indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
               });
 
               return null;
@@ -350,14 +373,17 @@ class _IndicatorPageState extends State<IndicatorPage>
             totalGraduatesInvalid = indicatorName;
             errorStatus = true;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                "Terdapat indicator yang masih tidak valid/kosong.";
+            // "Jumlah Lulusan $whichTs2 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs2 yang terlacak.";
           });
 
           return errorMsg;
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] = errorMsg;
+            indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
           });
 
           if (totalGraduatesInvalid != null) {
@@ -370,7 +396,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] = errorMsg;
+                indicatorValidations[page]['msg'] =
+                    "Terdapat indicator yang masih tidak valid/kosong.";
               });
 
               return null;
@@ -716,14 +743,14 @@ class _IndicatorPageState extends State<IndicatorPage>
               } else if (indicator.category == 'ic18' &&
                   (indicator.subcategory == 'is25' ||
                       indicator.subcategory == 'is26')) {
-                String errorMsg = '${totalGraduatesValidation(
+                String resp = '${totalGraduatesValidation(
                   page,
                   indicator.name,
                   indicator.subcategory,
                 )}';
 
-                if (errorMsg is String && errorMsg != 'null') {
-                  return errorMsg;
+                if (resp is String && resp != 'null') {
+                  return resp;
                 }
               }
               return msg;
