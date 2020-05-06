@@ -53,18 +53,23 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   handleTabNext(int page) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     _formKey.currentState.save();
     _formKey.currentState.validate();
-    bool required = requiredValidation(page);
-    if ((indicatorValidations[page] != null && !required ||
-        !indicatorValidations[page]['valid'])) {
+    bool requiredField = requiredValidation(page);
+    bool isKepuasan = (mapIndicator[page].indicatorCategory == 'ic8' &&
+            multiNumberInvalid != null) &&
+        false;
+    if ((indicatorValidations[page] != null && !requiredField ||
+            !indicatorValidations[page]['valid']) ||
+        isKepuasan) {
       validationDialog(page);
     } else if (_tabController.index != null) {
       if (_activeTabIndex == (mapIndicator.length - 1)) {
-        // await Provider.of<SimulationBloc>(context, listen: false)
-        //     .accreditate(mapVariable, mapIndicator);
+        await Provider.of<SimulationBloc>(context, listen: false)
+            .accreditate(mapVariable, mapIndicator);
 
-        // Navigator.of(context).pushReplacementNamed(ResultPage.tag);
+        Navigator.of(context).pushReplacementNamed(ResultPage.tag);
       } else {
         _tabController.animateTo((_tabController.index + 1));
       }
@@ -116,14 +121,6 @@ class _IndicatorPageState extends State<IndicatorPage>
           0.0;
       sum += val;
     }
-    setState(() {
-      setState(() {
-        multiNumberInvalid = 'X';
-        indicatorValidations[page]['valid'] = false;
-        indicatorValidations[page]['msg'] =
-            Constants.multiNumberValidationMessage;
-      });
-    });
     if (sum > 100 || sum < 100) {
       setState(() {
         multiNumberInvalid = indicator.variable;
@@ -137,18 +134,17 @@ class _IndicatorPageState extends State<IndicatorPage>
         indicatorValidations[page]['valid'] = true;
         indicatorValidations[page]['msg'] = null;
       });
-      if (multiNumberInvalid == indicator.variable) {
-        setState(() {
-          multiNumberInvalid = null;
-        });
+      if (multiNumberInvalid != null) {
+        if (multiNumberInvalid == indicator.variable) {
+          setState(() {
+            multiNumberInvalid = null;
+          });
+        } else {
+          indicatorValidations[page]['valid'] = false;
+          indicatorValidations[page]['msg'] =
+              Constants.multiNumberValidationMessage;
+        }
       }
-    } else if (multiNumberInvalid != null) {
-      setState(() {
-        multiNumberInvalid = indicator.variable;
-        indicatorValidations[page]['valid'] = false;
-        indicatorValidations[page]['msg'] =
-            Constants.multiNumberValidationMessage;
-      });
     }
   }
 
@@ -187,6 +183,8 @@ class _IndicatorPageState extends State<IndicatorPage>
         null) {
       mapVariable =
           Provider.of<SimulationBloc>(context, listen: false).mapVariable;
+      mapVariable = mapVariable.map((k, v) => MapEntry(k, v.toString()));
+
       mapIndicator.forEach((data) {
         setState(() {
           indicatorValidations = indicatorValidations.map((data) {
@@ -498,11 +496,10 @@ class _IndicatorPageState extends State<IndicatorPage>
                   style: TextStyle(fontSize: 12.0),
                 ),
                 groupValue: mapVariable[indicator.variable],
-                value: double.parse(indicator.defaultValue),
+                value: '${double.tryParse(indicator.defaultValue)}',
                 onChanged: (value) {
                   setState(() {
-                    mapVariable[indicator.variable] =
-                        double.parse(indicator.defaultValue);
+                    mapVariable[indicator.variable] = value;
 
                     indicatorValidations[page]['valid'] = true;
                   });
@@ -540,7 +537,9 @@ class _IndicatorPageState extends State<IndicatorPage>
                     ],
                     autofocus: false,
                     validator: (value) {
-                      multiNumberValidation(page, indicator);
+                      if (index == defaultValue.length - 1) {
+                        multiNumberValidation(page, indicator);
+                      }
 
                       return Validator.number(value);
                     },
