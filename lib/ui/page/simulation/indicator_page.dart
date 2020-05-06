@@ -41,6 +41,8 @@ class _IndicatorPageState extends State<IndicatorPage>
   int _counter = 0;
   String _lastCategory;
   String multiNumberInvalid;
+  bool errorStatus = false;
+  String errorMsg;
 
   List<Map<String, dynamic>> indicatorValidations = List();
 
@@ -102,7 +104,8 @@ class _IndicatorPageState extends State<IndicatorPage>
       if (mapIndicator[page + 1].indicatorCategory != 'ic1') {
         setState(() {
           indicatorValidations[page]['valid'] = false;
-          indicatorValidations[page]['msg'] = 'Jumlah dosen tidak valid';
+          indicatorValidations[page]['msg'] =
+              'Jumlah data yang dimasukan melebihi jumlah Dosen Tetap/tidak valid.';
         });
       }
       return false;
@@ -130,77 +133,149 @@ class _IndicatorPageState extends State<IndicatorPage>
     String whichTs3 = 'TS-3';
     String whichTs2 = 'TS-2';
 
+    errorStatus = false;
+    errorMsg = '';
+
     if (indicatorName.toUpperCase().contains(whichTs4)) {
-      if (subCategory == 'is25') {
+      if (subCategory == "is25") {
         if (nj1 > nl1) {
           setState(() {
+            errorStatus = true;
+            errorMsg =
+                "Jumlah Lulusan $whichTs4 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs4.";
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                'Jumlah Lulusan ${whichTs4} yang terlacak tidak dapat melebihi Jumlah Lulusan ${whichTs4}';
+            indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return false;
+          return errorMsg;
+        } else {
+          setState(() {
+            errorStatus = false;
+            errorMsg = '';
+            indicatorValidations[page]['valid'] = true;
+            indicatorValidations[page]['msg'] = errorMsg;
+          });
+
+          return true;
         }
       }
       if (subCategory == 'is26') {
         if (nji1 > nj1) {
+          errorStatus = true;
+          errorMsg =
+              "Jumlah Lulusan $whichTs4 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs4 yang terlacak.";
+
           setState(() {
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                'Jumlah Lulusan ${whichTs4} yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan ${whichTs4} yang terlacak';
+            indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return false;
+          return errorMsg;
+        } else {
+          setState(() {
+            errorStatus = false;
+            errorMsg = '';
+            indicatorValidations[page]['valid'] = true;
+            indicatorValidations[page]['msg'] = errorMsg;
+          });
+
+          return true;
         }
       }
     }
-
     if (indicatorName.toUpperCase().contains(whichTs3)) {
-      if (subCategory == 'is25') {
+      if (subCategory == "is25") {
         if (nj2 > nl2) {
+          errorStatus = true;
+          errorMsg =
+              "Jumlah Lulusan $whichTs3 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs3.";
+
           setState(() {
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                'Jumlah Lulusan ${whichTs3} yang terlacak tidak dapat melebihi Jumlah Lulusan ${whichTs3}';
+            indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return false;
+          return errorMsg;
+        } else {
+          setState(() {
+            errorStatus = false;
+            errorMsg = '';
+            indicatorValidations[page]['valid'] = true;
+            indicatorValidations[page]['msg'] = errorMsg;
+          });
+
+          return true;
         }
       }
-      if (subCategory == 'is26') {
+      if (subCategory == "is26") {
         if (nji2 > nj2) {
+          errorStatus = true;
+          errorMsg =
+              "Jumlah Lulusan $whichTs3 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs3 yang terlacak.";
+
           setState(() {
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                'Jumlah Lulusan ${whichTs3} yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan ${whichTs3} yang terlacak';
+            indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return false;
+          return errorMsg;
+        } else {
+          setState(() {
+            errorStatus = false;
+            errorMsg = '';
+            indicatorValidations[page]['valid'] = true;
+            indicatorValidations[page]['msg'] = errorMsg;
+          });
+
+          return true;
         }
       }
     }
-
     if (indicatorName.toUpperCase().contains(whichTs2)) {
-      if (subCategory == 'is25') {
+      if (subCategory == "is25") {
         if (nj3 > nl3) {
+          errorStatus = true;
+          errorMsg =
+              "Jumlah Lulusan $whichTs2 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs2.";
+
           setState(() {
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                'Jumlah Lulusan ${whichTs2} yang terlacak tidak dapat melebihi Jumlah Lulusan ${whichTs2}';
+            indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return false;
+          return errorMsg;
+        } else {
+          setState(() {
+            errorStatus = false;
+            errorMsg = '';
+            indicatorValidations[page]['valid'] = true;
+            indicatorValidations[page]['msg'] = errorMsg;
+          });
+
+          return true;
         }
       }
-      if (subCategory == 'is26') {
+      if (subCategory == "is26") {
         if (nji3 > nj3) {
+          errorStatus = true;
+          errorMsg =
+              "Jumlah Lulusan $whichTs2 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs2 yang terlacak.";
+
           setState(() {
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                'Jumlah Lulusan ${whichTs2} yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan ${whichTs2} yang terlacak';
+            indicatorValidations[page]['msg'] = errorMsg;
           });
 
-          return false;
+          return errorMsg;
+        } else {
+          setState(() {
+            errorStatus = false;
+            errorMsg = '';
+            indicatorValidations[page]['valid'] = true;
+            indicatorValidations[page]['msg'] = errorMsg;
+          });
+
+          return true;
         }
       }
     }
@@ -208,6 +283,7 @@ class _IndicatorPageState extends State<IndicatorPage>
     setState(() {
       indicatorValidations[page]['valid'] = true;
     });
+
     return true;
   }
 
@@ -375,7 +451,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             builder: (context) => new AlertDialog(
                   title: new Text('Konfirmasi'),
                   content: new Text(indicatorValidations[page]['msg'] ??
-                      'Ada indicator yang masih tidak valid'),
+                      'Terdapat indicator yang masih kosong/tidak valid.'),
                   actions: <Widget>[
                     new FlatButton(
                       onPressed: () {
@@ -535,12 +611,17 @@ class _IndicatorPageState extends State<IndicatorPage>
                 double current =
                     double.tryParse(mapVariable[indicator.variable]) ?? 0.0;
                 if (current > ndtps) {
-                  return 'Input ${indicator.variable} melebihi jumlah';
+                  return 'Input data melebihi jumlah Dosen Tetap';
                 }
-              }
-              if (indicator.category == 'ic18') {
+              } else if (indicator.category == 'ic18' &&
+                  (indicator.subcategory == 'is25' ||
+                      indicator.subcategory == 'is26')) {
                 totalGraduatesValidation(
                     page, indicator.name, indicator.subcategory);
+
+                if (errorStatus) {
+                  return errorMsg;
+                }
               }
               return msg;
             },
@@ -557,6 +638,8 @@ class _IndicatorPageState extends State<IndicatorPage>
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 16.0),
               suffixIcon: Icon(Icons.edit, size: 20.0),
+              errorStyle: TextStyle(fontSize: 12.0),
+              errorMaxLines: 3,
               border: new UnderlineInputBorder(
                 borderSide: new BorderSide(
                     color: Colors.white, style: BorderStyle.solid),
