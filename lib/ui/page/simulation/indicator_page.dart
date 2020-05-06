@@ -40,6 +40,7 @@ class _IndicatorPageState extends State<IndicatorPage>
   int _activeTabIndex;
   int _counter = 0;
   String _lastCategory;
+  String multiNumberInvalid;
 
   List<Map<String, dynamic>> indicatorValidations = List();
 
@@ -52,15 +53,16 @@ class _IndicatorPageState extends State<IndicatorPage>
   }
 
   handleTabNext(int page) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     _formKey.currentState.save();
     _formKey.currentState.validate();
-    bool ic1Valid = true;
-    if (mapIndicator[page].indicatorCategory == 'ic1') {
-      ic1Valid = dtpsValidation(page);
-    }
-    if ((indicatorValidations[page] != null &&
+    bool requiredField = requiredValidation(page);
+    bool isKepuasan = (mapIndicator[page].indicatorCategory == 'ic8' &&
+            multiNumberInvalid != null) &&
+        false;
+    if ((indicatorValidations[page] != null && !requiredField ||
             !indicatorValidations[page]['valid']) ||
-        !ic1Valid) {
+        isKepuasan) {
       validationDialog(page);
     } else if (_tabController.index != null) {
       if (_activeTabIndex == (mapIndicator.length - 1)) {
@@ -209,6 +211,57 @@ class _IndicatorPageState extends State<IndicatorPage>
     return true;
   }
 
+  multiNumberValidation(int page, var indicator) {
+    double sum = 0.0;
+    for (int i = 0; i < 4; i++) {
+      double val = double.tryParse(
+              mapVariable['${indicator.variable}${i + 1}'] ?? '0.0') ??
+          0.0;
+      sum += val;
+    }
+    if (sum > 100 || sum < 100) {
+      setState(() {
+        multiNumberInvalid = indicator.variable;
+        indicatorValidations[page]['valid'] = false;
+        indicatorValidations[page]['msg'] =
+            Constants.multiNumberValidationMessage;
+      });
+    }
+    if (sum == 100) {
+      setState(() {
+        indicatorValidations[page]['valid'] = true;
+        indicatorValidations[page]['msg'] = null;
+      });
+      if (multiNumberInvalid != null) {
+        if (multiNumberInvalid == indicator.variable) {
+          setState(() {
+            multiNumberInvalid = null;
+          });
+        } else {
+          indicatorValidations[page]['valid'] = false;
+          indicatorValidations[page]['msg'] =
+              Constants.multiNumberValidationMessage;
+        }
+      }
+    }
+  }
+
+  bool requiredValidation(int page) {
+    bool valid = true;
+    for (IndicatorModel data in mapIndicator[page].indicator) {
+      if (mapVariable[data.variable] is String) {
+        valid = mapVariable[data.variable] != null &&
+            mapVariable[data.variable].isNotEmpty;
+      } else if (mapVariable[data.variable] is num) {
+        valid = mapVariable[data.variable] != null;
+      }
+      if (!valid) {
+        break;
+      }
+    }
+    return valid;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -217,13 +270,19 @@ class _IndicatorPageState extends State<IndicatorPage>
         Provider.of<SimulationBloc>(context, listen: false).mapIndicator;
 
     mapIndicator.forEach((data) {
-      indicatorValidations.add({'valid': false, 'msg': null});
+      indicatorValidations.add({
+        'valid': false,
+        'msg': null,
+        'key': null,
+      });
     });
 
     if (Provider.of<SimulationBloc>(context, listen: false).mapVariable !=
         null) {
       mapVariable =
           Provider.of<SimulationBloc>(context, listen: false).mapVariable;
+      mapVariable = mapVariable.map((k, v) => MapEntry(k, v.toString()));
+
       mapIndicator.forEach((data) {
         setState(() {
           indicatorValidations = indicatorValidations.map((data) {
@@ -273,10 +332,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             child: Form(
               key: _formKey,
               child: TabBarView(
-                physics: indicatorValidations[_tabController.index] != null &&
-                        !indicatorValidations[_tabController.index]['valid']
-                    ? NeverScrollableScrollPhysics()
-                    : null,
+                physics: NeverScrollableScrollPhysics(),
                 controller: _tabController,
                 children: List.generate(mapIndicator.length, (index) {
                   return indicatorContainer(index, mapIndicator[index]);
@@ -482,6 +538,9 @@ class _IndicatorPageState extends State<IndicatorPage>
                   return 'Input ${indicator.variable} melebihi jumlah';
                 }
               }
+              if (indicator.category == 'ic18') {
+                totalGraduatesValidation(page, indicator.name, indicator.subcategory);
+              }
               return msg;
             },
             initialValue: mapVariable[indicator.variable] != null
@@ -538,11 +597,10 @@ class _IndicatorPageState extends State<IndicatorPage>
                   style: TextStyle(fontSize: 12.0),
                 ),
                 groupValue: mapVariable[indicator.variable],
-                value: double.parse(indicator.defaultValue),
+                value: '${double.tryParse(indicator.defaultValue)}',
                 onChanged: (value) {
                   setState(() {
-                    mapVariable[indicator.variable] =
-                        double.parse(indicator.defaultValue);
+                    mapVariable[indicator.variable] = value;
 
                     indicatorValidations[page]['valid'] = true;
                   });
@@ -580,13 +638,11 @@ class _IndicatorPageState extends State<IndicatorPage>
                     ],
                     autofocus: false,
                     validator: (value) {
-                      String msg = Validator.number(value);
-                      if (indicatorValidations[page] != null) {
-                        setState(() {
-                          indicatorValidations[page]['valid'] = (msg == null);
-                        });
+                      if (index == defaultValue.length - 1) {
+                        multiNumberValidation(page, indicator);
                       }
-                      return msg;
+
+                      return Validator.number(value);
                     },
                     initialValue:
                         mapVariable['${indicator.variable}${index + 1}'] != null
