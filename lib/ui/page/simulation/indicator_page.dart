@@ -111,6 +111,104 @@ class _IndicatorPageState extends State<IndicatorPage>
     return true;
   }
 
+  totalGraduatesValidation(int page, String indicatorName, String subCategory) {
+    double nl1 = double.tryParse(mapVariable['NL1'] ?? '0.0') ?? 0.0;
+    double nl2 = double.tryParse(mapVariable['NL2'] ?? '0.0') ?? 0.0;
+    double nl3 = double.tryParse(mapVariable['NL3'] ?? '0.0') ?? 0.0;
+
+    double nj1 = double.tryParse(mapVariable['NJ1'] ?? '0.0') ?? 0.0;
+    double nj2 = double.tryParse(mapVariable['NJ2'] ?? '0.0') ?? 0.0;
+    double nj3 = double.tryParse(mapVariable['NJ3'] ?? '0.0') ?? 0.0;
+
+    double nji1 = double.tryParse(mapVariable['NJI1'] ?? '0.0') ?? 0.0;
+    double nji2 = double.tryParse(mapVariable['NJI2'] ?? '0.0') ?? 0.0;
+    double nji3 = double.tryParse(mapVariable['NJI3'] ?? '0.0') ?? 0.0;
+
+    String whichTs4 = 'TS-4';
+    String whichTs3 = 'TS-3';
+    String whichTs2 = 'TS-2';
+
+    if (indicatorName.toUpperCase().contains(whichTs4)) {
+      if (subCategory == 'is25') {
+        if (nj1 > nl1) {
+          setState(() {
+            indicatorValidations[page]['valid'] = false;
+            indicatorValidations[page]['msg'] =
+                'Jumlah Lulusan ${whichTs4} yang terlacak tidak dapat melebihi Jumlah Lulusan ${whichTs4}';
+          });
+
+          return false;
+        }
+      }
+      if (subCategory == 'is26') {
+        if (nji1 > nj1) {
+          setState(() {
+            indicatorValidations[page]['valid'] = false;
+            indicatorValidations[page]['msg'] =
+                'Jumlah Lulusan ${whichTs4} yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan ${whichTs4} yang terlacak';
+          });
+
+          return false;
+        }
+      }
+    }
+
+    if (indicatorName.toUpperCase().contains(whichTs3)) {
+      if (subCategory == 'is25') {
+        if (nj2 > nl2) {
+          setState(() {
+            indicatorValidations[page]['valid'] = false;
+            indicatorValidations[page]['msg'] =
+                'Jumlah Lulusan ${whichTs3} yang terlacak tidak dapat melebihi Jumlah Lulusan ${whichTs3}';
+          });
+
+          return false;
+        }
+      }
+      if (subCategory == 'is26') {
+        if (nji2 > nj2) {
+          setState(() {
+            indicatorValidations[page]['valid'] = false;
+            indicatorValidations[page]['msg'] =
+                'Jumlah Lulusan ${whichTs3} yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan ${whichTs3} yang terlacak';
+          });
+
+          return false;
+        }
+      }
+    }
+
+    if (indicatorName.toUpperCase().contains(whichTs2)) {
+      if (subCategory == 'is25') {
+        if (nj3 > nl3) {
+          setState(() {
+            indicatorValidations[page]['valid'] = false;
+            indicatorValidations[page]['msg'] =
+                'Jumlah Lulusan ${whichTs2} yang terlacak tidak dapat melebihi Jumlah Lulusan ${whichTs2}';
+          });
+
+          return false;
+        }
+      }
+      if (subCategory == 'is26') {
+        if (nji3 > nj3) {
+          setState(() {
+            indicatorValidations[page]['valid'] = false;
+            indicatorValidations[page]['msg'] =
+                'Jumlah Lulusan ${whichTs2} yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan ${whichTs2} yang terlacak';
+          });
+
+          return false;
+        }
+      }
+    }
+
+    setState(() {
+      indicatorValidations[page]['valid'] = true;
+    });
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
