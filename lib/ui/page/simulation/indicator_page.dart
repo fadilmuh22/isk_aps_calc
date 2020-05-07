@@ -721,7 +721,8 @@ class _IndicatorPageState extends State<IndicatorPage>
           child: TextFormField(
             keyboardType: TextInputType.number,
             inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp(r'\d+([\.]{1})?')),
+              WhitelistingTextInputFormatter(
+                  RegExp(Constants.nonNegativeDecimalNumber)),
             ],
             autofocus: false,
             validator: (value) {
@@ -845,7 +846,8 @@ class _IndicatorPageState extends State<IndicatorPage>
                   child: TextFormField(
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      WhitelistingTextInputFormatter(RegExp(r'\d+([\.]{1})?')),
+                      WhitelistingTextInputFormatter(
+                          RegExp(Constants.nonNegativeDecimalNumber)),
                     ],
                     autofocus: false,
                     validator: (value) {

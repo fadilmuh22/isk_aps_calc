@@ -6,6 +6,8 @@ class Constants {
   static const counterStyle = TextStyle(fontSize: 10, color: Colors.black);
   static const guidenceStyle = TextStyle(fontSize: 12, color: Colors.black);
 
+  static const nonNegativeDecimalNumber = r'^\d+(\.\d{0,999})?|\.?\d{1,2}$';
+
   static const Color primaryColor = Color(0xffFFFFFF);
   static const Color accentColor = Color(0xffC82247);
 
