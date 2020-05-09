@@ -58,6 +58,9 @@ class SimulationBloc extends ChangeNotifier {
       );
 
       var rank = await RankedDao().mappingRanked(mappingRankedModel);
+      if (rank.ranked == Constants.tidakAdaMapping) {
+        continue;
+      }
       mapIndicator[i].ranked = rank.ranked;
       mapIndicator[i].rankedTarget = rank.rankedTarget;
       mapIndicator[i].rankedCurrentId = rank.rankedCurrentId;
