@@ -38,7 +38,7 @@ class Constants {
   static const desc2Style = TextStyle(fontSize: 8, color: Color(0xff544D4D));
 
   static const String multiNumberValidationMessage =
-      'Silahkan isi dengan nilai yang sesuai, isikan total nilai maksimal 100 dan total minimal 100';
+      'Silahkan isi dengan nilai yang sesuai. Total isian untuk setiap kriteria = 100%';
   static const String errorMsgDefault =
       'Terdapat indicator yang masih tidak valid/kosong.';
 }
