@@ -370,9 +370,11 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
                 ),
               ],
             ),
-            Icon(
-              Icons.keyboard_arrow_right,
-              color: Colors.white,
+            Flexible(
+              child: Icon(
+                Icons.keyboard_arrow_right,
+                color: Colors.white,
+              ),
             )
           ],
           onPressed: handleNextButton,
@@ -417,9 +419,11 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Pilih Program Pendidikan / Perguruan Tinggi:',
-            style: TextStyle(fontSize: 16),
+          Flexible(
+            child: Text(
+              'Pilih Program Pendidikan / Perguruan Tinggi:',
+              style: TextStyle(fontSize: 16),
+            ),
           ),
         ],
       ));
@@ -551,9 +555,11 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   Widget _currentAccreditationDesc() => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(
-            Constants.desc2,
-            style: Constants.desc2Style,
+          Flexible(
+            child: Text(
+              Constants.desc2,
+              style: Constants.desc2Style,
+            ),
           ),
         ],
       );
