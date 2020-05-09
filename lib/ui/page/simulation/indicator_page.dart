@@ -65,10 +65,6 @@ class _IndicatorPageState extends State<IndicatorPage>
     bool isKepuasan = (mapIndicator[page].indicatorCategory == 'ic8' &&
             multiNumberInvalid != null) &&
         false;
-    print('valid');
-    print(indicatorValidations[page]['valid']);
-    print('errorMsg');
-    print(errorMsg);
     if ((indicatorValidations[page] != null && !requiredField ||
             !indicatorValidations[page]['valid']) ||
         isKepuasan) {
@@ -154,8 +150,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             totalGraduatesInvalid = indicatorName;
             errorStatus = true;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs4 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs4.";
           });
 
@@ -163,8 +158,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -177,8 +171,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] =
-                    Constants.errorMsgDefault;
+                indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
               });
 
               return null;
@@ -198,8 +191,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs4 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs4 yang terlacak.";
           });
 
@@ -207,8 +199,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -221,8 +212,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] =
-                    Constants.errorMsgDefault;
+                indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
               });
 
               return null;
@@ -244,8 +234,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs3 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs3.";
           });
 
@@ -253,8 +242,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -267,8 +255,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] =
-                    Constants.errorMsgDefault;
+                indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
               });
 
               return null;
@@ -288,8 +275,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs3 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs3 yang terlacak.";
           });
 
@@ -297,8 +283,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -311,8 +296,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] =
-                    Constants.errorMsgDefault;
+                indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
               });
 
               return null;
@@ -334,8 +318,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs2 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs2..";
           });
 
@@ -343,8 +326,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -357,8 +339,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] =
-                    Constants.errorMsgDefault;
+                indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
               });
 
               return null;
@@ -378,8 +359,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             totalGraduatesInvalid = indicatorName;
             errorStatus = true;
             indicatorValidations[page]['valid'] = false;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs2 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs2 yang terlacak.";
           });
 
@@ -387,8 +367,7 @@ class _IndicatorPageState extends State<IndicatorPage>
         } else {
           setState(() {
             indicatorValidations[page]['valid'] = true;
-            indicatorValidations[page]['msg'] =
-                Constants.errorMsgDefault;
+            indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -401,8 +380,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             } else {
               setState(() {
                 indicatorValidations[page]['valid'] = false;
-                indicatorValidations[page]['msg'] =
-                    Constants.errorMsgDefault;
+                indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
               });
 
               return null;
@@ -491,16 +469,14 @@ class _IndicatorPageState extends State<IndicatorPage>
           totalSatisfactionInvalid = indicatorName;
           errorStatus = true;
           indicatorValidations[page]['valid'] = false;
-          indicatorValidations[page]['msg'] =
-              Constants.errorMsgDefault;
+          indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
         });
 
         return errorMsg;
       } else {
         setState(() {
           indicatorValidations[page]['valid'] = true;
-          indicatorValidations[page]['msg'] =
-              Constants.errorMsgDefault;
+          indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
         });
 
         if (totalSatisfactionInvalid != null) {
@@ -513,8 +489,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           } else {
             setState(() {
               indicatorValidations[page]['valid'] = false;
-              indicatorValidations[page]['msg'] =
-                  Constants.errorMsgDefault;
+              indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             });
 
             return null;
@@ -535,16 +510,14 @@ class _IndicatorPageState extends State<IndicatorPage>
           totalSatisfactionInvalid = indicatorName;
           errorStatus = true;
           indicatorValidations[page]['valid'] = false;
-          indicatorValidations[page]['msg'] =
-              Constants.errorMsgDefault;
+          indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
         });
 
         return errorMsg;
       } else {
         setState(() {
           indicatorValidations[page]['valid'] = true;
-          indicatorValidations[page]['msg'] =
-              Constants.errorMsgDefault;
+          indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
         });
 
         if (totalSatisfactionInvalid != null) {
@@ -557,8 +530,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           } else {
             setState(() {
               indicatorValidations[page]['valid'] = false;
-              indicatorValidations[page]['msg'] =
-                  Constants.errorMsgDefault;
+              indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             });
 
             return null;
@@ -579,16 +551,14 @@ class _IndicatorPageState extends State<IndicatorPage>
           totalSatisfactionInvalid = indicatorName;
           errorStatus = true;
           indicatorValidations[page]['valid'] = false;
-          indicatorValidations[page]['msg'] =
-              Constants.errorMsgDefault;
+          indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
         });
 
         return errorMsg;
       } else {
         setState(() {
           indicatorValidations[page]['valid'] = true;
-          indicatorValidations[page]['msg'] =
-              Constants.errorMsgDefault;
+          indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
         });
 
         if (totalSatisfactionInvalid != null) {
@@ -601,8 +571,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           } else {
             setState(() {
               indicatorValidations[page]['valid'] = false;
-              indicatorValidations[page]['msg'] =
-                  Constants.errorMsgDefault;
+              indicatorValidations[page]['msg'] = Constants.errorMsgDefault;
             });
 
             return null;
@@ -1059,7 +1028,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      errorStyle: TextStyle(fontSize: 12.0),
+                      errorStyle: TextStyle(fontSize: 8.0),
                       errorMaxLines: 5,
                       labelText: defaultValue[index],
                       labelStyle: TextStyle(
