@@ -43,6 +43,7 @@ class _IndicatorPageState extends State<IndicatorPage>
 
   String multiNumberInvalid;
   String totalGraduatesInvalid;
+  String totalSatisfactionInvalid;
   bool errorStatus = false;
   String errorMsg;
 
@@ -64,10 +65,18 @@ class _IndicatorPageState extends State<IndicatorPage>
     bool isKepuasan = (mapIndicator[page].indicatorCategory == 'ic8' &&
             multiNumberInvalid != null) &&
         false;
+    print('valid');
+    print(indicatorValidations[page]['valid']);
+    print('errorMsg');
+    print(errorMsg);
     if ((indicatorValidations[page] != null && !requiredField ||
             !indicatorValidations[page]['valid']) ||
         isKepuasan) {
-      validationDialog(page);
+      if (isKepuasan) {
+        validationDialogSatisfaction(page);
+      } else {
+        validationDialog(page);
+      }
     } else if (_tabController.index != null) {
       if (_activeTabIndex == (mapIndicator.length - 1)) {
         await Provider.of<SimulationBloc>(context, listen: false)
@@ -93,14 +102,13 @@ class _IndicatorPageState extends State<IndicatorPage>
     return null;
   }
 
-  dtpsValidation(int page) {
+  dtpsValidation(int page, String subCategory) {
     double ndtps = double.tryParse(mapVariable['NDTPS'] ?? '0.0') ?? 0.0;
-    double nds3 = double.tryParse(mapVariable['NDS3'] ?? '0.0') ?? 0.0;
     double ndgb = double.tryParse(mapVariable['NDGB'] ?? '0.0') ?? 0.0;
     double ndlk = double.tryParse(mapVariable['NDLK'] ?? '0.0') ?? 0.0;
     double ndl = double.tryParse(mapVariable['NDL'] ?? '0.0') ?? 0.0;
 
-    double sumD = nds3 + ndgb + ndlk + ndl;
+    double sumD = ndgb + ndlk + ndl;
 
     if (sumD > ndtps) {
       if (mapIndicator[page + 1].indicatorCategory != 'ic1') {
@@ -147,7 +155,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs4 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs4.";
           });
 
@@ -156,7 +164,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -170,7 +178,7 @@ class _IndicatorPageState extends State<IndicatorPage>
               setState(() {
                 indicatorValidations[page]['valid'] = false;
                 indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                    Constants.errorMsgDefault;
               });
 
               return null;
@@ -191,7 +199,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs4 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs4 yang terlacak.";
           });
 
@@ -200,7 +208,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -214,7 +222,7 @@ class _IndicatorPageState extends State<IndicatorPage>
               setState(() {
                 indicatorValidations[page]['valid'] = false;
                 indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                    Constants.errorMsgDefault;
               });
 
               return null;
@@ -237,7 +245,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs3 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs3.";
           });
 
@@ -246,7 +254,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -260,7 +268,7 @@ class _IndicatorPageState extends State<IndicatorPage>
               setState(() {
                 indicatorValidations[page]['valid'] = false;
                 indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                    Constants.errorMsgDefault;
               });
 
               return null;
@@ -281,7 +289,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs3 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs3 yang terlacak.";
           });
 
@@ -290,7 +298,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -304,7 +312,7 @@ class _IndicatorPageState extends State<IndicatorPage>
               setState(() {
                 indicatorValidations[page]['valid'] = false;
                 indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                    Constants.errorMsgDefault;
               });
 
               return null;
@@ -327,7 +335,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             totalGraduatesInvalid = indicatorName;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs2 yang terlacak tidak dapat melebihi Jumlah Lulusan $whichTs2..";
           });
 
@@ -336,7 +344,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -350,7 +358,7 @@ class _IndicatorPageState extends State<IndicatorPage>
               setState(() {
                 indicatorValidations[page]['valid'] = false;
                 indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                    Constants.errorMsgDefault;
               });
 
               return null;
@@ -371,7 +379,7 @@ class _IndicatorPageState extends State<IndicatorPage>
             errorStatus = true;
             indicatorValidations[page]['valid'] = false;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
             // "Jumlah Lulusan $whichTs2 yang dinilai oleh pengguna tidak dapat melebihi Jumlah Lulusan $whichTs2 yang terlacak.";
           });
 
@@ -380,7 +388,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           setState(() {
             indicatorValidations[page]['valid'] = true;
             indicatorValidations[page]['msg'] =
-                "Terdapat indicator yang masih tidak valid/kosong.";
+                Constants.errorMsgDefault;
           });
 
           if (totalGraduatesInvalid != null) {
@@ -394,7 +402,7 @@ class _IndicatorPageState extends State<IndicatorPage>
               setState(() {
                 indicatorValidations[page]['valid'] = false;
                 indicatorValidations[page]['msg'] =
-                    "Terdapat indicator yang masih tidak valid/kosong.";
+                    Constants.errorMsgDefault;
               });
 
               return null;
@@ -462,6 +470,154 @@ class _IndicatorPageState extends State<IndicatorPage>
       }
     }
     return valid;
+  }
+
+  suitabilityValidation(int page, String indicatorName, String subCategory) {
+    double pbs1 = double.tryParse(mapVariable['PBS1'] ?? '0.0') ?? 0.0;
+    double pbs2 = double.tryParse(mapVariable['PBS2'] ?? '0.0') ?? 0.0;
+    double pbs3 = double.tryParse(mapVariable['PBS3'] ?? '0.0') ?? 0.0;
+    double maxPbs = 100.0;
+    String whichTs4 = 'TS-4';
+    String whichTs3 = 'TS-3';
+    String whichTs2 = 'TS-2';
+
+    if (indicatorName.toUpperCase().contains(whichTs4)) {
+      setState(() {
+        errorMsg = 'Input data $whichTs4 tidak boleh melebihi 100%';
+      });
+
+      if (pbs1 > maxPbs) {
+        setState(() {
+          totalSatisfactionInvalid = indicatorName;
+          errorStatus = true;
+          indicatorValidations[page]['valid'] = false;
+          indicatorValidations[page]['msg'] =
+              Constants.errorMsgDefault;
+        });
+
+        return errorMsg;
+      } else {
+        setState(() {
+          indicatorValidations[page]['valid'] = true;
+          indicatorValidations[page]['msg'] =
+              Constants.errorMsgDefault;
+        });
+
+        if (totalSatisfactionInvalid != null) {
+          if (totalSatisfactionInvalid == indicatorName) {
+            setState(() {
+              totalSatisfactionInvalid = null;
+              errorStatus = false;
+              errorMsg = '';
+            });
+          } else {
+            setState(() {
+              indicatorValidations[page]['valid'] = false;
+              indicatorValidations[page]['msg'] =
+                  Constants.errorMsgDefault;
+            });
+
+            return null;
+          }
+        }
+
+        return null;
+      }
+    }
+
+    if (indicatorName.toUpperCase().contains(whichTs3)) {
+      setState(() {
+        errorMsg = 'Input data $whichTs3 tidak boleh melebihi 100%';
+      });
+
+      if (pbs2 > maxPbs) {
+        setState(() {
+          totalSatisfactionInvalid = indicatorName;
+          errorStatus = true;
+          indicatorValidations[page]['valid'] = false;
+          indicatorValidations[page]['msg'] =
+              Constants.errorMsgDefault;
+        });
+
+        return errorMsg;
+      } else {
+        setState(() {
+          indicatorValidations[page]['valid'] = true;
+          indicatorValidations[page]['msg'] =
+              Constants.errorMsgDefault;
+        });
+
+        if (totalSatisfactionInvalid != null) {
+          if (totalSatisfactionInvalid == indicatorName) {
+            setState(() {
+              totalSatisfactionInvalid = null;
+              errorStatus = false;
+              errorMsg = '';
+            });
+          } else {
+            setState(() {
+              indicatorValidations[page]['valid'] = false;
+              indicatorValidations[page]['msg'] =
+                  Constants.errorMsgDefault;
+            });
+
+            return null;
+          }
+        }
+
+        return null;
+      }
+    }
+
+    if (indicatorName.toUpperCase().contains(whichTs2)) {
+      setState(() {
+        errorMsg = 'Input data $whichTs2 tidak boleh melebihi 100%';
+      });
+
+      if (pbs3 > maxPbs) {
+        setState(() {
+          totalSatisfactionInvalid = indicatorName;
+          errorStatus = true;
+          indicatorValidations[page]['valid'] = false;
+          indicatorValidations[page]['msg'] =
+              Constants.errorMsgDefault;
+        });
+
+        return errorMsg;
+      } else {
+        setState(() {
+          indicatorValidations[page]['valid'] = true;
+          indicatorValidations[page]['msg'] =
+              Constants.errorMsgDefault;
+        });
+
+        if (totalSatisfactionInvalid != null) {
+          if (totalSatisfactionInvalid == indicatorName) {
+            setState(() {
+              totalSatisfactionInvalid = null;
+              errorStatus = false;
+              errorMsg = '';
+            });
+          } else {
+            setState(() {
+              indicatorValidations[page]['valid'] = false;
+              indicatorValidations[page]['msg'] =
+                  Constants.errorMsgDefault;
+            });
+
+            return null;
+          }
+        }
+
+        return null;
+      }
+    }
+
+    setState(() {
+      indicatorValidations[page]['valid'] = true;
+    });
+
+    return null;
   }
 
   @override
@@ -578,6 +734,25 @@ class _IndicatorPageState extends State<IndicatorPage>
                   title: new Text('Konfirmasi'),
                   content: new Text(indicatorValidations[page]['msg'] ??
                       'Terdapat indicator yang masih kosong/tidak valid.'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: new Text('Ok'),
+                    ),
+                  ],
+                )) ??
+        false;
+  }
+
+  validationDialogSatisfaction(int page) async {
+    return await showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+                  title: new Text('Konfirmasi'),
+                  content: new Text(indicatorValidations[page]['msg'] ??
+                      'Silahkan isi dengan nilai yang sesuai. Total isian untuk setiap kriteria = 100%'),
                   actions: <Widget>[
                     new FlatButton(
                       onPressed: () {
@@ -731,7 +906,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                 indicatorValidations[page]['valid'] = (msg == null);
               });
               if (indicator.category == 'ic1') {
-                dtpsValidation(page);
+                dtpsValidation(page, indicator.subcategory);
                 double ndtps = double.tryParse(mapVariable['NDTPS']) ?? 0.0;
                 double current =
                     double.tryParse(mapVariable[indicator.variable]) ?? 0.0;
@@ -742,6 +917,16 @@ class _IndicatorPageState extends State<IndicatorPage>
                   (indicator.subcategory == 'is25' ||
                       indicator.subcategory == 'is26')) {
                 String resp = '${totalGraduatesValidation(
+                  page,
+                  indicator.name,
+                  indicator.subcategory,
+                )}';
+
+                if (resp is String && resp != 'null') {
+                  return resp;
+                }
+              } else if (indicator.category == 'ic7') {
+                String resp = '${suitabilityValidation(
                   page,
                   indicator.name,
                   indicator.subcategory,
@@ -875,7 +1060,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                         borderRadius: BorderRadius.circular(4),
                       ),
                       errorStyle: TextStyle(fontSize: 12.0),
-                      errorMaxLines: 3,
+                      errorMaxLines: 5,
                       labelText: defaultValue[index],
                       labelStyle: TextStyle(
                         fontSize: 8.0,

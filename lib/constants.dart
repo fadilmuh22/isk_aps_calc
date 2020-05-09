@@ -38,4 +38,6 @@ class Constants {
 
   static const String multiNumberValidationMessage =
       'Silahkan isi dengan nilai yang sesuai, isikan total nilai maksimal 100 dan total minimal 100';
+  static const String errorMsgDefault =
+      'Terdapat indicator yang masih tidak valid/kosong.';
 }
