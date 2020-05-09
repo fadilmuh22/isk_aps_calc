@@ -1,7 +1,7 @@
 class Validator {
   static String number(String value) {
     if (value == null || value.isEmpty) {
-      return 'Silakan isi dengan nilai yang sesuai';
+      return 'Silahkan isi dengan nilai yang sesuai';
     }
     final n = num.tryParse(value);
     if (n == null) {
