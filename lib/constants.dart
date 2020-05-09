@@ -6,7 +6,8 @@ class Constants {
   static const counterStyle = TextStyle(fontSize: 10, color: Colors.black);
   static const guidenceStyle = TextStyle(fontSize: 12, color: Colors.black);
 
-  static const nonNegativeDecimalNumber = r'^\d+(\.\d{0,999})?|\.?\d{1,2}$';
+  static const nonNegativeDecimalNumber =
+      r'^(?!00)^\d+(\.\d{0,999})?|\.?\d{1,2}$';
 
   static const Color primaryColor = Color(0xffFFFFFF);
   static const Color accentColor = Color(0xffC82247);
@@ -29,6 +30,7 @@ class Constants {
   static const String baik = 'BAIK';
   static const String baikSekali = 'BAIK SEKALI';
   static const String unggul = 'UNGGUL';
+  static const String tidakAdaMapping = 'TIDAK ADA MAPPING';
 
   static const String desc1 = '*Untuk Saran Klik Tanda Tanya';
   static const String desc2 =

@@ -1,3 +1,4 @@
+import 'package:isk_aps_calc/constants.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'package:isk_aps_calc/data/repository/app_database.dart';
@@ -70,6 +71,7 @@ class RankedDao {
       mappingRanked = MappingRankedModel.fromJson(result[0]);
     }
 
-    return mappingRanked ?? MappingRankedModel(ranked: 'TIDAK ADA MAPPING');
+    return mappingRanked ??
+        MappingRankedModel(ranked: Constants.tidakAdaMapping);
   }
 }

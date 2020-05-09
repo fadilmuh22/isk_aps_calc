@@ -837,27 +837,6 @@ class _IndicatorPageState extends State<IndicatorPage>
     );
   }
 
-  Widget _nextButton(int page) => SizedBox(
-        width: 140.0,
-        child: CustomRoundedButton(
-          items: <Widget>[
-            Text(
-              _activeTabIndex == (mapIndicator.length - 1)
-                  ? 'Selesai'
-                  : 'Lanjutkan',
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
-            Icon(
-              Icons.keyboard_arrow_right,
-              color: Colors.white,
-            )
-          ],
-          onPressed: () {
-            handleTabNext(page);
-          },
-        ),
-      );
-
   Widget _indicatorField(int page, IndicatorModel indicator) {
     switch (IndicatorField.values[indicator.type - 1]) {
       case IndicatorField.number:
@@ -1049,6 +1028,29 @@ class _IndicatorPageState extends State<IndicatorPage>
         return Container();
     }
   }
+
+  Widget _nextButton(int page) => SizedBox(
+        width: 140.0,
+        child: CustomRoundedButton(
+          items: <Widget>[
+            Text(
+              _activeTabIndex == (mapIndicator.length - 1)
+                  ? 'Selesai'
+                  : 'Lanjutkan',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+            Flexible(
+              child: Icon(
+                Icons.keyboard_arrow_right,
+                color: Colors.white,
+              ),
+            )
+          ],
+          onPressed: () {
+            handleTabNext(page);
+          },
+        ),
+      );
 
   Widget textValidation({String msg}) {
     return Text(

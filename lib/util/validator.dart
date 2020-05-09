@@ -1,7 +1,5 @@
 class Validator {
   static String number(String value) {
-    print('sum');
-    print(value);
     if (value == null || value.isEmpty) {
       return 'Silahkan isi dengan nilai yang sesuai';
     }

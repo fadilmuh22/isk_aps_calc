@@ -102,7 +102,12 @@ class _ResultPageState extends State<ResultPage> {
                         'Selesai',
                         style: TextStyle(color: Colors.white),
                       ),
-                      Icon(Icons.keyboard_arrow_right, color: Colors.white),
+                      Flexible(
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                     onPressed: () {
                       Provider.of<SimulationBloc>(context, listen: false)
@@ -244,19 +249,21 @@ class _ResultPageState extends State<ResultPage> {
                           showDrafter(lmap[0].description, category);
                         },
                       ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 14.0),
-                      child: Text(
-                        formattedLmapValue,
-                        textAlign: TextAlign.end,
-                      ),
-                      decoration: BoxDecoration(
-                        color: lmap[0].ranked != lmap[0].rankedTarget &&
-                                (lmap[0].rankedCurrentId >=
-                                    lmap[0].rankedTargetId)
-                            ? Colors.orangeAccent
-                            : Color(0xffC4C4C4),
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 14.0),
+                        child: Text(
+                          formattedLmapValue,
+                          textAlign: TextAlign.end,
+                        ),
+                        decoration: BoxDecoration(
+                          color: lmap[0].ranked != lmap[0].rankedTarget &&
+                                  (lmap[0].rankedCurrentId >=
+                                      lmap[0].rankedTargetId)
+                              ? Colors.orangeAccent
+                              : Color(0xffC4C4C4),
+                        ),
                       ),
                     ),
                   ],
@@ -328,20 +335,22 @@ class _ResultPageState extends State<ResultPage> {
                               mapIndicator.indicatorCategoryName);
                         },
                       ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 14.0),
-                      child: Text(
-                        formattedIndicatorValue,
-                        textAlign: TextAlign.end,
-                      ),
-                      decoration: BoxDecoration(
-                        color:
-                            mapIndicator.ranked != mapIndicator.rankedTarget &&
-                                    (mapIndicator.rankedCurrentId >=
-                                        mapIndicator.rankedTargetId)
-                                ? Colors.orangeAccent
-                                : Color(0xffC4C4C4),
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 14.0),
+                        child: Text(
+                          formattedIndicatorValue,
+                          textAlign: TextAlign.end,
+                        ),
+                        decoration: BoxDecoration(
+                          color: mapIndicator.ranked !=
+                                      mapIndicator.rankedTarget &&
+                                  (mapIndicator.rankedCurrentId >=
+                                      mapIndicator.rankedTargetId)
+                              ? Colors.orangeAccent
+                              : Color(0xffC4C4C4),
+                        ),
                       ),
                     ),
                   ],
