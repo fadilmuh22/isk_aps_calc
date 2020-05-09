@@ -106,7 +106,8 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
   handleNextButton() async {
     if (_formKey.currentState.validate() &&
         newSimulation.educationStageName != null &&
-        newSimulation.currentAccreditation != null) {
+        newSimulation.currentAccreditation != null &&
+        newSimulation.academicYear != null) {
       _formKey.currentState.save();
       Provider.of<SimulationBloc>(context, listen: false).clear();
 
