@@ -394,7 +394,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
           autofocus: false,
           validator: (value) {
             if (value.isEmpty) {
-              return 'Silakan isi dengan nilai yang sesuai';
+              return 'Silahkan isi dengan nilai yang sesuai';
             }
             return null;
           },
@@ -417,7 +417,7 @@ class _NewSimulationPageState extends State<NewSimulationPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Pilih Program Pendidikan:',
+            'Pilih Program Pendidikan / Perguruan Tinggi:',
             style: TextStyle(fontSize: 16),
           ),
         ],

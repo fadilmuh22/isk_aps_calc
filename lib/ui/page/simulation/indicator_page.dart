@@ -736,7 +736,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                 double current =
                     double.tryParse(mapVariable[indicator.variable]) ?? 0.0;
                 if (current > ndtps) {
-                  return 'Input data melebihi jumlah Dosen Tetap';
+                  return 'Data tidak dapat melebihi jumlah DTPS!';
                 }
               } else if (indicator.category == 'ic18' &&
                   (indicator.subcategory == 'is25' ||
