@@ -30,6 +30,7 @@ class Constants {
   static const String baik = 'BAIK';
   static const String baikSekali = 'BAIK SEKALI';
   static const String unggul = 'UNGGUL';
+  static const String tidakAdaMapping = 'TIDAK ADA MAPPING';
 
   static const String desc1 = '*Untuk Saran Klik Tanda Tanya';
   static const String desc2 =
