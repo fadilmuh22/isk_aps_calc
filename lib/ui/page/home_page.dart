@@ -290,6 +290,7 @@ class _HomePageState extends State<HomePage> {
             ] else
               ...List.generate(histories.length, (index) {
                 if (histories.length > 0) {
+                  print(histories[index].educationStage);
                   return _simulationHistoryItem(
                     index: index,
                     title:
