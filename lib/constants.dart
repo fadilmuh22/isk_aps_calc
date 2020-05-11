@@ -35,7 +35,7 @@ class Constants {
   static const String desc1 = '*Untuk Saran Klik Tanda Tanya';
   static const String desc2 =
       'Sesuai aturan BAN-PT untuk konversi predikat akreditasi adalah one on one yaitu \nA konversi ke Unggul; \nB konversi ke Baik Sekali; \nC konversi ke Baik';
-  static const desc1Style = TextStyle(fontSize: 12, color: Color(0xff544D4D));
+  static const desc1Style = TextStyle(fontSize: 12, color: Color(0xff544D4D), fontWeight: FontWeight.bold);
   static const desc2Style = TextStyle(fontSize: 8, color: Color(0xff544D4D));
 
   static const String multiNumberValidationMessage =
