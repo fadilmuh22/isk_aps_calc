@@ -31,24 +31,24 @@ final List<Map<String, dynamic>> educationStages = [
     'desc': 'Sarjana',
   },
   {
-    'id': 4,
-    'name': 'S2',
-    'desc': 'Magister',
-  },
-  {
     'id': 5,
     'name': 'S2',
     'desc': 'Magister Terapan',
   },
   {
-    'id': 6,
-    'name': 'S3',
-    'desc': 'Doktor',
+    'id': 4,
+    'name': 'S2',
+    'desc': 'Magister',
   },
   {
     'id': 7,
     'name': 'S3',
     'desc': 'Doktor Terapan',
+  },
+  {
+    'id': 6,
+    'name': 'S3',
+    'desc': 'Doktor',
   },
   {
     'id': 8,

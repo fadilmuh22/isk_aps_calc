@@ -461,7 +461,7 @@ class _IndicatorPageState extends State<IndicatorPage>
 
     if (indicatorName.toUpperCase().contains(whichTs4)) {
       setState(() {
-        errorMsg = 'Input data $whichTs4 tidak boleh melebihi 100%';
+        errorMsg = 'Kesesuaian Bidang Kerja maksimal 100%';
       });
 
       if (pbs1 > maxPbs) {
@@ -502,7 +502,7 @@ class _IndicatorPageState extends State<IndicatorPage>
 
     if (indicatorName.toUpperCase().contains(whichTs3)) {
       setState(() {
-        errorMsg = 'Input data $whichTs3 tidak boleh melebihi 100%';
+        errorMsg = 'Kesesuaian Bidang Kerja maksimal 100%';
       });
 
       if (pbs2 > maxPbs) {
@@ -543,7 +543,7 @@ class _IndicatorPageState extends State<IndicatorPage>
 
     if (indicatorName.toUpperCase().contains(whichTs2)) {
       setState(() {
-        errorMsg = 'Input data $whichTs2 tidak boleh melebihi 100%';
+        errorMsg = 'Kesesuaian Bidang Kerja maksimal 100%';
       });
 
       if (pbs3 > maxPbs) {
@@ -1013,6 +1013,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                       labelStyle: TextStyle(
                         fontSize: 8.0,
                       ),
+                      counterText: ' ',
                     ),
                   ),
                   data: Theme.of(context).copyWith(

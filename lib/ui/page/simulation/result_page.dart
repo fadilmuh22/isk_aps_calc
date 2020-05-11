@@ -128,6 +128,7 @@ class _ResultPageState extends State<ResultPage> {
 
   void showDrafter(String description, String title) {
     showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -138,7 +139,7 @@ class _ResultPageState extends State<ResultPage> {
         backgroundColor: Colors.white,
         elevation: 16.0,
         builder: (BuildContext bc) {
-          return Container(
+          return SingleChildScrollView(
             padding: EdgeInsets.symmetric(vertical: 48.0, horizontal: 20.0),
             child: Wrap(
               children: <Widget>[
@@ -165,6 +166,10 @@ class _ResultPageState extends State<ResultPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18.5),
           image: DecorationImage(
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.8),
+              BlendMode.dstATop,
+            ),
             image: resultConvert.rankedConvert.length != 0 &&
                     !(resultConvert.rankedConvert
                         .toLowerCase()
