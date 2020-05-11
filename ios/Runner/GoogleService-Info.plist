@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>397061739942-dt11mp0cnp8i6ss4cv43sdpbn8nkr4ep.apps.googleusercontent.com</string>
+	<string>150859444869-einfpsn723n53ok8f9kip0lhcf752bkv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.397061739942-dt11mp0cnp8i6ss4cv43sdpbn8nkr4ep</string>
+	<string>com.googleusercontent.apps.150859444869-einfpsn723n53ok8f9kip0lhcf752bkv</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>397061739942-02qkfqvd6lfdkn30h0h1m7424ceq6132.apps.googleusercontent.com</string>
+	<string>150859444869-4chalrkigi56lkddeqc3q1mbkuag94hi.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA3hFD-pHoFdDWmkAtlAyOHcwK7nMNU7ew</string>
+	<string>AIzaSyBpzfpomhs1w0ilEId9e25wZ1CPo7n75e4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>397061739942</string>
+	<string>150859444869</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.kanzen.iskapscalc</string>
+	<string>com.kanzen.quickiskaptaps</string>
 	<key>PROJECT_ID</key>
-	<string>isk-aps-calc-tel-u</string>
+	<string>quick-isk-apt-aps</string>
 	<key>STORAGE_BUCKET</key>
-	<string>isk-aps-calc-tel-u.appspot.com</string>
+	<string>quick-isk-apt-aps.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:397061739942:ios:6d19adec064c3b0a36ab67</string>
+	<string>1:150859444869:ios:5fa76d8e94b8b978942fec</string>
 	<key>DATABASE_URL</key>
-	<string>https://isk-aps-calc-tel-u.firebaseio.com</string>
+	<string>https://quick-isk-apt-aps.firebaseio.com</string>
 </dict>
 </plist>

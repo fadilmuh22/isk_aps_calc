@@ -159,6 +159,8 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             SizedBox(height: 1.0),
+            forNewUserText(),
+            SizedBox(height: 8.0),
             Flex(
               direction: Axis.horizontal,
               mainAxisSize: MainAxisSize.min,
@@ -172,12 +174,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget appTitle() => Text(
-        Constants.appName,
-        style: TextStyle(
-          color: Constants.accentColor,
-          fontSize: 22,
-          fontWeight: FontWeight.w500,
+  Widget appTitle() => Flexible(
+        child: Text(
+          Constants.appName,
+          style: TextStyle(
+            color: Constants.accentColor,
+            fontSize: 22,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       );
 
@@ -268,6 +272,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
+        ),
+      );
+
+  Widget forNewUserText() => Text(
+        Constants.forNewUser,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.red,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
         ),
       );
 

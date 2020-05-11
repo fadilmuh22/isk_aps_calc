@@ -16,6 +16,9 @@ class Constants {
   static const String newSimulation = 'Simulasi Baru';
   static const String simulationHistory = 'Riwayat Simulasi';
 
+  static const String forNewUser =
+      'Untuk pengguna baru silahkan Login menggunakan\nakun Google Anda.';
+
   static const String tipe3Subtitle =
       'Pilih salah satu yang sesuai dengan kondisi Program Studi Anda';
   static const String tipe5Subtitle =
@@ -35,7 +38,8 @@ class Constants {
   static const String desc1 = '*Untuk Saran Klik Tanda Tanya';
   static const String desc2 =
       'Sesuai aturan BAN-PT untuk konversi predikat akreditasi adalah one on one yaitu \nA konversi ke Unggul; \nB konversi ke Baik Sekali; \nC konversi ke Baik';
-  static const desc1Style = TextStyle(fontSize: 12, color: Color(0xff544D4D), fontWeight: FontWeight.bold);
+  static const desc1Style = TextStyle(
+      fontSize: 12, color: Color(0xff544D4D), fontWeight: FontWeight.bold);
   static const desc2Style = TextStyle(fontSize: 8, color: Color(0xff544D4D));
 
   static const String multiNumberValidationMessage =
