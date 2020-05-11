@@ -1,42 +1,66 @@
 {
   "project_info": {
-    "project_number": "397061739942",
-    "firebase_url": "https://isk-aps-calc-tel-u.firebaseio.com",
-    "project_id": "isk-aps-calc-tel-u",
-    "storage_bucket": "isk-aps-calc-tel-u.appspot.com"
+    "project_number": "150859444869",
+    "firebase_url": "https://quick-isk-apt-aps.firebaseio.com",
+    "project_id": "quick-isk-apt-aps",
+    "storage_bucket": "quick-isk-apt-aps.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:397061739942:android:02541b48f6aa13e936ab67",
+        "mobilesdk_app_id": "1:150859444869:android:593c7e31f34e5074942fec",
         "android_client_info": {
-          "package_name": "com.kanzen.isk_aps_calc"
+          "package_name": "com.kanzen.quickiskaptaps"
         }
       },
       "oauth_client": [
         {
-          "client_id": "397061739942-1a3mcj0375bi8mv236ghi85depms10ob.apps.googleusercontent.com",
+          "client_id": "150859444869-4chalrkigi56lkddeqc3q1mbkuag94hi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.kanzen.isk_aps_calc",
+            "package_name": "com.kanzen.quickiskaptaps",
+            "certificate_hash": "3c6276f2ed538ad77ab70370dbd82852d6354b71"
+          }
+        },
+        {
+          "client_id": "150859444869-rav02idsbujlncoc1g091otdm54m48bn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kanzen.quickiskaptaps",
+            "certificate_hash": "ae62a4b7cb95032a80d39e7a1e5193edcca69caf"
+          }
+        },
+        {
+          "client_id": "150859444869-p86q3cdd08g089i6q83qamq829qru24r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kanzen.quickiskaptaps",
+            "certificate_hash": "e680fe75b550643f157042e789f9952b8c9c2af7"
+          }
+        },
+        {
+          "client_id": "150859444869-mtreoj3oammbep5afujrtohrqrlrncr7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kanzen.quickiskaptaps",
             "certificate_hash": "bed6f14501f81a2e4db65b723874d8163813e3e1"
           }
         },
         {
-          "client_id": "397061739942-3tas6kha38e8ree01eaa64pgmi0joji0.apps.googleusercontent.com",
+          "client_id": "150859444869-vplagsn1oeikotc5ohgesid8upc8n8m7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCW0gjP29ike3tnN7UIv-u6ZpOe4c6cmKI"
+          "current_key": "AIzaSyDJyXsQYs2XHAMHblv7CrjYYch5Nu74kdw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "397061739942-3tas6kha38e8ree01eaa64pgmi0joji0.apps.googleusercontent.com",
+              "client_id": "150859444869-vplagsn1oeikotc5ohgesid8upc8n8m7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

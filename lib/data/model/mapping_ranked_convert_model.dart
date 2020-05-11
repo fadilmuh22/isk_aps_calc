@@ -14,7 +14,7 @@ class MappingRankedConvertModel {
 
   Map<String, dynamic> toJson() => {
         'accreditation_name': currentAccreditation,
-        'accreditation_name': inputAccreditation,
+        'input_accreditation': inputAccreditation,
         'ranked_convert': rankedConvert,
       };
 }

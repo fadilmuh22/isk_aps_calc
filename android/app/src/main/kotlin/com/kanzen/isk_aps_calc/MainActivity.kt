@@ -1,4 +1,4 @@
-package com.kanzen.isk_aps_calc
+package com.kanzen.quickiskaptaps
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

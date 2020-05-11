@@ -52,7 +52,7 @@ class LoginBloc extends ChangeNotifier {
 
       loginMessage = flash(
         'Login Berhasil',
-        '\nBerhasil login dengan Akun Google Anda.\n\nMulai saat ini Email Anda sudah terdaftar dan dapat menggunakan nya untuk login dengan mengisikan Email sebagai username dan password "${genPass}".',
+        '\nBerhasil login dengan Akun Google Anda.\n\nMulai saat ini Email Anda sudah terdaftar dan dapat menggunakan nya untuk login dengan mengisikan Email sebagai username dan password "$genPass".',
       );
       return true;
     }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import 'package:isk_aps_calc/constants.dart';
+import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
 
 const normalHeight = 56.0;
 const extendedHeight = 72.0;
@@ -94,17 +97,21 @@ class _CustomAppBarState extends State<CustomAppBar> {
     );
   }
 
-  Widget newSimulaionTitle(int flex) => Expanded(
-        flex: flex,
-        child: Text(
-          'Simulasi Baru',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Constants.accentColor,
-          ),
+  Widget newSimulaionTitle(int flex) {
+    return Expanded(
+      flex: flex,
+      child: Text(
+        Provider.of<SimulationBloc>(context, listen: false).historyId != null
+            ? 'Rubah Simulasi'
+            : 'Simulasi Baru',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Constants.accentColor,
         ),
-      );
+      ),
+    );
+  }
 
   Expanded newSimulationProdiAndTingkat() => Expanded(
         flex: 1,
