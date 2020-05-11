@@ -166,6 +166,10 @@ class _ResultPageState extends State<ResultPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18.5),
           image: DecorationImage(
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.8),
+              BlendMode.dstATop,
+            ),
             image: resultConvert.rankedConvert.length != 0 &&
                     !(resultConvert.rankedConvert
                         .toLowerCase()
