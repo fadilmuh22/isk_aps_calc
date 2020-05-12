@@ -19,7 +19,7 @@ before_deploy:
   - pushd build/ios/iphoneos
   - mkdir Payload
   - cd Payload
-  - ln -s ../Runner.app
+  - ln -s ../Quick\ ISK.app
   - cd ..
   - zip -r app.ipa Payload
   - popd
