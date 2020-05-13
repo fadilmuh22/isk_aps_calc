@@ -187,7 +187,7 @@ class _ResultPageState extends State<ResultPage> {
             Flexible(
               child: Center(
                 child: Container(
-                  width: 200,
+                  width: 320,
                   child: BorderedText(
                     strokeWidth: 1.0,
                     strokeColor: Colors.blueAccent,
@@ -199,7 +199,7 @@ class _ResultPageState extends State<ResultPage> {
                       maxLines: 2,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 24,
+                        fontSize: 21,
                         color: Colors.white,
                       ),
                     ),
