@@ -16,7 +16,11 @@ cache:
   directories:
     - "$HOME/.pub-cache"
 before_deploy:
+<<<<<<< HEAD
   - pushd build/ios/iphonesimulator
+=======
+  - pushd build/ios/Debug-iphonesimulator
+>>>>>>> 9acec7829afb6181ddd6d0f98229f49cf0971d3a
   - zip -r app.zip Runner.app
   - popd
 deploy:
