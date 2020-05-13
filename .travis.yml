@@ -11,23 +11,19 @@ before_script:
   - brew install ios-deploy
   - git clone https://github.com/flutter/flutter.git -b stable --depth 1
 script:
-  - flutter/bin/flutter build ios --debug --no-codesign
+  - flutter/bin/flutter build ios --simulator --no-codesign
 cache:
   directories:
     - "$HOME/.pub-cache"
 before_deploy:
-  - pushd build/ios/iphoneos
-  - mkdir Payload
-  - cd Payload
-  - ln -s ../Quick\ ISK.app
-  - cd ..
-  - zip -r app.ipa Payload
+  - pushd build/ios/Debug-iphonesimulator
+  - zip -r app.zip Runner.app
   - popd
 deploy:
   provider: releases
   api_key:
     secure: MBrOiCsbp9uBMlM6qlLFYeITYnSnqywCQz15cwZuMB4M5d1o8/4bYOPWV00aHt+XyyIvdtWXS8Y2oHq/KnqWOORSdOa00pdit587L2DliJGlCMC3WJ/wvgGbxpuSI5VQWxuDLpUeyZ0DEhKtB6rGyv1XqjgVtRhcM5It0K4N38OXQd9BiAwafm902tkwZwoVViaQWfOeko4KtkqryKgo7tqVfNeCP2G/dB3jXVnmXG95039v/P/dLrQuYgz4uh1QllQDPv93+dVNnwf/9JS+t0cC5AF5TY4hlrwEfBuPp6SkJxMBGarWEDs/cUbRO1btsw3kSMppEG+UGI+vx5R30LHumoOs6c88HHPQAdSR/x9ssNZE8ugJy2aUmW6OkAq6S0Hmp0uErnmmhI5fYPDn2hVbkm2EAeOpgHckt5cIWqCP9moeyZP0RoZ6NIBj66+5pFw/wIGjMClMOfIyJUoeFYzXbMtCZtTONx2COvr0EkBWdnv3aSVXpDOsJppepGD5Mf/e/2ccsznH9SKScHJSqEKy32Sk7bBy2YssHpayaU2a5ajBYOL85eUijUzVELW8UtOC2sM3NKo2g1YAEY9g/mRpQ6/NfdRkKZfQrZVwAaYeXeF3y11LKoOiBjOlzD2dMfy75jpdZ54k5T4U/9LjSDM3mfMhgO7Qpm7Wdb+rbMA=
-  file: build/ios/iphoneos/app.ipa
+  file: build/ios/Debug-iphonesimulator/app.zip
   on:
     repo: Kazenyaru/isk_aps_calc
   skip_cleanup: "true"
