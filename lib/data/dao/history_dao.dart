@@ -1,4 +1,4 @@
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_sqlcipher/sqlite_api.dart';
 
 import 'package:isk_aps_calc/data/repository/app_database.dart';
 
