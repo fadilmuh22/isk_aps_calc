@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart';
 
 class AppDatabase {
@@ -24,12 +23,13 @@ class AppDatabase {
   }
 
   Future initDb() async {
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + 'isk_aps.db';
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'isk_aps.db');
 
-    var exists = await databaseExists(path);
+    bool exists = await databaseExists(path);
 
     if (!exists) {
+      print("Creating new copy from asset");
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
@@ -40,6 +40,8 @@ class AppDatabase {
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       await File(path).writeAsBytes(bytes, flush: true);
+    } else {
+      print("Opening existing database");
     }
 
     return await openDatabase(
