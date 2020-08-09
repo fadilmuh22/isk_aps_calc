@@ -842,7 +842,7 @@ class _IndicatorPageState extends State<IndicatorPage>
       case IndicatorField.number:
         return Theme(
           child: TextFormField(
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
               WhitelistingTextInputFormatter(
                   RegExp(Constants.nonNegativeDecimalNumber)),
@@ -977,7 +977,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                 margin: EdgeInsets.only(left: 5.0, top: 8.0),
                 child: Theme(
                   child: TextFormField(
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
                       WhitelistingTextInputFormatter(
                           RegExp(Constants.nonNegativeDecimalNumber)),
