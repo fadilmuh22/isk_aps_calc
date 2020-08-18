@@ -36,6 +36,7 @@ dependencies:
 
   # Plugin
   google_sign_in: ^4.3.0
+  sign_in_with_apple: ^2.5.2
 
   # UI Plugin
   intro_slider: ^2.2.9
@@ -73,6 +74,7 @@ flutter:
     - assets/images/empty_history.svg
 
     - assets/images/google_logo.png
+    - assets/images/apple_logo.png
     - assets/images/login_bg.png
     - assets/images/profile_placeholder.png
 

@@ -11,6 +11,7 @@ import 'package:isk_aps_calc/data/model/login_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
 
 import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = '/login';
@@ -65,6 +66,20 @@ class _LoginPageState extends State<LoginPage> {
 
     bool succeed =
         await Provider.of<LoginBloc>(context, listen: false).googleLogin();
+
+    setIsLoading(false);
+
+    loginDialog(
+      succeed,
+      Provider.of<LoginBloc>(context, listen: false).loginMessage['status'],
+      Provider.of<LoginBloc>(context, listen: false).loginMessage['message'],
+    );
+  }
+
+  void handleAppleLogin() async {
+    await setIsLoading(true);
+
+    final succeed = await Provider.of<LoginBloc>(context, listen: false).appleLogin();
 
     setIsLoading(false);
 
@@ -166,6 +181,14 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 oauthButton(),
+              ],
+            ),
+            SizedBox(height: 8.0),
+            Flex(
+              direction: Axis.horizontal,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                appleAuthButton(),
               ],
             ),
           ],
@@ -291,7 +314,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: handleGoogleLogin,
         items: <Widget>[
           Container(
-            width: 50.0,
+            width: 70.0,
             height: 50.0,
             margin: EdgeInsets.all(1.0),
             padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
@@ -310,6 +333,38 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "Google Sign In",
                 style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          Container()
+        ],
+      );
+
+  Widget appleAuthButton() => CustomRoundedButton(
+        color: Colors.white,
+        padding: EdgeInsets.all(1.0),
+        onPressed: handleAppleLogin,
+        items: <Widget>[
+          Container(
+            width: 70.0,
+            height: 50.0,
+            margin: EdgeInsets.all(1.0),
+            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(8.0),
+                  bottomLeft: const Radius.circular(8.0),
+                )),
+            child: Image.asset('assets/images/apple_logo.png'),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Apple Sign In",
+                style: TextStyle(color: Colors.black), 
               ),
             ),
           ),
