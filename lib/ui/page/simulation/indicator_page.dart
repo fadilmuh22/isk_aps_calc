@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:isk_aps_calc/util/comma_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:isk_aps_calc/data/bloc/simulation_bloc.dart';
@@ -844,6 +845,7 @@ class _IndicatorPageState extends State<IndicatorPage>
           child: TextFormField(
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
+              CommaTextInputFormatter(),
               WhitelistingTextInputFormatter(
                   RegExp(Constants.nonNegativeDecimalNumber)),
             ],
@@ -979,6 +981,7 @@ class _IndicatorPageState extends State<IndicatorPage>
                   child: TextFormField(
                     keyboardType: TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
+                      CommaTextInputFormatter(),
                       WhitelistingTextInputFormatter(
                           RegExp(Constants.nonNegativeDecimalNumber)),
                     ],

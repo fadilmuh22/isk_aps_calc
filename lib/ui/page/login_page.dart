@@ -79,7 +79,8 @@ class _LoginPageState extends State<LoginPage> {
   void handleAppleLogin() async {
     await setIsLoading(true);
 
-    final succeed = await Provider.of<LoginBloc>(context, listen: false).appleLogin();
+    final succeed =
+        await Provider.of<LoginBloc>(context, listen: false).appleLogin();
 
     setIsLoading(false);
 
@@ -184,12 +185,12 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             SizedBox(height: 8.0),
-            Flex(
-              direction: Axis.horizontal,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                appleAuthButton(),
-              ],
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 45.0),
+              child: SignInWithAppleButton(
+                onPressed: handleAppleLogin,
+                style: SignInWithAppleButtonStyle.white,
+              ),
             ),
           ],
         ),
@@ -332,39 +333,7 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.centerLeft,
               child: Text(
                 "Google Sign In",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-          Container()
-        ],
-      );
-
-  Widget appleAuthButton() => CustomRoundedButton(
-        color: Colors.white,
-        padding: EdgeInsets.all(1.0),
-        onPressed: handleAppleLogin,
-        items: <Widget>[
-          Container(
-            width: 70.0,
-            height: 50.0,
-            margin: EdgeInsets.all(1.0),
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(8.0),
-                  bottomLeft: const Radius.circular(8.0),
-                )),
-            child: Image.asset('assets/images/apple_logo.png'),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Apple Sign In",
-                style: TextStyle(color: Colors.black), 
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
             ),
           ),

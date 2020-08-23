@@ -74,7 +74,6 @@ flutter:
     - assets/images/empty_history.svg
 
     - assets/images/google_logo.png
-    - assets/images/apple_logo.png
     - assets/images/login_bg.png
     - assets/images/profile_placeholder.png
 

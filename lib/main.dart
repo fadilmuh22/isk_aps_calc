@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SimulationBloc()),
       ],
       child: MaterialApp(
+        themeMode: ThemeMode.light,
         initialRoute: AuhthenticationPage.tag,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
