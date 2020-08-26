@@ -74,7 +74,7 @@ class LoginBloc extends ChangeNotifier {
           ],
         );
       } catch (e) {
-        loginMessage = flash('Login Gagal', 'Coba beberapa saat lagi.');
+        loginMessage = flash('Login Gagal', 'Silahkan login menggunakan google sign in, terima kasih.');
         return false;
       }
 
@@ -109,14 +109,14 @@ class LoginBloc extends ChangeNotifier {
           '\nBerhasil login dengan Akun Apple Anda.\n\nMulai saat ini Email Anda sudah terdaftar dan dapat menggunakan nya untuk login dengan mengisikan Email sebagai username dan password "$genPass".',
         );
         return true;
-      } else if (data.email == null && data.givenName != null || data.familyName != null) {
+      } else if (data.email == null && (data.givenName != null || data.familyName != null)) {
         loginMessage =
             flash('Login Gagal', 'Mohon tidak menyembunyikan email untuk login');
         return false;
       }
     }
 
-    loginMessage = flash('Login Gagal', 'Terjadi kesalahan saat login');
+    loginMessage = flash('Login Gagal', 'Untuk saat ini, perangkat anda belum dapat sign in menggunakan apple, silahkan gunakan fungsi google sign in atau login dengan akun yang terdaftar');
     return false;
   }
 
