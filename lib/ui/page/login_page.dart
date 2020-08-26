@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/ui/page/sign_up_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,6 @@ import 'package:isk_aps_calc/data/model/login_model.dart';
 import 'package:isk_aps_calc/ui/component/custom_rounded_button.dart';
 
 import 'package:isk_aps_calc/ui/page/main_tabs_page.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = '/login';
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void handleLocalLogin() async {
-    await setIsLoading(true);
+    setIsLoading(true);
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
@@ -59,36 +59,6 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     setIsLoading(false);
-  }
-
-  void handleGoogleLogin() async {
-    await setIsLoading(true);
-
-    bool succeed =
-        await Provider.of<LoginBloc>(context, listen: false).googleLogin();
-
-    setIsLoading(false);
-
-    loginDialog(
-      succeed,
-      Provider.of<LoginBloc>(context, listen: false).loginMessage['status'],
-      Provider.of<LoginBloc>(context, listen: false).loginMessage['message'],
-    );
-  }
-
-  void handleAppleLogin() async {
-    await setIsLoading(true);
-
-    final succeed =
-        await Provider.of<LoginBloc>(context, listen: false).appleLogin();
-
-    setIsLoading(false);
-
-    loginDialog(
-      succeed,
-      Provider.of<LoginBloc>(context, listen: false).loginMessage['status'],
-      Provider.of<LoginBloc>(context, listen: false).loginMessage['message'],
-    );
   }
 
   @override
@@ -174,23 +144,13 @@ class _LoginPageState extends State<LoginPage> {
                 loginButton(),
               ],
             ),
-            SizedBox(height: 1.0),
             forNewUserText(),
-            SizedBox(height: 8.0),
             Flex(
               direction: Axis.horizontal,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                oauthButton(),
+                signUpButton(),
               ],
-            ),
-            SizedBox(height: 8.0),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 45.0),
-              child: SignInWithAppleButton(
-                onPressed: handleAppleLogin,
-                style: SignInWithAppleButtonStyle.white,
-              ),
             ),
           ],
         ),
@@ -211,9 +171,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget usernameField() => Theme(
         child: TextFormField(
-          keyboardType: TextInputType.text,
+          keyboardType: TextInputType.emailAddress,
           autofocus: false,
-          onSaved: (value) => email = value,
+          onSaved: (value) => email = value.trim(),
           validator: (value) {
             if (value.isEmpty) {
               return 'Usernam/Email must be filled';
@@ -244,10 +204,10 @@ class _LoginPageState extends State<LoginPage> {
           keyboardType: TextInputType.text,
           autofocus: false,
           obscureText: _pwIsHidden,
-          onSaved: (value) => password = value,
+          onSaved: (value) => password = value.trim(),
           validator: (value) {
             if (value.isEmpty) {
-              password = '1234';
+              password = '1234567';
             }
             return null;
           },
@@ -299,45 +259,39 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
+  Widget signUpButton() => Container(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.0),
+          child: CustomRoundedButton(
+            align: MainAxisAlignment.center,
+            onPressed: () {
+              Navigator.pushNamed(context, SignUpPage.tag);
+            },
+            items: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'SIGN UP',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
   Widget forNewUserText() => Text(
-        Constants.forNewUser,
+        'Untuk pengguna baru silahkan Sign Up terlebih dahulu',
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.red,
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
-      );
-
-  Widget oauthButton() => CustomRoundedButton(
-        color: Colors.blueAccent,
-        padding: EdgeInsets.all(1.0),
-        onPressed: handleGoogleLogin,
-        items: <Widget>[
-          Container(
-            width: 70.0,
-            height: 50.0,
-            margin: EdgeInsets.all(1.0),
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(8.0),
-                  bottomLeft: const Radius.circular(8.0),
-                )),
-            child: Image.asset('assets/images/google_logo.png'),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Google Sign In",
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-            ),
-          ),
-          Container()
-        ],
       );
 }

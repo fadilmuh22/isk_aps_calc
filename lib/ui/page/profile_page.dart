@@ -2,12 +2,9 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:isk_aps_calc/data/repository/app_storage.dart';
-
-import 'package:isk_aps_calc/data/bloc/login_bloc.dart';
 
 import 'package:isk_aps_calc/constants.dart';
 import 'package:isk_aps_calc/util/image_upload_util.dart';
@@ -189,7 +186,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   logoutUser() async {
     await AppStorage().delete(key: 'user');
-    Provider.of<LoginBloc>(context, listen: false).googleSignIn.disconnect();
     Navigator.pushReplacementNamed(context, LoginPage.tag);
   }
 

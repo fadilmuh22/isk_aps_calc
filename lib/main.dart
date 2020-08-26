@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isk_aps_calc/ui/page/sign_up_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ final routes = {
   AuhthenticationPage.tag: (context) => AuhthenticationPage(),
   OnBoardingPage.tag: (context) => OnBoardingPage(),
   LoginPage.tag: (context) => LoginPage(),
+  SignUpPage.tag: (context) => SignUpPage(),
   MainTabs.tag: (context) => MainTabs(),
   IndicatorPage.tag: (context) => IndicatorPage(),
   ResultPage.tag: (context) => ResultPage(),
