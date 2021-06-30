@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
   messageDialog({String title, String message, List<Widget> actions}) async {
     return await showDialog(
       context: context,
-      child: AlertDialog(
+      builder: (context) => AlertDialog(
         title: Text(title),
         content: Text(message),
         actions: actions ??

@@ -66,8 +66,8 @@ class _IndicatorPageState extends State<IndicatorPage>
     bool isKepuasan = (mapIndicator[page].indicatorCategory == 'ic8' &&
             multiNumberInvalid != null) &&
         false;
-    if ((indicatorValidations[page] != null && !requiredField ||
-            !indicatorValidations[page]['valid']) ||
+    if ((indicatorValidations[page] != null && !requiredField) ||
+        !indicatorValidations[page]['valid'] ||
         isKepuasan) {
       if (isKepuasan) {
         validationDialogSatisfaction(page);
@@ -433,11 +433,20 @@ class _IndicatorPageState extends State<IndicatorPage>
         }
       }
     }
+    for (int i = 0; i < 4; i++) {
+      if (mapVariable['${indicator.variable}${i + 1}'] == '' ||
+          mapVariable['${indicator.variable}${i + 1}'] == null) {
+        mapVariable['${indicator.variable}${i + 1}'] = 0.0;
+      }
+    }
   }
 
   bool requiredValidation(int page) {
     bool valid = true;
     for (IndicatorModel data in mapIndicator[page].indicator) {
+      if (data.name.contains('TS-')) {
+        break;
+      }
       if (mapVariable[data.variable] is String) {
         valid = mapVariable[data.variable] != null &&
             mapVariable[data.variable].isNotEmpty;
@@ -851,6 +860,17 @@ class _IndicatorPageState extends State<IndicatorPage>
             ],
             autofocus: false,
             validator: (value) {
+              if (indicator.name.contains('TS-')) {
+                if ((indicator.name.contains('TS-2'))) {
+                  String msg = Validator.number(value);
+                  setState(() {
+                    indicatorValidations[page]['valid'] = (msg == null);
+                  });
+                  return msg;
+                } else {
+                  return '';
+                }
+              }
               String msg = Validator.number(value);
               setState(() {
                 indicatorValidations[page]['valid'] = (msg == null);
@@ -979,7 +999,8 @@ class _IndicatorPageState extends State<IndicatorPage>
                 margin: EdgeInsets.only(left: 5.0, top: 8.0),
                 child: Theme(
                   child: TextFormField(
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
                       CommaTextInputFormatter(),
                       WhitelistingTextInputFormatter(

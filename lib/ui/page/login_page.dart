@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
 
   loginDialog(bool succeed, String title, String message) => showDialog(
         context: context,
-        child: AlertDialog(
+        builder: (context) => AlertDialog(
           title: Text(title),
           content: Text(message),
           actions: [

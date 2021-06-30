@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (count != null && count > 0) {
         showDialog(
           context: context,
-          child: AlertDialog(
+          builder: (context) => AlertDialog(
             title: Text('Berhasil'),
             content: Text('Data Berhasil Diupdate'),
             actions: [
@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
       } else {
         showDialog(
           context: context,
-          child: AlertDialog(
+          builder: (context) => AlertDialog(
             title: Text('Gagal'),
             content: Text('Data Gagal Diupdate'),
             actions: [

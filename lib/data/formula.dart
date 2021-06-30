@@ -22,19 +22,11 @@ class Formula extends _$FormulaSerializable {
       if (v is int) {
         mapVariable[k] = v.toDouble();
       } else if (v is String) {
-        if (v.isEmpty) {
-          mapVariable[k] = 0.0;
-        } else {
-          if (num.tryParse(v) != null) {
-            mapVariable[k] = double.parse(v);
-          } else {
-            mapVariable[k] = 0.0;
-          }
+        if (num.tryParse(v) != null) {
+          mapVariable[k] = double.parse(v);
         }
-      } else if (v is double) {
-        mapVariable[k] = v;
       } else {
-        mapVariable[k] = 0.0;
+        mapVariable[k] = v;
       }
     });
 
@@ -43,9 +35,8 @@ class Formula extends _$FormulaSerializable {
     var newlmap = lmap;
     for (int i = 0; i < newlmap.length; i++) {
       newlmap[i].indicatorValue = mappingFormula(
-            newlmap[i].formula,
-          ) ??
-          0.0;
+        newlmap[i].formula,
+      );
     }
     this.mapVariable = {};
     return newlmap;
@@ -148,8 +139,21 @@ class Formula extends _$FormulaSerializable {
               100;
     }
 
-    mapVariable['WT'] =
-        ((mapVariable['WT1'] + mapVariable['WT2'] + mapVariable['WT3']) / 3);
+    double wt1 = 0.0;
+    double wt2 = 0.0;
+
+    int num = 1;
+
+    if (mapVariable['WT1'] != '') {
+      wt1 = mapVariable['WT1'];
+      num++;
+    }
+    if (mapVariable['WT2'] != '') {
+      wt2 = mapVariable['WT2'];
+      num++;
+    }
+
+    mapVariable['WT'] = ((wt1 + wt2 + mapVariable['WT3']) / num);
 
     if (mapVariable['WT'] < 3) {
       formula = 4;
@@ -187,8 +191,21 @@ class Formula extends _$FormulaSerializable {
               100;
     }
 
-    mapVariable['WT'] =
-        ((mapVariable['WT1'] + mapVariable['WT2'] + mapVariable['WT3']) / 3);
+    double wt1 = 0.0;
+    double wt2 = 0.0;
+
+    int num = 1;
+
+    if (mapVariable['WT1'] != '') {
+      wt1 = mapVariable['WT1'];
+      num++;
+    }
+    if (mapVariable['WT2'] != '') {
+      wt2 = mapVariable['WT2'];
+      num++;
+    }
+
+    mapVariable['WT'] = ((wt1 + wt2 + mapVariable['WT3']) / num);
 
     if (mapVariable['WT'] < 6) {
       formula = 4;
@@ -226,10 +243,21 @@ class Formula extends _$FormulaSerializable {
               100;
     }
 
-    mapVariable['PBS'] =
-        ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) /
-                3) /
-            100;
+    double pbs1 = 0.0;
+    double pbs2 = 0.0;
+
+    int num = 1;
+
+    if (mapVariable['PBS1'] != '') {
+      pbs1 = mapVariable['PBS1'];
+      num++;
+    }
+    if (mapVariable['PBS2'] != '') {
+      pbs2 = mapVariable['PBS2'];
+      num++;
+    }
+
+    mapVariable['PBS'] = ((pbs1 + pbs2 + mapVariable['PBS3']) / num) / 100;
 
     if (mapVariable['PBS'] >= (60 / 100)) {
       formula = 4;
@@ -761,10 +789,21 @@ class Formula extends _$FormulaSerializable {
               100;
     }
 
-    mapVariable['PBS'] =
-        ((mapVariable['PBS1'] + mapVariable['PBS2'] + mapVariable['PBS3']) /
-                3) /
-            100;
+    double pbs1 = 0.0;
+    double pbs2 = 0.0;
+
+    int num = 1;
+
+    if (mapVariable['PBS1'] != '') {
+      pbs1 = mapVariable['PBS1'];
+      num++;
+    }
+    if (mapVariable['PBS2'] != '') {
+      pbs2 = mapVariable['PBS2'];
+      num++;
+    }
+
+    mapVariable['PBS'] = ((pbs1 + pbs2 + mapVariable['PBS3']) / num) / 100;
 
     if (mapVariable['PBS'] >= (80 / 100)) {
       formula = 4;
@@ -802,28 +841,66 @@ class Formula extends _$FormulaSerializable {
 
   double f32() {
     double newScores;
+    double nl1 = 0.0;
+    double nl2 = 0.0;
 
-    newScores = (mapVariable['NL1'] + mapVariable['NL2'] + mapVariable['NL3']);
-    mapVariable['NLtotal'] = newScores;
+    int num = 1;
+
+    if (mapVariable['NL1'] != '') {
+      nl1 = mapVariable['NL1'];
+      num++;
+    }
+    if (mapVariable['NL2'] != '') {
+      nl2 = mapVariable['NL2'];
+      num++;
+    }
+
+    newScores = (nl1 + nl2 + mapVariable['NL3']);
+    mapVariable['NLtotal'] = newScores / num;
 
     return newScores;
   }
 
   double f33() {
     double newScores;
+    double nj1 = 0.0;
+    double nj2 = 0.0;
 
-    newScores = (mapVariable['NJ1'] + mapVariable['NJ2'] + mapVariable['NJ3']);
-    mapVariable['NJtotal'] = newScores;
+    int num = 1;
+
+    if (mapVariable['NJ1'] != '') {
+      nj1 = mapVariable['NJ1'];
+      num++;
+    }
+    if (mapVariable['NJ2'] != '') {
+      nj2 = mapVariable['NJ2'];
+      num++;
+    }
+
+    newScores = (nj1 + nj2 + mapVariable['NJ3']);
+    mapVariable['NJtotal'] = newScores / num;
 
     return newScores;
   }
 
   double f34() {
     double newScores;
+    double nji1 = 0.0;
+    double nji2 = 0.0;
 
-    newScores =
-        (mapVariable['NJI1'] + mapVariable['NJI2'] + mapVariable['NJI3']);
-    mapVariable['NJItotal'] = newScores;
+    int num = 1;
+
+    if (mapVariable['NJI1'] != '') {
+      nji1 = mapVariable['NJI1'];
+      num++;
+    }
+    if (mapVariable['NJI2'] != '') {
+      nji2 = mapVariable['NJI2'];
+      num++;
+    }
+
+    newScores = (nji1 + nji2 + mapVariable['NJI3']);
+    mapVariable['NJItotal'] = newScores / num;
 
     return newScores;
   }

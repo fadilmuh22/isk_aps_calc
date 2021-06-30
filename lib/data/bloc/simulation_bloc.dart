@@ -51,10 +51,7 @@ class SimulationBloc extends ChangeNotifier {
         educationStage: mapIndicator[i].educationStage,
         indicatorCategory: mapIndicator[i].indicatorCategory,
         indicatorSubcategory: mapIndicator[i].indicatorSubcategory,
-        indicatorValue: mapIndicator[i].indicatorValue.isNaN ||
-                mapIndicator[i].indicatorValue.isInfinite
-            ? 0.0
-            : mapIndicator[i].indicatorValue,
+        indicatorValue: mapIndicator[i].indicatorValue,
       );
 
       var rank = await RankedDao().mappingRanked(mappingRankedModel);
@@ -122,13 +119,6 @@ class SimulationBloc extends ChangeNotifier {
   Future<HistoryModel> createHistory(map, lmap) async {
     UserModel user =
         UserModel.fromJson(jsonDecode(await AppStorage().read(key: 'user')));
-
-    Map<String, dynamic> mapVariable = map;
-    mapVariable.forEach((k, v) {
-      if (mapVariable[k].isNaN || mapVariable[k].isInfinite) {
-        mapVariable[k] = 0.0;
-      }
-    });
 
     HistoryModel history = HistoryModel(
       id: historyId,
